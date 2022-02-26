@@ -1,0 +1,228 @@
+.pengumuman {
+}
+.pengumuman .tanggal {
+    background-color: #6bf5a2;
+    padding: 5px;
+    color: #ffffff;
+    border-radius: 5px;
+}
+.pengumuman .tanggal .hari {
+    font-size: 12px;
+}
+.pengumuman .tanggal .bulan {
+    font-weight: bold;
+    font-style: italic;
+}
+.pengumuman .tanggal .tahun {
+    font-size: 18px;
+}
+.pengumuman .meta {
+    font-size: 12px;
+}
+
+.krs .table-krs-head th {
+    max-width: 60px;
+}
+.krs .table-krs-head td {
+    max-width: 10px;
+}
+
+.pesan .pesan-meta {
+    font-size: 10px;
+    font-style: italic;
+    color: #999;
+}
+.pesan .media-body p {
+    margin-bottom: 0;
+}
+.pesan .media.mahasiswa {
+    text-align: right;
+}
+
+.krs .krs-status-meta {
+    font-size: 10px;
+    font-style: italic;
+    color: #999;
+}
+
+/* krs */
+.cetak.krs {
+    font-family: monospace;
+    font-size: 12px;
+    color: #000;
+}
+.cetak.krs #isi {
+    font-size: 14px;
+}
+.cetak.krs .clear {
+    clear: both;
+}
+.cetak.krs #logofakultas img {
+    height: 5%;
+}
+.cetak.krs table.table-krs-head tr th {
+    text-align: left;
+    width: 40%;
+}
+.cetak.krs table tr th,
+.cetak.krs table tr td {
+    padding: 3px 10px;
+    border-top: 1px solid #000;
+}
+.cetak.krs .table-bordered {
+    border: 1px solid #000;
+}
+.cetak.krs table.table-bordered tr th,
+.cetak.krs table.table-bordered tr td {
+    border: 1px solid #000;
+}
+.cetak.krs .ttd .nama {
+    display: block;
+    text-decoration: underline;
+}
+
+/* khs */
+.cetak.khs {
+    font-family: monospace;
+    font-size: 12px;
+    color: #000;
+}
+
+.cetak.khs #isi {
+    font-size: 14px;
+}
+
+.cetak.khs .clear {
+    clear: both;
+}
+
+.cetak.khs #logofakultas img {
+    height: 5%;
+}
+
+.cetak.khs span.header_univ {
+    font-size: 16px;
+}
+
+.cetak.khs table.table-krs-head tr th {
+    text-align: left;
+    width: 40%;
+}
+
+.cetak.khs table tr th,
+.cetak.khs table tr td {
+    padding: 3px 10px;
+    border: none;
+    font-weight: bold;
+}
+
+.cetak.khs .table-bordered {
+    border: 1px solid #000;
+}
+
+.cetak.khs table.table-bordered tr th,
+.cetak.khs table.table-bordered tr td {
+    border: 1px solid #000 !important;
+}
+
+.cetak.khs #ttd .nama {
+    text-decoration: underline;
+}
+
+@media print {
+    /* orientasi kertas */
+    html.landscape,
+    body.landscape {
+        width: 15in;
+        height: 8.5in;
+    }
+    html.portrait,
+    body.portrait {
+        width: 8.5in;
+        height: 15in;
+    }
+
+    /* krs */
+    .cetak.krs {
+        font-family: monospace;
+        font-size: 12px;
+        color: #000;
+    }
+    .cetak.krs #isi {
+        font-size: 14px;
+    }
+    .cetak.krs .clear {
+        clear: both;
+    }
+    .cetak.krs #logofakultas img {
+        height: 5%;
+    }
+    .cetak.krs table.table-krs-head tr th {
+        text-align: left;
+        width: 40%;
+    }
+    .cetak.krs table tr th,
+    .cetak.krs table tr td {
+        padding: 3px 10px;
+        border-top: 1px solid #000;
+    }
+    .cetak.krs .table-bordered {
+        border: 1px solid #000;
+    }
+    .cetak.krs table.table-bordered tr th,
+    .cetak.krs table.table-bordered tr td {
+        border: 1px solid #000;
+    }
+    .cetak.krs .ttd .nama {
+        display: block;
+        text-decoration: underline;
+    }
+
+    /* khs */
+    .cetak.khs {
+        font-family: monospace;
+        font-size: 12px;
+        color: #000;
+    }
+
+    .cetak.khs #isi {
+        font-size: 14px;
+    }
+
+    .cetak.khs .clear {
+        clear: both;
+    }
+
+    .cetak.khs #logofakultas img {
+        height: 5%;
+    }
+
+    .cetak.khs span.header_univ {
+        font-size: 16px;
+    }
+
+    .cetak.khs table.table-krs-head tr th {
+        text-align: left;
+        width: 40%;
+    }
+
+    .cetak.khs table tr th,
+    .cetak.khs table tr td {
+        padding: 3px 10px;
+        border: none;
+        font-weight: bold;
+    }
+
+    .cetak.khs .table-bordered {
+        border: 1px solid #000;
+    }
+
+    .cetak.khs table.table-bordered tr th,
+    .cetak.khs table.table-bordered tr td {
+        border: 1px solid #000 !important;
+    }
+
+    .cetak.khs #ttd .nama {
+        text-decoration: underline;
+    }
+}
