@@ -155,13 +155,13 @@ class BarangController extends Controller
     public function show(Barang $barang)
     {
         $action = '/barang/' . $barang->id;
-        $pegawais = Pegawai::all();
+        // $pegawais = Pegawai::all();
         $jenis = Jenis::all();
         $satuan = Satuan::all();
         $log_masuk = BarangMasuk::where('barang_id', $barang->id)->sum('jumlah');
         $log_keluar = DetailBarangKeluar::with('detail')->where('barang_id', $barang->id)->sum('jumlah');
         $saldo_awal = $barang->stok - ($log_masuk - $log_keluar);
-        return view('pages.barang.create', compact('action', 'barang', 'jenis', 'satuan', 'pegawais', 'saldo_awal'));
+        return view('pages.barang.create', compact('action', 'barang', 'jenis', 'satuan', 'saldo_awal'));
     }
 
     /**
@@ -234,11 +234,11 @@ class BarangController extends Controller
         $saldo_awal = $barang->stok - ($log_masuk - $log_keluar);
 
         if ($barang->nama == $request->nama && $barang->ukuran == $request->ukuran) {
-            if ($request->stok + ($log_masuk - $log_keluar) < 0) {
-                Alert::warning('Warning!', 'Saldo Awal Kurang dari Saldo sebelumnya!');
-                return Redirect::to('/barang/' . $barang->kode)->withInput();
-            }
-            $barang->stok = $request->stok + ($log_masuk - $log_keluar);
+            // if ($request->stok + ($log_masuk - $log_keluar) < 0) {
+            //     Alert::warning('Warning!', 'Saldo Awal Kurang dari Saldo sebelumnya!');
+            //     return Redirect::to('/barang/' . $barang->kode)->withInput();
+            // }
+            // $barang->stok = $request->stok + ($log_masuk - $log_keluar);
             $barang->jenis = $request->jenis;
             $barang->merk = $request->merk;
             $barang->satuan = $request->satuan;

@@ -99,7 +99,7 @@
                             <div class="col-md-3">
                                 <label class="control-label">Stok Awal</label>
                                 <div class="input-group">
-                                    <input type="number" name="stok" class="form-control" style="display: block;" value="{{($action!='add')?$saldo_awal:(old('stok', 0))}}" placeholder="Nama barang..." required>
+                                    <input type="number" name="stok" class="form-control" style="display: block;" value="{{($action!='add')?$saldo_awal:(old('stok', 0))}}" placeholder="Nama barang..." required {{($action!='add')?'disabled':''}}>
                                 </div>
                             </div>
                             <div class="col-md-3">

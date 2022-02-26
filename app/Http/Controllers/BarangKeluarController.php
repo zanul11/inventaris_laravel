@@ -38,7 +38,7 @@ class BarangKeluarController extends Controller
     public function getServerSide()
     {
 
-        $barang = BarangKeluar::where('jenis', 0)->with('bidang')->with('barangs')->orderBy('created_at', 'desc')->get();
+        $barang = BarangKeluar::where('jenis', 0)->with('barangs')->orderBy('created_at', 'desc')->get();
 
         return Datatables::of($barang)
             ->addIndexColumn()
