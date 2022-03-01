@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Lokasi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use RealRashid\SweetAlert\Facades\Alert;
+use Yajra\DataTables\DataTables;
 
 class LokasiController extends Controller
 {
@@ -12,9 +16,26 @@ class LokasiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $request->session()->put('parent', 'Setup');
+        $request->session()->put('child', 'Lokasi');
+        return view('pages.lokasi.index');
+    }
+
+    public function getServerSide()
+    {
+        $jenis_kwitansi = Lokasi::all();
+        return Datatables::of($jenis_kwitansi)
+            ->addIndexColumn()
+            ->addColumn('action', function ($row) {
+                $btn = '<div class="btn-group btn-group-sm" role="group">
+                <a onclick="showModalsEdit(' . $row->id . ',\'' . $row->lokasi . '\')" class="btn btn-warning" style="font-size:12px; color:white;">Edit</a>
+            
+            </div>';
+                return $btn;
+            })
+            ->make();
     }
 
     /**
@@ -35,7 +56,37 @@ class LokasiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $cek = Lokasi::where('lokasi', $request->lokasi)->get();
+        if (count($cek) > 0) {
+            Alert::warning('Warning!', 'Duplicate Lokasi');
+            return Redirect::to('/lokasi')->withErrors(['Lokasi tersebut telah digunakan.'])->withInput();
+        } else {
+            Lokasi::create([
+                "lokasi" =>  $request->lokasi,
+                "user" => Auth::user()->nama,
+            ]);
+            Alert::success('Success!', 'Data Lokasi Added!');
+            return Redirect::to('/lokasi');
+        }
+    }
+
+
+    public function edits(Request $request)
+    {
+        // return $request;
+        $cek = Lokasi::where('lokasi', $request->lokasi)->get();
+        if (count($cek) > 0) {
+            Alert::warning('Warning!', 'Duplicate Lokasi');
+            return Redirect::to('/lokasi')->withErrors(['Lokasi tersebut telah digunakan.'])->withInput();
+        } else {
+            Lokasi::where('id', $request->id_lokasi)
+                ->update([
+                    "lokasi" =>  $request->lokasi,
+                    "user" => Auth::user()->nama,
+                ]);
+            Alert::success('Success!', 'Data Lokasi Updated!');
+            return Redirect::to('/lokasi');
+        }
     }
 
     /**

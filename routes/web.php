@@ -19,8 +19,8 @@ Route::get('/', 'AuthController@index');
 // Route::get('login', ['as' => 'login', 'uses' => 'FrontController@index']);
 Route::get('login', ['as' => 'login', 'uses' => 'AuthController@index']);
 Route::get('/auth', 'AuthController@show');
-Route::resource('register', 'FrontController');
-Route::get('/send', 'PklController@send');
+// Route::resource('register', 'FrontController');
+// Route::get('/send', 'PklController@send');
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/auth/logout', 'AuthController@logout');
     Route::get('/dashboard', 'DashboardController@index');
@@ -81,6 +81,18 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('kwitansi/delete/{kwitansi}', 'KwitansiController@delete');
     Route::get('ss-kwitansi', 'KwitansiController@getServerSide')->name('ss.kwitansi');
     Route::resource('kwitansi', 'KwitansiController');
+
+    //LOGISTIK
+    Route::get('ss-logistik', 'LogistikController@getServerSide')->name('ss.logistik');
+    Route::resource('logistik', 'LogistikController');
+
+    //LOKASI
+    Route::post('/lokasi/edit', 'LokasiController@edits');
+    Route::post('lokasi/delete/{lokasi}', 'LokasiController@delete');
+    Route::get('ss-lokasi', 'LokasiController@getServerSide')->name('ss.lokasi');
+    Route::resource('lokasi', 'LokasiController');
+
+    Route::resource('kelengkapan', 'KelengkapanController');
 
     //KAS
     Route::post('/kas/get-detail-barang', 'KasController@getSelectedBarang');

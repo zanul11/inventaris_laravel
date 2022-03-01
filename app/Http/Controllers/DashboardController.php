@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Barang;
 use App\Kas;
 use App\Kwitansi;
+use App\Logistik;
 use App\Saldo;
 use Illuminate\Http\Request;
 
@@ -15,12 +17,9 @@ class DashboardController extends Controller
     {
         $request->session()->put('parent', 'Dashboard');
         $request->session()->put('child', 'Dash');
-        // $user = User::with('jabatans')->paginate(10);
-        // return Auth::user()->menus();
-        $total = Kwitansi::where('status', 0)->sum('jumlah');
-        // $uang = Saldo::orderBy('id', 'desc')->orderBy('created_at', 'desc')->first();
-        $uang = Saldo::orderBy('id', 'desc')->orderBy('created_at', 'desc')->first();
-        $kk = Kas::orderBy('created_at', 'desc')->first();
-        return view('pages.dashboard.index', compact('total', 'uang', 'kk'));
+
+        $brg_count = Barang::count();
+        $log_count = Logistik::count();
+        return view('pages.dashboard.index', compact('brg_count', 'log_count'));
     }
 }

@@ -33,19 +33,31 @@
 
         <!-- end col-3 -->
         <!-- begin col-3 -->
-        <!-- <div class="col-lg-3 col-md-6">
-            <div class="widget widget-stats bg-gradient-blue">
-                <div class="stats-icon stats-icon-lg"><i class="fa fa-dollar-sign fa-fw"></i></div>
-                <div class="stats-content">
-                    <div class="stats-title">TODAY'S PROFIT</div>
-                    <div class="stats-number">180,200</div>
-                    <div class="stats-progress progress">
-                        <div class="progress-bar" style="width: 40.5%;"></div>
-                    </div>
-                    <div class="stats-desc">Better than last week (40.5%)</div>
+        <div class="col-lg-3 col-md-6">
+            <div class="widget widget-stats bg-orange">
+                <div class="stats-icon"><i class="fa fa-window-restore"></i></div>
+                <div class="stats-info">
+                    <h4>BARANG</h4>
+                    <p>{{ $brg_count }}</p>
+                </div>
+                <div class="stats-link">
+                    <a href="{{ route('barang.index') }}">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
                 </div>
             </div>
-        </div> -->
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="widget widget-stats bg-purple">
+                <div class="stats-icon"><i class="fa fa-cubes"></i></div>
+                <div class="stats-info">
+                    <h4>LOGISTIK</h4>
+                    <p>{{ $log_count }}</p>
+                </div>
+                <div class="stats-link">
+                    <a href="{{ route('logistik.index') }}">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
         <!-- end col-3 -->
         <!-- begin col-3 -->
         <!-- <div class="col-lg-3 col-md-6">

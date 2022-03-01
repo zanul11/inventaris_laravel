@@ -21,7 +21,7 @@
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header">Barang <small>Tambah Data</small></h1>
+    <h1 class="page-header text-danger font-weight-bold"><span class="text-custom">TAMBAH</span> DATA BARANG</h1>
 
     <div class="panel panel-inverse" data-sortable-id="form-stuff-1">
         <!-- begin panel-heading -->
