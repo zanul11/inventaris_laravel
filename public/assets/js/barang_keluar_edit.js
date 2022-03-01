@@ -156,7 +156,7 @@ app.controller("BarangKeluarController", [
 
                   Swal.fire(
                     "Success",
-                    "Data Barang Masuk berhasil disubmit",
+                    "Data Barang Keluar berhasil diupdate",
                     "success"
                     ).then(result => {
                         window.location='/barang_keluar';

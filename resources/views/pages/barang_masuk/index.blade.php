@@ -22,7 +22,7 @@
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header">Data Barang Masuk </small></h1>
+    <h1 class="page-header text-danger font-weight-bold"><span class="text-custom">DATA</span> BARANG MASUK</h1>
     <!-- end page-header -->
     <!-- begin row -->
     <div class="panel panel-success" data-sortable-id="form-stuff-1">

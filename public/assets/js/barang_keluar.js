@@ -129,7 +129,7 @@ app.controller("BarangKeluarController", [
                 }).then(res => {
                     Swal.fire(
                         "Success",
-                        "Data Barang Masuk berhasil disubmit",
+                        "Data Barang Keluar berhasil disubmit",
                         "success"
                         ).then(result => {
                             location.reload();

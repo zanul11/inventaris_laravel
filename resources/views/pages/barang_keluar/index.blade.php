@@ -21,10 +21,10 @@
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header">Data Barang Keluar <small>Aplikasi Rumah Tangga PT Air Minum Giri Menang (Perseroda)</small></h1>
+    <h1 class="page-header text-danger font-weight-bold"><span class="text-custom">DATA</span> BARANG KELUAR</h1>
     <!-- end page-header -->
     <!-- begin row -->
-    <div class="panel panel-danger" data-sortable-id="form-stuff-1">
+    <div class="panel panel-inverse" data-sortable-id="form-stuff-1">
         <!-- begin panel-heading -->
         <div class="panel-heading">
             <div class="row width-full">

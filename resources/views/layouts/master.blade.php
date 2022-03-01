@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="{{asset('assets/css/sweetalert.css')}}">
     <!-- ================== BEGIN BASE JS ================== -->
     <script src="{{asset('assets/assets/plugins/pace/pace.min.js')}}"></script>
+    <link href="{{asset('assets/css/custom.css')}}" rel="stylesheet" />
     <!-- ================== END BASE JS ================== -->
 
     @yield('plugins_styles')
