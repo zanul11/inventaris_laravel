@@ -14,13 +14,13 @@
     <!-- begin breadcrumb -->
     <ol class="breadcrumb pull-right">
         <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
-        <li class="breadcrumb-item"><a href="">Manajemen Logistik</a></li>
-        <li class="breadcrumb-item"><a href="">Data Logistik</a></li>
+        <li class="breadcrumb-item"><a href="">Manajemen Peralatan</a></li>
+        <li class="breadcrumb-item"><a href="">Data Peralatan</a></li>
 
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header text-danger font-weight-bold"><span class="text-custom">DATA</span> LOGISTIK</h1>
+    <h1 class="page-header text-danger font-weight-bold"><span class="text-custom">DATA</span> PERALATAN</h1>
     <!-- end page-header -->
     <!-- begin row -->
     <div class="panel panel-inverse" data-sortable-id="form-stuff-1">

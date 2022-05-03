@@ -126,7 +126,7 @@ class BarangKeluarController extends Controller
                 "log_kode" => $kode,
                 "barang_id" => $dt['barang_id'],
                 "jumlah" => $dt['jumlah'],
-                "ket" => $dt['ket'],
+                "ket" => $request->ket,
                 "sisa" => $sisa,
                 "tgl" => date('Y-m-d', strtotime($request->tgl . ' +1 day'))
             ]);

@@ -50,13 +50,17 @@ Route::group(['middleware' => 'auth'], function () {
     //BARANG
     Route::get('get-bidang', 'BarangController@getBidang');
     Route::get('get-barang', 'BarangController@getBarang');
-    Route::get('get-pegawai', 'BarangController@getPegawai');
     Route::get('ss-barang', 'BarangController@getServerSide')->name('ss.barang');
     Route::post('/barang/edit', 'BarangController@edits');
     Route::post('barang/delete/{barang}', 'BarangController@delete');
     Route::get('barang/deleted', 'BarangController@barangDeleted');
     Route::get('barang/all', 'BarangController@barangAll');
     Route::resource('barang', 'BarangController');
+
+    //BARANG
+    Route::get('ss-pegawai', 'PegawaiController@getServerSide')->name('ss.pegawai');
+    Route::post('/pegawai/edit', 'PegawaiController@edits');
+    Route::resource('pegawai', 'PegawaiController');
 
     //BARANG MASUK
     Route::post('/barang_masuk/edit', 'BarangMasukController@edits');
@@ -86,11 +90,24 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('ss-logistik', 'LogistikController@getServerSide')->name('ss.logistik');
     Route::resource('logistik', 'LogistikController');
 
+    //PERALATAN
+    Route::get('ss-peralatan', 'PeralatanController@getServerSide')->name('ss.peralatan');
+    Route::post('peralatan/rusak', 'PeralatanController@rusakPeralatan');
+    Route::post('peralatan/tambah', 'PeralatanController@tambahPeralatan');
+    Route::resource('peralatan', 'PeralatanController');
+
     //LOKASI
     Route::post('/lokasi/edit', 'LokasiController@edits');
     Route::post('lokasi/delete/{lokasi}', 'LokasiController@delete');
     Route::get('ss-lokasi', 'LokasiController@getServerSide')->name('ss.lokasi');
+    Route::get('getLokasi', 'LokasiController@getLokasi');
     Route::resource('lokasi', 'LokasiController');
+
+    //JABATAN
+    Route::post('/jabatan/edit', 'JabatanController@edits');
+    Route::post('jabatan/delete/{jabatan}', 'JabatanController@delete');
+    Route::get('ss-jabatan', 'JabatanController@getServerSide')->name('ss.jabatan');
+    Route::resource('jabatan', 'JabatanController');
 
     Route::resource('kelengkapan', 'KelengkapanController');
 

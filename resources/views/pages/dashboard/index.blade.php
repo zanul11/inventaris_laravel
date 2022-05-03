@@ -50,7 +50,7 @@
             <div class="widget widget-stats bg-purple">
                 <div class="stats-icon"><i class="fa fa-cubes"></i></div>
                 <div class="stats-info">
-                    <h4>LOGISTIK</h4>
+                    <h4>PERALATAN</h4>
                     <p>{{ $log_count }}</p>
                 </div>
                 <div class="stats-link">

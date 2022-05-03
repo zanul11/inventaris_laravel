@@ -6,6 +6,7 @@ use App\Barang;
 use App\Kas;
 use App\Kwitansi;
 use App\Logistik;
+use App\Peralatan;
 use App\Saldo;
 use Illuminate\Http\Request;
 
@@ -19,7 +20,7 @@ class DashboardController extends Controller
         $request->session()->put('child', 'Dash');
 
         $brg_count = Barang::count();
-        $log_count = Logistik::count();
+        $log_count = Peralatan::count();
         return view('pages.dashboard.index', compact('brg_count', 'log_count'));
     }
 }

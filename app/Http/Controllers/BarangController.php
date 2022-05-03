@@ -91,7 +91,7 @@ class BarangController extends Controller
         $satuan = Satuan::all();
         $maxno = Barang::max('no');
 
-        $generateNomor = 'INV.BRG-';
+        $generateNomor = 'LGSTK.BRG-';
         if ($maxno < 10)
             $kode = $generateNomor . '00' . ($maxno + 1);
         else if ($maxno < 99)
@@ -112,7 +112,7 @@ class BarangController extends Controller
     {
         //generate number,kode
         $maxno = Barang::max('no');
-        $generateNomor = 'INV.BRG-';
+        $generateNomor = 'LGSTK.BRG-';
         if ($maxno < 10)
             $kode = $generateNomor . '00' . ($maxno + 1);
         else if ($maxno < 99)

@@ -20,7 +20,7 @@ class SatuanController extends Controller
     public function index(Request $request)
     {
         $request->session()->put('parent', 'Setup');
-        $request->session()->put('child', 'Satuan & Jenis Barang');
+        $request->session()->put('child', 'Satuan & Jenis');
         // $user = User::with('jabatans')->paginate(10);
         return view('pages.satuan.index');
     }

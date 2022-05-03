@@ -52,13 +52,12 @@
                             <input class="form-control" ng-model="tgl" type="date">
                         </div>
                     </div>
-                    <!-- <div class="form-group">
-                        <label class="control-label">BIDANG</label>
-                        <select data-width="100%" class="select2 form-control form-control-solid" ng-model="selectedBidang" ng-options="bidang.nm_bagian  for bidang in bidangs">
-                            <option value="">Pilih Bidang</option>
-                        </select>
-
-                    </div> -->
+                    <div class="form-group">
+                        <label class="control-label">Lokasi</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" style="display: block;" ng-model="ket" placeholder="Lokasi...">
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-4">
                     <div class="note note-green">
@@ -84,12 +83,7 @@
                                                 <input type="number" class="form-control" style="display: block;" ng-model="jum" onClick="this.select();">
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <label class="control-label">Lokasi</label>
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" style="display: block;" ng-model="ket" placeholder="Lokasi...">
-                                            </div>
-                                        </div>
+
                                         <center>
 
                                             <a ng-click="insertTabel()" class="btn btn-warning"><i class="fa fa-plus"></i> Tambah</a>
@@ -155,7 +149,7 @@
         </div>
     </div>
     <div class="panel-footer">
-        <button ng-click="submitData()" class="btn btn-success m-r-3">Simpan</button>
+        <button ng-click="submitData()" class="btn btn-success m-r-3">Update</button>
     </div>
     <!-- </form> -->
 </div>

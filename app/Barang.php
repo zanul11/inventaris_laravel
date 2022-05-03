@@ -21,6 +21,7 @@ class Barang extends Model
     {
         return $this->belongsTo('App\Jenis', 'jenis', 'id');
     }
+
     public function satuan_detail()
     {
         return $this->belongsTo('App\Satuan', 'satuan', 'id');
