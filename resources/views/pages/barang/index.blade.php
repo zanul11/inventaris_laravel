@@ -45,7 +45,7 @@
             </div>
         </div>
         <div class="panel-body table-responsive">
-            <table class="table table-hover data-table">
+            <table class="table table-striped table-bordered table-hover  data-table">
                 <thead>
                     <tr>
                         <th class="width-60">No.</th>
