@@ -57,9 +57,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('barang/all', 'BarangController@barangAll');
     Route::resource('barang', 'BarangController');
 
-    //BARANG
+    //PEGAWAI
     Route::get('ss-pegawai', 'PegawaiController@getServerSide')->name('ss.pegawai');
     Route::post('/pegawai/edit', 'PegawaiController@edits');
+    Route::post('/pegawai/tambah_dokumen', 'PegawaiController@tambah_dokumen');
+    Route::post('/pegawai/hapus_dokumen/{id}', 'PegawaiController@hapus_dokumen');
     Route::resource('pegawai', 'PegawaiController');
 
     //BARANG MASUK
@@ -94,6 +96,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('ss-peralatan', 'PeralatanController@getServerSide')->name('ss.peralatan');
     Route::post('peralatan/rusak', 'PeralatanController@rusakPeralatan');
     Route::post('peralatan/tambah', 'PeralatanController@tambahPeralatan');
+
     Route::resource('peralatan', 'PeralatanController');
 
     //LOKASI

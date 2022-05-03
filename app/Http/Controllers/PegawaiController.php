@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jabatan;
+use App\JenisDokumen;
 use App\Pegawai;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -106,8 +107,36 @@ class PegawaiController extends Controller
      */
     public function show(Pegawai $pegawai)
     {
-        //
+        $action = 'edit';
+        $jabatan = Jabatan::orderby('jabatan')->get();
+
+        return view('pages.pegawai.dokumen', compact('action',  'jabatan', 'pegawai'));
     }
+
+    public function tambah_dokumen(Request $request)
+    {
+        // return $request;
+        $cek = JenisDokumen::where('nama', $request->nama)->where('pegawai_id', $request->pegawai_id)->get();
+
+        if (count($cek) > 0) {
+            Alert::warning('Warning!', 'Dokumen tersebut telah digunakan');
+            return Redirect::to('/pegawai/' . $request->pegawai_id)->withErrors(['Dokumen tersebut telah digunakan.'])->withInput();
+        } else {
+            JenisDokumen::create([
+
+                "pegawai_id" => $request->pegawai_id,
+                "nama" => $request->nama,
+                "jenis" => $request->jenis,
+                "tanggal" => $request->tanggal,
+
+            ]);
+            Alert::success('Success!', 'Dokumen Pegawai Added!');
+            return Redirect::to('/pegawai/' . $request->pegawai_id);
+        }
+
+        // return view('pages.pegawai.dokumen', compact('action',  'jabatan', 'pegawai'));
+    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -169,5 +198,10 @@ class PegawaiController extends Controller
     public function destroy(Pegawai $pegawai)
     {
         $pegawai->delete();
+    }
+
+    public function hapus_dokumen($id)
+    {
+        JenisDokumen::where('id', $id)->delete();
     }
 }
