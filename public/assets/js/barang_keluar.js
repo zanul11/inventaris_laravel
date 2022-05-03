@@ -7,6 +7,7 @@ app.controller("BarangKeluarController", [
         $scope.detail_barangs = [];
         $scope.barangs = [];
         $scope.bidangs = [];
+        $scope.lokasis = [];
        
         $scope.jum = 0;
         $scope.ket = '';
@@ -24,13 +25,21 @@ app.controller("BarangKeluarController", [
             // $scope.selectedBarang= $scope.barangs[0];
         });
 
-        $http({
-            method: "GET",
-            url: "/get-bidang"
-        }).then(res => {
-            $scope.bidangs = res.data;
-            // $scope.selectedBarang= $scope.barangs[0];
-        });
+        // $http({
+        //     method: "GET",
+        //     url: "/getLokasi"
+        // }).then(res => {
+        //     $scope.lokasis = res.data;
+        //     // $scope.selectedBarang= $scope.barangs[0];
+        // });
+
+        // $http({
+        //     method: "GET",
+        //     url: "/get-bidang"
+        // }).then(res => {
+        //     $scope.bidangs = res.data;
+        //     // $scope.selectedBarang= $scope.barangs[0];
+        // });
 
 
         $scope.insertTabel = function() {
@@ -49,6 +58,8 @@ app.controller("BarangKeluarController", [
                     "warning"
                 );
             }
+
+          
            else {
                 console.log($scope.selectedBarang.satuan_detail);
                 $scope.cek=false;
@@ -62,7 +73,6 @@ app.controller("BarangKeluarController", [
                         barang_id : $scope.selectedBarang.id,
                         nama: $scope.selectedBarang.nama,
                         jumlah: $scope.jum,
-                        ket:$scope.ket,
                         satuan_id : $scope.selectedBarang.satuan_detail.id,
                         satuan:$scope.selectedBarang.satuan_detail.satuan
                     });
@@ -80,7 +90,6 @@ app.controller("BarangKeluarController", [
                
             }
             $scope.jum = 0;
-            $scope.ket = '';
         };
 
         $scope.removeItem = function(index) {
@@ -100,6 +109,13 @@ app.controller("BarangKeluarController", [
                 Swal.fire(
                     "Warning!",
                     "Pilih Tanggal Barang Keluar!",
+                    "warning"
+                );
+            }
+            else if($scope.ket==''){
+                Swal.fire(
+                    "Warning!",
+                    "Isi Lokasi!",
                     "warning"
                 );
             }
@@ -124,7 +140,8 @@ app.controller("BarangKeluarController", [
                         pj: $scope.pj,
                         diterima: $scope.pj,
                         barangs : $scope.detail_barangs,
-                        tgl:$scope.tgl
+                        tgl:$scope.tgl,
+                        ket:$scope.ket
                     }
                 }).then(res => {
                     Swal.fire(

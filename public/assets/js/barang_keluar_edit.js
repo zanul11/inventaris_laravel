@@ -23,20 +23,20 @@ app.controller("BarangKeluarController", [
                 // $scope.selectedBarang= $scope.barangs[0];
             });
     
-            $http({
-                method: "GET",
-                url: "/get-bidang"
-            }).then(res => {
-                $scope.bidangs = res.data;
-                // $scope.selectedBarang= $scope.barangs[0];
-                angular.forEach($scope.bidangs, function(dt) {
-                    // console.log(dt);
-                    if(dt['kd_bagian']==diterima){
-                        $scope.selectedBidang=dt;
-                        // console.log(dt);
-                    }
-                });
-            });
+            // $http({
+            //     method: "GET",
+            //     url: "/get-bidang"
+            // }).then(res => {
+            //     $scope.bidangs = res.data;
+            //     // $scope.selectedBarang= $scope.barangs[0];
+            //     angular.forEach($scope.bidangs, function(dt) {
+            //         // console.log(dt);
+            //         if(dt['kd_bagian']==diterima){
+            //             $scope.selectedBidang=dt;
+            //             // console.log(dt);
+            //         }
+            //     });
+            // });
     
             $http({
                 url: "/barang_keluar/get-detail-barang",
@@ -47,7 +47,7 @@ app.controller("BarangKeluarController", [
                 }).then(res => {
                     // console.log(res);
                     angular.forEach(res.data, function(dt) {
-                        console.log(dt);
+                        $scope.ket=dt['ket'];
                         $scope.detail_barangs.push({
                             barang_id : dt['barang_id'],
                             nama: dt['nama'],

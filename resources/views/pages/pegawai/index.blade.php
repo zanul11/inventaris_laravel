@@ -14,11 +14,13 @@
     <!-- begin breadcrumb -->
     <ol class="breadcrumb pull-right">
         <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
-        <li class="breadcrumb-item"><a href="">Data Master</a></li>
+        <li class="breadcrumb-item"><a href="">Setup</a></li>
+        <li class="breadcrumb-item"><a href="">Pegawai</a></li>
+
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header text-danger font-weight-bold"><span class="text-custom">DATA</span> BARANG</h1>
+    <h1 class="page-header text-danger font-weight-bold"><span class="text-custom">DATA</span> PEGAWAI</h1>
     <!-- end page-header -->
     <!-- begin row -->
     <div class="panel panel-inverse" data-sortable-id="form-stuff-1">
@@ -27,34 +29,22 @@
             <div class="row width-full">
                 <div class="col-xl-3 col-sm-3">
                     <div class="form-inline">
-                        <a href="{{url('/barang/create')}}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</a>
+                        <a href="{{url('/pegawai/create')}}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</a>
                     </div>
                 </div>
-                <!-- <div class="col-xl-9 col-sm-9">
-                    <div class=" pull-right form-inline">
-                        <button type="button" class="btn btn-green ">{{Session::get('barang')}}</button>
-                        <button type="button" class="btn btn-green  dropdown-toggle" data-toggle="dropdown">
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="{{url('/barang')}}">Exist</a></li>
-                            <li><a href="{{url('/barang/deleted')}}">Deleted</a></li>
-                            <li><a href="{{url('/barang/all')}}">All</a></li>
-                        </ul>
-                    </div>
-                </div> -->
+
             </div>
         </div>
         <div class="panel-body table-responsive">
-            <table class="table table-striped table-bordered table-hover  data-table">
+            <table class="table table-hover data-table">
                 <thead>
                     <tr>
                         <th class="width-60">No.</th>
-                        <th>Kode</th>
-                        <th>Jenis</th>
-                        <th>Nama/Merk</th>
-                        <th>Spesifikasi/Type</th>
-                        <th>Stok</th>
-                        <th>Harga</th>
+                        <th>No. Peg</th>
+                        <th>Nama</th>
+                        <th>No Identitas</th>
+                        <th>Alamat</th>
+                        <th>No. Hp</th>
                         <th class="width-90"></th>
                     </tr>
                 </thead>
@@ -98,7 +88,7 @@
         }).then(result => {
             if (result.value) {
                 $.ajax({
-                    url: "/barang/" + kode,
+                    url: "/pegawai/" + kode,
                     type: "DELETE",
                     data: {
                         _token: "{{ csrf_token() }}"
@@ -128,44 +118,31 @@
                 pageLength: 7,
                 lengthChange: false,
                 responsive: true,
-                ajax: "{{ route('ss.barang') }}",
+                ajax: "{{ route('ss.pegawai') }}",
                 columns: [{
                         "data": "DT_RowIndex"
                     }, {
                         "data": "kode"
                     },
                     {
-                        "data": "jenis_detail.jenis"
+                        "data": "nama"
                     },
                     {
-                        "data": "nama_barang"
+                        "data": "no_identitas"
                     },
                     {
-                        "data": "ukuran"
+                        "data": "alamat"
                     },
 
                     {
-                        "data": "stok"
+                        "data": "no_hp"
                     },
-                    {
-                        "data": "harga"
-                    },
+
                     {
                         "data": "action"
                     },
                 ],
-                "columnDefs": [{
-                    "targets": 6,
-                    "data": "harga",
-                    "render": function(data, type, row, meta) {
-                        var type = '';
-                        var reverse = data.toString().split('').reverse().join(''),
-                            ribuan = reverse.match(/\d{1,3}/g);
-                        ribuan = ribuan.join('.').split('').reverse().join('');
-                        type = ribuan;
-                        return type;
-                    }
-                }]
+
             });
         });
     });

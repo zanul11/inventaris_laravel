@@ -19,7 +19,7 @@
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header">Satuan & Jenis <small>barang...</small></h1>
+    <h1 class="page-header">Satuan & Jenis <small>Logistik</small></h1>
     <!-- end page-header -->
     <!-- begin row -->
     <div class="row width-full">
@@ -31,7 +31,7 @@
 
                         <div class="col-xl-6 col-sm-6">
                             <div class="form-inline">
-                                <a onclick="showModalsAdd()" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Satuan Barang</a>
+                                <a onclick="showModalsAdd()" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Satuan </a>
                             </div>
                         </div>
 
@@ -69,7 +69,7 @@
 
                         <div class="col-xl-6 col-sm-6">
                             <div class="form-inline">
-                                <a onclick="showModalsAddJenis()" class="btn btn-default" style="color: black;"><i class="fa fa-plus"></i> Tambah Jenis Barang</a>
+                                <a onclick="showModalsAddJenis()" class="btn btn-default" style="color: black;"><i class="fa fa-plus"></i> Tambah Jenis </a>
                             </div>
                         </div>
 

@@ -22,8 +22,8 @@ class LogistikController extends Controller
      */
     public function index(Request $request)
     {
-        $request->session()->put('parent', 'Manajemen Logistik');
-        $request->session()->put('child', 'Data Logistik');
+        $request->session()->put('parent', 'Manajemen Peralatan');
+        $request->session()->put('child', 'Data Peralatan');
         return view('pages.logistik.index');
     }
 

@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Lokasi;
+use App\Jabatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\DataTables;
 
-class LokasiController extends Controller
+class JabatanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,18 +19,18 @@ class LokasiController extends Controller
     public function index(Request $request)
     {
         $request->session()->put('parent', 'Setup');
-        $request->session()->put('child', 'Lokasi');
-        return view('pages.lokasi.index');
+        $request->session()->put('child', 'Jabatan');
+        return view('pages.jabatan.index');
     }
 
     public function getServerSide()
     {
-        $jenis_kwitansi = Lokasi::all();
+        $jenis_kwitansi = Jabatan::all();
         return Datatables::of($jenis_kwitansi)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
                 $btn = '<div class="btn-group btn-group-sm" role="group">
-                <a onclick="showModalsEdit(' . $row->id . ',\'' . $row->lokasi . '\')" class="btn btn-warning" style="font-size:12px; color:white;">Edit</a>
+                <a onclick="showModalsEdit(' . $row->id . ',\'' . $row->jabatan . '\')" class="btn btn-warning" style="font-size:12px; color:white;">Edit</a>
             
             </div>';
                 return $btn;
@@ -56,64 +56,56 @@ class LokasiController extends Controller
      */
     public function store(Request $request)
     {
-        $cek = Lokasi::where('lokasi', $request->lokasi)->get();
+        $cek = Jabatan::where('jabatan', $request->jabatan)->get();
         if (count($cek) > 0) {
-            Alert::warning('Warning!', 'Duplicate Lokasi');
-            return Redirect::to('/lokasi')->withErrors(['Lokasi tersebut telah digunakan.'])->withInput();
+            Alert::warning('Warning!', 'Duplicate Jabatan');
+            return Redirect::to('/jabatan')->withErrors(['Jabatan tersebut telah digunakan.'])->withInput();
         } else {
-            Lokasi::create([
-                "lokasi" =>  $request->lokasi,
+            Jabatan::create([
+                "jabatan" =>  $request->jabatan,
                 "user" => Auth::user()->nama,
             ]);
-            Alert::success('Success!', 'Data Lokasi Added!');
-            return Redirect::to('/lokasi');
+            Alert::success('Success!', 'Data Jabatan Added!');
+            return Redirect::to('/jabatan');
         }
     }
-
 
     public function edits(Request $request)
     {
         // return $request;
-        $cek = Lokasi::where('lokasi', $request->lokasi)->get();
+        $cek = Jabatan::where('jabatan', $request->lokasi)->get();
         if (count($cek) > 0) {
-            Alert::warning('Warning!', 'Duplicate Lokasi');
-            return Redirect::to('/lokasi')->withErrors(['Lokasi tersebut telah digunakan.'])->withInput();
+            Alert::warning('Warning!', 'Duplicate Jabatan');
+            return Redirect::to('/jabatan')->withErrors(['Jabatan tersebut telah digunakan.'])->withInput();
         } else {
-            Lokasi::where('id', $request->id_lokasi)
+            Jabatan::where('id', $request->id_jabatan)
                 ->update([
-                    "lokasi" =>  $request->lokasi,
+                    "jabatan" =>  $request->jabatan,
                     "user" => Auth::user()->nama,
                 ]);
-            Alert::success('Success!', 'Data Lokasi Updated!');
-            return Redirect::to('/lokasi');
+            Alert::success('Success!', 'Data Jabatan Updated!');
+            return Redirect::to('/jabatan');
         }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Lokasi  $lokasi
+     * @param  \App\Jabatan  $jabatan
      * @return \Illuminate\Http\Response
      */
-    public function show(Lokasi $lokasi)
+    public function show(Jabatan $jabatan)
     {
         //
     }
 
-    public function getLokasi()
-    {
-        return Lokasi::orderby('lokasi')->get();
-    }
-
-
-
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Lokasi  $lokasi
+     * @param  \App\Jabatan  $jabatan
      * @return \Illuminate\Http\Response
      */
-    public function edit(Lokasi $lokasi)
+    public function edit(Jabatan $jabatan)
     {
         //
     }
@@ -122,10 +114,10 @@ class LokasiController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Lokasi  $lokasi
+     * @param  \App\Jabatan  $jabatan
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Lokasi $lokasi)
+    public function update(Request $request, Jabatan $jabatan)
     {
         //
     }
@@ -133,10 +125,10 @@ class LokasiController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Lokasi  $lokasi
+     * @param  \App\Jabatan  $jabatan
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Lokasi $lokasi)
+    public function destroy(Jabatan $jabatan)
     {
         //
     }
