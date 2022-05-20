@@ -94,6 +94,7 @@ class PeralatanController extends Controller
             Peralatan::where('id', $request->id_edit)
                 ->update([
                     "stok" =>  $peralatan->stok + $request->stok,
+                    "stok_aktif" =>  $peralatan->stok_aktif + $request->stok,
                 ]);
             LogPeralatanMasuk::create([
                 "peralatan_id" => $request->id_edit,
@@ -125,6 +126,7 @@ class PeralatanController extends Controller
             Peralatan::where('id', $request->id_edit)
                 ->update([
                     "rusak" =>  $peralatan->rusak + $request->stok,
+                    "stok_aktif" =>  $peralatan->stok_aktif - $request->stok,
                 ]);
             LogPeralatanMasuk::create([
                 "peralatan_id" => $request->id_edit,
@@ -179,6 +181,7 @@ class PeralatanController extends Controller
                 "merk" => $request->merk,
                 "stok" => $request->stok,
                 "stok_awal" => $request->stok,
+                "stok_aktif" => $request->stok,
                 "rusak" => $request->rusak,
                 "spesifikasi" => $request->spesifikasi, //type
                 "satuan" => $request->satuan,

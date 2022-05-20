@@ -16,12 +16,12 @@
     <!-- begin breadcrumb -->
     <ol class="breadcrumb pull-right">
         <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
-        <li class="breadcrumb-item"><a href="">Manajemen Barang</a></li>
-        <li class="breadcrumb-item"><a href="">Barang Keluar</a></li>
+        <li class="breadcrumb-item"><a href="">Manajemen Peralatan</a></li>
+        <li class="breadcrumb-item"><a href="">PEMINJAMAN PERALATAN</a></li>
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header text-danger font-weight-bold"><span class="text-custom">DATA</span> BARANG KELUAR</h1>
+    <h1 class="page-header text-danger font-weight-bold"><span class="text-custom">DATA</span> PEMINJAMAN PERALATAN</h1>
     <!-- end page-header -->
     <!-- begin row -->
     <div class="panel panel-inverse" data-sortable-id="form-stuff-1">
@@ -30,7 +30,7 @@
             <div class="row width-full">
                 <div class="col-xl-3 col-sm-3">
                     <div class="form-inline">
-                        <a href="{{url('/barang_keluar/create')}}" class="btn btn-default"><i class="fa fa-plus"></i> Tambah</a>
+                        <a href="{{url('/pinjam/create')}}" class="btn btn-default"><i class="fa fa-plus"></i> Tambah</a>
                     </div>
                 </div>
                 <div class="col-xl-9 col-sm-9">
@@ -51,10 +51,12 @@
                     <tr>
                         <th class="width-10">No.</th>
                         <th>Kode</th>
-                        <th>Tanggal</th>
+                        <th>Tanggal Batas</th>
                         <th>PJ</th>
+                        <th>Lokasi</th>
                         <th>Proyek</th>
-                        <th>Barang</th>
+                        <th>Peralatan</th>
+                        <th>Status</th>
                         <th class="width-90"></th>
                     </tr>
                 </thead>
@@ -72,51 +74,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modal-edit">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Edit Barang Masuk</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                </div>
-                <form class="form-info" novalidate enctype="multipart/form-data" method="post" action="/barang_masuk/edit" autocomplete="off">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="row ">
-                            <div class="modal-body alert alert-warning m-b-0">
-                                <div class="form-group ">
-                                    <label class="control-label">BARANG</label><br>
-                                    <select class="select3 form-control" id="barang_edits" name="barang_edits" data-width="100%" data-parsley-required="true" disabled>
 
-                                    </select>
-                                </div>
-                                <div class="form-group ">
-                                    <label class="control-label">JUMLAH STOK MASUK</label><br>
-                                    <input type="number" name="stok_edit" id="stok_edit" class="form-control" style="display: block;" placeholder="Stok barang..." required>
-                                </div>
-                                <div class="form-group ">
-                                    <label class="control-label">PENANGGUNG JAWAB</label><br>
-                                    <select class="select3  form-control required" name="pegawai_edit" id="pegawai_edit" data-width="100%" data-style="btn-inverse" required>
-
-                                    </select>
-                                </div>
-                                <div class="form-group ">
-                                    <label class="control-label">KETERANGAN</label><br>
-                                    <textarea name="ket_edit" id="ket_edit" class="form-control" rows="3" style="display: block;"></textarea>
-                                </div>
-                            </div>
-                            <input type="hidden" name="id_barang_masuk" id="id_barang_masuk"></input>
-                            <input type="hidden" name="barang_edit" id="barang_edit"></input>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Close</a>
-                        <button type="submit" class="btn btn-primary" id="myBtn_edit">Update</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 </div>
 @endsection
 
@@ -139,8 +97,8 @@
         }).then(result => {
             if (result.value) {
                 $.ajax({
-                    url: "/barang_keluar/delete/" + kode,
-                    type: "POST",
+                    url: "/pinjam/" + kode,
+                    type: "DELETE",
                     data: {
                         _token: "{{ csrf_token() }}"
                     },
@@ -169,17 +127,19 @@
             pageLength: 7,
             lengthChange: false,
             responsive: true,
-            ajax: "{{ route('ss.barang.keluar') }}",
+            ajax: "{{ route('ss.pinjam') }}",
             columns: [{
                     "data": "DT_RowIndex"
                 }, {
                     "data": "kode"
+                }, {
+                    "data": "batas"
                 },
                 {
-                    "data": "tgls"
+                    "data": "pj"
                 },
                 {
-                    "data": "penerima"
+                    "data": "lokasi"
                 },
                 {
                     "data": "proyek_detail"
@@ -188,21 +148,25 @@
                     "data": "daftar_barang"
                 },
                 {
+                    "data": "status"
+                },
+                {
                     "data": "action"
                 },
             ],
-            // "columnDefs": [{
-            //     "targets": 7,
-            //     "data": "harga",
-            //     "render": function(data, type, row, meta) {
-            //         var type = '';
-            //         var reverse = data.toString().split('').reverse().join(''),
-            //             ribuan = reverse.match(/\d{1,3}/g);
-            //         ribuan = ribuan.join('.').split('').reverse().join('');
-            //         type = ribuan;
-            //         return type;
-            //     }
-            // }]
+            "columnDefs": [{
+                "targets": 7,
+                "data": "status",
+                "render": function(data, type, row, meta) {
+                    var type = '';
+                    if (data == 0) {
+                        type = '<span class="label label-primary">Sedang Dipinjam</span>';
+                    } else {
+                        type = '<span class="label label-success">Selesai</span>';
+                    }
+                    return type;
+                }
+            }]
         });
         var table = $('.data-table').DataTable();
         var bulan = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];

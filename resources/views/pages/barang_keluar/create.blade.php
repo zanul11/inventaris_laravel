@@ -39,8 +39,16 @@
                             <input type="nomor" class="form-control" style="display: block;" value="{{$kode}}" name="password" disabled>
                         </div>
                     </div>
+                    <div class=" form-group">
+                        <label class="control-label">Proyek</label>
+                        <div class="input-group">
+                            <select data-width="100%" class="select2 form-control form-control-solid" ng-change="pilihProyek()" ng-model="selectedProyek" ng-options="proyek.nama + ' - '  + proyek.lokasi  for proyek in proyeks">
+                                <option value="">Pilih Proyek</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="form-group">
-                        <label class="control-label">Penanggung Jwab</label>
+                        <label class="control-label">Penanggung Jawab</label>
                         <input type="text" class="form-control" style="display: block;" ng-model="pj" placeholder="Penanggung jawab">
                     </div>
                     <div class=" form-group">
@@ -150,10 +158,11 @@
                 </div>
             </div>
         </div>
+        <div class="panel-footer">
+            <button ng-click="submitData()" class="btn btn-success m-r-3">Simpan</button>
+        </div>
     </div>
-    <div class="panel-footer">
-        <button ng-click="submitData()" class="btn btn-success m-r-3">Simpan</button>
-    </div>
+
     <!-- </form> -->
 </div>
 </div>

@@ -8,7 +8,7 @@ app.controller("BarangKeluarController", [
         $scope.barangs = [];
         $scope.bidangs = [];
         $scope.lokasis = [];
-       
+        $scope.proyeks = [];
         $scope.jum = 0;
         $scope.ket = '';
         $scope.pj = '';
@@ -22,6 +22,14 @@ app.controller("BarangKeluarController", [
             url: "/get-barang"
         }).then(res => {
             $scope.barangs = res.data;
+            // $scope.selectedBarang= $scope.barangs[0];
+        });
+
+        $http({
+            method: "GET",
+            url: "/proyek/getdata"
+        }).then(res => {
+            $scope.proyeks = res.data;
             // $scope.selectedBarang= $scope.barangs[0];
         });
 
@@ -55,6 +63,13 @@ app.controller("BarangKeluarController", [
                 Swal.fire(
                     "Warning!",
                     "Field Jumlah masih 0!",
+                    "warning"
+                );
+            }
+            else if($scope.selectedBarang.stok<$scope.jum){
+                Swal.fire(
+                    "Warning!",
+                    "Stok tidak cukup!",
                     "warning"
                 );
             }
@@ -94,6 +109,20 @@ app.controller("BarangKeluarController", [
 
         $scope.removeItem = function(index) {
             $scope.detail_barangs.splice(index, 1);
+        };
+
+
+        $scope.pilihProyek = function() {
+           console.log($scope.selectedProyek);
+           if($scope.selectedProyek!=null){
+            $scope.pj = $scope.selectedProyek.pj;
+            $scope.ket = $scope.selectedProyek.lokasi;
+           }else {
+            $scope.pj = '';
+            $scope.ket = '';
+            $scope.selectedProyek=null;
+           }
+           
         };
 
         $scope.submitData = function() {
@@ -141,7 +170,8 @@ app.controller("BarangKeluarController", [
                         diterima: $scope.pj,
                         barangs : $scope.detail_barangs,
                         tgl:$scope.tgl,
-                        ket:$scope.ket
+                        ket:$scope.ket,
+                        proyek:($scope.selectedProyek)?$scope.selectedProyek.id:null
                     }
                 }).then(res => {
                     Swal.fire(
@@ -149,7 +179,7 @@ app.controller("BarangKeluarController", [
                         "Data Barang Keluar berhasil disubmit",
                         "success"
                         ).then(result => {
-                            location.reload();
+                            window.location='/barang_keluar';
                         });
                 });
 

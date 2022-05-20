@@ -11,22 +11,22 @@
 @endsection
 
 @section('content')
-<div id="content" class="content" ng-app="app" ng-controller="BarangKeluarController" ng-init="init('{{$barangKeluar->kode}}','{{$barangKeluar->pj}}','{{$barangKeluar->diterima}}', '{{ csrf_token() }}', '{{date('Y-m-d',strtotime($barangKeluar->tgl))}}')">
+<div id="content" class="content" ng-app="app" ng-controller="BarangKeluarController" ng-init="init('{{$pinjam->kode}}','{{$pinjam->pj}}','{{$pinjam->lokasi}}','{{date('Y-m-d',strtotime($pinjam->tgl_batas))}}')">
     <!-- begin breadcrumb -->
     <ol class="breadcrumb pull-right">
         <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
         <li class="breadcrumb-item"><a>Manajemen Barang</a></li>
-        <li class="breadcrumb-item"><a href="{{url('/barang_keluar')}}">Barang Keluar</a></li>
-        <li class="breadcrumb-item"><a>Tambah Data</a></li>
+        <li class="breadcrumb-item"><a href="{{url('/pinjam')}}">Peminjaman</a></li>
+        <li class="breadcrumb-item"><a>UPDATE Data</a></li>
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header">Barang Keluar <small>Tambah Data</small></h1>
+    <h1 class="page-header text-danger font-weight-bold"><span class="text-custom">UPDATE DATA</span> PEMINJAMAN PERALATAN</h1>
 
     <div class="panel panel-inverse" data-sortable-id="form-stuff-1">
         <!-- begin panel-heading -->
         <div class="panel-heading ui-sortable-handle">
-            <h4 class="panel-title">Form Tambah Data Barang Keluar</h4>
+            <h4 class="panel-title">Form UPDATE Data</h4>
 
         </div>
         <!-- <form method="POST" action=""> -->
@@ -36,7 +36,7 @@
                     <div class="form-group">
                         <label class="control-label">NOMOR</label>
                         <div class="input-group">
-                            <input type="nomor" class="form-control" style="display: block;" ng-model="kode" name="password" disabled>
+                            <input type="nomor" class="form-control" style="display: block;" value="{{$pinjam->kode}}" name="password" disabled>
                         </div>
                     </div>
                     <div class=" form-group">
@@ -51,8 +51,8 @@
                         <label class="control-label">Penanggung Jawab</label>
                         <input type="text" class="form-control" style="display: block;" ng-model="pj" placeholder="Penanggung jawab">
                     </div>
-                    <div class="form-group">
-                        <label class="control-label">Tanggal</label>
+                    <div class=" form-group">
+                        <label class="control-label">Tanggal Batas</label>
                         <div class="input-group">
                             <input class="form-control" ng-model="tgl" type="date">
                         </div>
@@ -67,23 +67,23 @@
                 <div class="col-md-4">
                     <div class="note note-green">
                         <div class="note-content">
-                            <h4><b>Input Barang keluar</b></h4>
+                            <h4><b>Input Peralatan</b></h4>
                             <hr>
                             <div class="height-300" style="display: block; position: relative; overflow: auto;">
                                 <div class="col-lg-12">
                                     <div class="col-md-12">
 
                                         <div class="form-group">
-                                            <label class="control-label">Barang</label>
+                                            <label class="control-label">Peralatan</label>
 
 
-                                            <select data-width="100%" class="select2 form-control form-control-solid" ng-model="selectedBarang" ng-options="barang.nama + ' - '  + barang.merk  for barang in barangs">
-                                                <option value="">Pilih Barang</option>
+                                            <select data-width="100%" class="select2 form-control form-control-solid" ng-model="selectedAlat" ng-options="alat.nama + ' - '  + alat.merk  for alat in peralatans">
+                                                <option value="">Pilih Peralatan</option>
                                             </select>
 
                                         </div>
                                         <div class="form-group">
-                                            <label class="control-label">Jumlah Barang Keluar</label>
+                                            <label class="control-label">Jumlah Alat</label>
                                             <div class="input-group">
                                                 <input type="number" class="form-control" style="display: block;" ng-model="jum" onClick="this.select();">
                                             </div>
@@ -105,16 +105,17 @@
                 <div class="col-md-5">
                     <div class="note note-primary">
                         <div class="note-content">
-                            <h4><b>Daftar Barang Keluar</b></h4>
+                            <h4><b>Daftar Peminjaman Peralatan</b></h4>
                             <hr>
                             <div class="height-300" style="display: block; position: relative; overflow: auto;">
+
                                 <div class="col-sm-12">
                                     <center>
                                         <table class="table table-hover" style="background-color: white;">
                                             <thead>
                                                 <tr>
                                                     <th class="width-60">No</th>
-                                                    <th>Barang</th>
+                                                    <th>Nama</th>
                                                     <th>Jumlah</th>
                                                     <th>Satuan</th>
                                                     <th>#</th>
@@ -153,7 +154,7 @@
             </div>
         </div>
         <div class="panel-footer">
-            <button ng-click="submitData()" class="btn btn-success m-r-3">Update</button>
+            <button ng-click="submitData()" class="btn btn-success m-r-3">Simpan</button>
         </div>
     </div>
 
@@ -165,7 +166,7 @@
 @section('plugins_scripts')
 
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script src="{{asset('assets/js/barang_keluar_edit.js')}}"></script>
+<script src="{{asset('assets/js/pinjam_edit.js')}}"></script>
 @endsection
 
 @section('page_scripts')

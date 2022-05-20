@@ -94,11 +94,11 @@
 
                 </div>
             </div>
+            <div class="panel-footer">
+                <input type="submit" value="Simpan" class="btn btn-success m-r-3">
+            </div>
     </div>
-    <div class="panel-footer">
-        <input type="submit" value="Simpan" class="btn btn-success m-r-3">
-        <a wire:click="batal" class="btn btn-danger">Batal</a>
-    </div>
+
     </form>
 </div>
 </div>

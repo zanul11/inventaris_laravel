@@ -20,6 +20,11 @@ class BarangKeluar extends Model
         return $this->belongsTo('App\Bidang', 'diterima', 'kd_bagian');
     }
 
+    public function proyek()
+    {
+        return $this->belongsTo('App\Proyek', 'proyek_id', 'id');
+    }
+
     public function barangs()
     {
         return $this->hasMany('App\DetailBarangKeluar', 'log_kode', 'kode');

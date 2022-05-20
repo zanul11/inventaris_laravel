@@ -19,8 +19,8 @@ Route::get('/', 'AuthController@index');
 // Route::get('login', ['as' => 'login', 'uses' => 'FrontController@index']);
 Route::get('login', ['as' => 'login', 'uses' => 'AuthController@index']);
 Route::get('/auth', 'AuthController@show');
-// Route::resource('register', 'FrontController');
-// Route::get('/send', 'PklController@send');
+//ABSEN
+Route::resource('absen', 'AbsenController');
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/auth/logout', 'AuthController@logout');
     Route::get('/dashboard', 'DashboardController@index');
@@ -47,6 +47,17 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('get-jenis-kwitansi', 'JenisKwitansiController@getJenis');
     Route::post('get-jumlah-jenis', 'JenisKwitansiController@getJumlahJenis');
 
+    //PINJAM
+    Route::post('/pinjam/kembali', 'PinjamController@pinjamKembali');
+    Route::post('/pinjam/hapus', 'PinjamController@pinjamHapus');
+    Route::post('/get-peralatan/detail', 'PinjamController@getSelectedAlat');
+    Route::post('/get-peralatan/kembalian', 'PinjamController@getKembalainAlat');
+    Route::post('/pinjam/edit', 'PinjamController@edits');
+    Route::get('get-peralatan', 'PinjamController@getAlat');
+    Route::get('get-peralatan/{id}', 'PinjamController@getAlatById');
+    Route::get('ss-pinjam', 'PinjamController@getServerSide')->name('ss.pinjam');
+    Route::resource('pinjam', 'PinjamController');
+
     //BARANG
     Route::get('get-bidang', 'BarangController@getBidang');
     Route::get('get-barang', 'BarangController@getBarang');
@@ -63,6 +74,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/pegawai/tambah_dokumen', 'PegawaiController@tambah_dokumen');
     Route::post('/pegawai/hapus_dokumen/{id}', 'PegawaiController@hapus_dokumen');
     Route::resource('pegawai', 'PegawaiController');
+
+
+    //PROYEK
+    Route::get('/proyek/cetak/{proyek}', 'ProyekController@cetakKelangkapan');
+    Route::get('/proyek/getdata', 'ProyekController@getData');
+    Route::get('ss-proyek', 'ProyekController@getServerSide')->name('ss.proyek');
+    Route::post('/proyek/edit', 'ProyekController@edits');
+    Route::resource('proyek', 'ProyekController');
 
     //BARANG MASUK
     Route::post('/barang_masuk/edit', 'BarangMasukController@edits');
@@ -81,12 +100,22 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('ss-barang-keluar', 'BarangKeluarController@getServerSide')->name('ss.barang.keluar');
     Route::resource('barang_keluar', 'BarangKeluarController');
 
-    //KWITANSI
-    Route::post('/kwitansi/get-detail-barang', 'KwitansiController@getSelectedBarang');
-    Route::post('/kwitansi/edit', 'KwitansiController@edits');
-    Route::post('kwitansi/delete/{kwitansi}', 'KwitansiController@delete');
-    Route::get('ss-kwitansi', 'KwitansiController@getServerSide')->name('ss.kwitansi');
-    Route::resource('kwitansi', 'KwitansiController');
+    //JAM KERJA
+    Route::resource('jam-kerja', 'JamKerjaController');
+    Route::post('tidak_hadir/filter', 'TidakHadirController@filter');
+    Route::resource('tidak_hadir', 'TidakHadirController');
+    Route::resource('rekap', 'RekapController');
+    Route::resource('rincian', 'RincianController');
+    Route::resource('posting', 'PostingController');
+
+    //KEHADIRAN
+    Route::resource('kehadiran', 'KehadiranController');
+
+    Route::get('ss-jenis-izin', 'JenisIzinController@getServerSide')->name('ss.jenis-izin');
+    Route::resource('jenis-izin', 'JenisIzinController');
+
+    Route::get('ss-libur', 'LiburController@getServerSide')->name('ss.libur');
+    Route::resource('libur', 'LiburController');
 
     //LOGISTIK
     Route::get('ss-logistik', 'LogistikController@getServerSide')->name('ss.logistik');

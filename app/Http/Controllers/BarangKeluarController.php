@@ -38,7 +38,7 @@ class BarangKeluarController extends Controller
     public function getServerSide()
     {
 
-        $barang = BarangKeluar::where('jenis', 0)->with('barangs')->orderBy('created_at', 'desc')->get();
+        $barang = BarangKeluar::where('jenis', 0)->with('barangs')->with('proyek')->orderBy('created_at', 'desc')->get();
 
         return Datatables::of($barang)
             ->addIndexColumn()
@@ -47,6 +47,9 @@ class BarangKeluarController extends Controller
             })
             ->addColumn('penerima', function ($row) {
                 return $row->pj;
+            })
+            ->addColumn('proyek_detail', function ($row) {
+                return $row->proyek->nama ?? '-';
             })
             ->addColumn('daftar_barang', function ($row) {
                 $tmp = '';
@@ -128,7 +131,8 @@ class BarangKeluarController extends Controller
                 "jumlah" => $dt['jumlah'],
                 "ket" => $request->ket,
                 "sisa" => $sisa,
-                "tgl" => date('Y-m-d', strtotime($request->tgl . ' +1 day'))
+                "tgl" => date('Y-m-d', strtotime($request->tgl . ' +1 day')),
+                "proyek_id" => $request->proyek
             ]);
             $jum_stok += $dt['jumlah'];
         }
@@ -144,6 +148,7 @@ class BarangKeluarController extends Controller
             "stok" => 0,
             "ket" => 'Barang keluar',
             "tgl" => date('Y-m-d', strtotime($request->tgl . ' +1 day')),
+            "proyek_id" => $request->proyek
         ]);
         return $request;
     }
@@ -227,6 +232,7 @@ class BarangKeluarController extends Controller
                 "ket" => $dt['ket'],
                 "sisa" => $sisa,
                 "tgl" => date('Y-m-d', strtotime($request->tgl)),
+                "proyek_id" => $request->proyek
             ]);
             $jum_stok += $dt['jumlah'];
         }
@@ -235,9 +241,10 @@ class BarangKeluarController extends Controller
             ->update([
                 "diterima" => $request->diterima,
                 "jumlah" => $jum_stok,
-                "pj" => $request->pegawai,
+                "pj" => $request->diterima,
                 "user" => Auth::user()->nama,
                 "tgl" => date('Y-m-d', strtotime($request->tgl)),
+                "proyek_id" => $request->proyek
             ]);
         // BarangKeluar::create([
         //     "no" => ($maxno + 1),

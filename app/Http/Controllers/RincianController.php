@@ -2,21 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Kelengkapan;
+use App\Pegawai;
 use Illuminate\Http\Request;
-use RealRashid\SweetAlert\Facades\Alert;
-use Illuminate\Support\Facades\Redirect;
 
-class KelengkapanController extends Controller
+class RincianController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $request->session()->put('parent', 'Laporan Absen');
+        $request->session()->put('child', 'Rekap Absensi');
+
+        $firstDate = date('Y-m-') . '1';
+        $endDate = date('Y-m-d');
+        $tgl  = '01' . date('-m-Y') . ' s/d ' . date('d-m-Y');
+
+        $pegawai = Pegawai::with(['absen' => function ($query) use ($firstDate, $endDate) {
+            $query->whereDate('tgl', '>=', $firstDate);
+            $query->whereDate('tgl', '<=', $endDate);
+        }])->get();
+        return view('pages.rincian.index', compact('pegawai', 'tgl', 'firstDate', 'endDate'));
     }
 
     /**
@@ -37,23 +46,17 @@ class KelengkapanController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request;
-        try {
-            Kelengkapan::create([
-                'id_logistik' => $request->id_logistik,
-                'spesifikasi' => $request->spesifikasi,
-                'merk' => $request->merk,
-                'stok' => $request->stok,
-                'rusak' => $request->rusak,
-                'id_lokasi' => $request->lokasi,
-                'id_satuan' => $request->satuan,
-            ]);
-        } catch (\Throwable $th) {
-            Alert::warning('Oppps!', $th->getMessage());
-            return Redirect::to('/logistik/' . $request->id_logistik)->withErrors([$th->getMessage()])->withInput();
-        }
-        Alert::success('Success!', 'Data Kelengkapan Logistik Added!');
-        return Redirect::to('/logistik/' . $request->id_logistik);
+        $tgl = $request->tgl;
+        $rep_date = str_replace(" ", "", $request->tgl);
+        $exp_date = explode("s/d", $rep_date);
+        $firstDate = date('Y-m-d', strtotime($exp_date[0]));
+        $endDate = date('Y-m-d', strtotime($exp_date[1]));
+
+        $pegawai = Pegawai::with(['absen' => function ($query) use ($firstDate, $endDate) {
+            $query->whereDate('tgl', '>=', $firstDate);
+            $query->whereDate('tgl', '<=', $endDate);
+        }])->get();
+        return view('pages.rincian.index', compact('pegawai', 'tgl', 'firstDate', 'endDate'));
     }
 
     /**
@@ -98,6 +101,6 @@ class KelengkapanController extends Controller
      */
     public function destroy($id)
     {
-        Kelengkapan::where('id', $id)->delete();
+        //
     }
 }

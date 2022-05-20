@@ -16,6 +16,11 @@ class DetailBarangKeluar extends Model
         return $this->belongsTo('App\Barang', 'barang_id', 'id');
     }
 
+    public function proyek()
+    {
+        return $this->belongsTo('App\Proyek', 'proyek_id', 'id');
+    }
+
     public function detail()
     {
         return $this->hasOne('App\BarangKeluar', 'kode', 'log_kode');

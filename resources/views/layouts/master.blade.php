@@ -6,7 +6,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>APLIKASI INVENTARIS | @yield('title','Dashboard')</title>
+    <title>APLIKASI ABSENSI | @yield('title','Dashboard')</title>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <meta content="" name="description" />
     <meta content="" name="author" />
@@ -30,8 +30,30 @@
     <link href="{{asset('assets/assets/plugins/nvd3/build/nv.d3.css')}}" rel="stylesheet" />
     <!-- ================== END PAGE LEVEL CSS STYLE ================== -->
     <link rel="stylesheet" href="{{asset('assets/css/sweetalert.css')}}">
+
+
+
+    <link href="{{asset('assets/assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.css')}}" rel="stylesheet" />
+    <link href="{{asset('assets/assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.css')}}" rel="stylesheet" />
+    <link href="{{asset('assets/assets/plugins/ionRangeSlider/css/ion.rangeSlider.css')}}" rel="stylesheet" />
+    <link href="{{asset('assets/assets/plugins/ionRangeSlider/css/ion.rangeSlider.skinNice.css')}}" rel="stylesheet" />
+    <link href="{{asset('assets/assets/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css')}}" rel="stylesheet" />
+    <link href="{{asset('assets/assets/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css')}}" rel="stylesheet" />
+    <link href="{{asset('assets/assets/plugins/password-indicator/css/password-indicator.css')}}" rel="stylesheet" />
+    <link href="{{asset('assets/assets/plugins/bootstrap-combobox/css/bootstrap-combobox.css')}}" rel="stylesheet" />
+    <link href="{{asset('assets/assets/plugins/bootstrap-select/bootstrap-select.min.css')}}" rel="stylesheet" />
+    <link href="{{asset('assets/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css')}}" rel="stylesheet" />
+    <link href="{{asset('assets/assets/plugins/jquery-tag-it/css/jquery.tagit.css')}}" rel="stylesheet" />
+    <link href="{{asset('assets/assets/plugins/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet" />
+    <link href="{{asset('assets/assets/plugins/select2/dist/css/select2.min.css')}}" rel="stylesheet" />
+    <link href="{{asset('assets/assets/plugins/bootstrap-eonasdan-datetimepicker/build/css/bootstrap-datetimepicker.min.css')}}" rel="stylesheet" />
+    <link href="{{asset('assets/assets/plugins/bootstrap-colorpalette/css/bootstrap-colorpalette.css')}}" rel="stylesheet" />
+    <link href="{{asset('assets/assets/plugins/jquery-simplecolorpicker/jquery.simplecolorpicker.css')}}" rel="stylesheet" />
+    <link href="{{asset('assets/assets/plugins/jquery-simplecolorpicker/jquery.simplecolorpicker-fontawesome.css')}}" rel="stylesheet" />
+    <link href="{{asset('assets/assets/plugins/jquery-simplecolorpicker/jquery.simplecolorpicker-glyphicons.css')}}" rel="stylesheet" />
     <!-- ================== BEGIN BASE JS ================== -->
     <script src="{{asset('assets/assets/plugins/pace/pace.min.js')}}"></script>
+    <!-- <link href="{{asset('css/custom.css')}}" rel="stylesheet" /> -->
     <link href="{{asset('assets/css/custom.css')}}" rel="stylesheet" />
     <!-- ================== END BASE JS ================== -->
 
@@ -52,7 +74,7 @@
         <div id="header" class="header navbar-default">
             <!-- begin navbar-header -->
             <div class="navbar-header">
-                <a href="{{url('/dashboard')}}" class="navbar-brand"><img src="{{asset('assets/img/favicon.png')}}"> <b>APLIKASI</b> INVENTARIS</a>
+                <a href="{{url('/dashboard')}}" class="navbar-brand"><img src="{{asset('assets/img/favicon.png')}}"> <b>APLIKASI</b> ABSENSI</a>
                 <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -71,8 +93,8 @@
                         <span class="d-none d-md-inline">{{Auth::user()->nama}}</span> <b class="caret"></b>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a href="javascript:;" class="dropdown-item">Ganti Password</a>
-                        <div class="dropdown-divider"></div>
+                        <!-- <a href="javascript:;" class="dropdown-item">Edit Profile</a> -->
+                        <!-- <div class="dropdown-divider"></div> -->
                         <a href="{{url('/auth/logout')}}" class="dropdown-item">Log Out</a>
                     </div>
                 </li>
@@ -197,7 +219,7 @@
     <div class="to-top"><i class="fa fa-angle-double-up"></i></div>
 
     <div id="footer" class="footer">
-        © {{date('Y')}} | Aplikasi INVENTARIS
+        © {{date('Y')}} | Aplikasi Absen PT Indra Karya
     </div>
     <!-- ================== BEGIN BASE JS ================== -->
     <script src="{{asset('assets/assets/plugins/jquery/jquery-3.3.1.min.js')}}"></script>
@@ -222,9 +244,31 @@
     <script src="{{asset('assets/assets/plugins/jquery-jvectormap/jquery-jvectormap-world-merc-en.js')}}"></script>
     <script src="{{asset('assets/assets/plugins/bootstrap-calendar/js/bootstrap_calendar.min.js')}}"></script>
     <script src="{{asset('assets/assets/plugins/gritter/js/jquery.gritter.js')}}"></script>
-    <script src="{{asset('assets/assets/js/demo/dashboard-v2.min.j')}}s"></script>
+    <script src="{{asset('assets/assets/js/demo/dashboard-v2.min.js')}}"></script>
     <!-- ================== END PAGE LEVEL JS ================== -->
     <script src="{{asset('assets/js/sweetalert.js')}}"></script>
+
+
+    <script src="{{asset('assets/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js')}}"></script>
+    <script src="{{asset('assets/assets/plugins/ionRangeSlider/js/ion-rangeSlider/ion.rangeSlider.min.js')}}"></script>
+    <script src="{{asset('assets/assets/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js')}}"></script>
+    <script src="{{asset('assets/assets/plugins/masked-input/masked-input.min.js')}}"></script>
+    <script src="{{asset('assets/assets/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min.js')}}"></script>
+    <script src="{{asset('assets/assets/plugins/password-indicator/js/password-indicator.js')}}"></script>
+    <script src="{{asset('assets/assets/plugins/bootstrap-combobox/js/bootstrap-combobox.js')}}"></script>
+    <script src="{{asset('assets/assets/plugins/bootstrap-select/bootstrap-select.min.js')}}"></script>
+    <script src="{{asset('assets/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js')}}"></script>
+    <script src="{{asset('assets/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput-typeahead.js')}}"></script>
+    <script src="{{asset('assets/assets/plugins/jquery-tag-it/js/tag-it.min.js')}}"></script>
+    <script src="{{asset('assets/assets/plugins/bootstrap-daterangepicker/moment.js')}}"></script>
+    <script src="{{asset('assets/assets/plugins/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+    <script src="{{asset('assets/assets/plugins/select2/dist/js/select2.min.js')}}"></script>
+    <script src="{{asset('assets/assets/plugins/bootstrap-eonasdan-datetimepicker/build/js/bootstrap-datetimepicker.min.js')}}"></script>
+    <script src="{{asset('assets/assets/plugins/bootstrap-show-password/bootstrap-show-password.js')}}"></script>
+    <script src="{{asset('assets/assets/plugins/bootstrap-colorpalette/js/bootstrap-colorpalette.js')}}"></script>
+    <script src="{{asset('assets/assets/plugins/jquery-simplecolorpicker/jquery.simplecolorpicker.js')}}"></script>
+    <script src="{{asset('assets/assets/plugins/clipboard/clipboard.min.js')}}"></script>
+    <script src="{{asset('assets/assets/js/demo/form-plugins.demo.min.js')}}"></script>
     @include('sweetalert::alert')
 
     @yield('plugins_scripts')
@@ -235,16 +279,8 @@
         $(document).ready(function() {
             App.init();
             DashboardV2.init();
+            FormPlugins.init();
         });
-        // var nama = JSON.parse('{{json_encode(Auth::user()->nama)}}'.replace(/&quot;/g, '"'));
-        // $.gritter.add({
-        //     title: "SELAMAT DATANG " + nama,
-        //     text: "Selamat bekerja dan semoga sukses",
-        //     image: "../assets/img/users/user.png",
-        //     sticky: !0,
-        //     time: "",
-        //     class_name: "my-sticky-class"
-        // });
     </script>
 </body>
 

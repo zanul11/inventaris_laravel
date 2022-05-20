@@ -55,6 +55,8 @@
                         <th>Nama/Merk</th>
                         <th>Spesifikasi</th>
                         <th>Stok</th>
+                        <th>Stok Aktif</th>
+                        <th>Rusak</th>
                         <th>Lokasi</th>
                         <th class="width-90"></th>
                     </tr>
@@ -249,6 +251,12 @@
 
                     {
                         "data": "stok"
+                    },
+                    {
+                        "data": "stok_aktif"
+                    },
+                    {
+                        "data": "rusak"
                     },
                     {
                         "data": "lokasi.lokasi"

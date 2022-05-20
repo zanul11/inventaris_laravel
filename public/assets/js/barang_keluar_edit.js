@@ -22,6 +22,8 @@ app.controller("BarangKeluarController", [
                 $scope.barangs = res.data;
                 // $scope.selectedBarang= $scope.barangs[0];
             });
+
+           
     
             // $http({
             //     method: "GET",
@@ -45,7 +47,7 @@ app.controller("BarangKeluarController", [
                     kode : kode,
                 }
                 }).then(res => {
-                    // console.log(res);
+                    console.log(res.data[0]['proyek_id']);
                     angular.forEach(res.data, function(dt) {
                         $scope.ket=dt['ket'];
                         $scope.detail_barangs.push({
@@ -55,6 +57,18 @@ app.controller("BarangKeluarController", [
                             ket:dt['ket'],
                             satuan_id : dt['satuan_id'],
                             satuan: dt['satuan']
+                        });
+                    });
+
+                    $http({
+                        method: "GET",
+                        url: "/proyek/getdata"
+                    }).then(res2 => {
+                        $scope.proyeks = res2.data;
+                        angular.forEach(res2.data, function(dt) {
+                            if(dt['id']==res.data[0]['proyek_id']){
+                                $scope.selectedProyek=dt;
+                            }
                         });
                     });
                 });
@@ -81,6 +95,14 @@ app.controller("BarangKeluarController", [
                     "warning"
                 );
             }
+            else if($scope.selectedBarang.stok<$scope.jum){
+                Swal.fire(
+                    "Warning!",
+                    "Stok tidak cukup!",
+                    "warning"
+                );
+            }
+
            else {
                 console.log($scope.selectedBarang.satuan_detail);
                 $scope.cek=false;
@@ -112,12 +134,25 @@ app.controller("BarangKeluarController", [
                
             }
             $scope.jum = 0;
-            $scope.ket = '';
+           
         };
 
         $scope.removeItem = function(index) {
             $scope.detail_barangs.splice(index, 1);
         };
+
+        $scope.pilihProyek = function() {
+            console.log($scope.selectedProyek);
+            if($scope.selectedProyek!=null){
+             $scope.pj = $scope.selectedProyek.pj;
+             $scope.ket = $scope.selectedProyek.lokasi;
+            }else {
+             $scope.pj = '';
+             $scope.ket = '';
+             $scope.selectedProyek=null;
+            }
+            
+         };
 
         $scope.submitData = function() {
             console.log($scope.detail_barangs.length);
@@ -146,11 +181,13 @@ app.controller("BarangKeluarController", [
                     url: "/barang_keluar/edit",
                     method: "POST",
                     data: {
-                        pegawai: $scope.pj,
+                        pj: $scope.pj,
                         diterima: $scope.pj,
                         barangs : $scope.detail_barangs,
                         kode : $scope.kode,
-                        tgl:$scope.tgl
+                        tgl:$scope.tgl,
+                        ket:$scope.ket,
+                        proyek:($scope.selectedProyek)?$scope.selectedProyek.id:null
                     }
                 }).then(res => console.log(res));
 

@@ -14,4 +14,8 @@ class Pegawai extends Model
     {
         return $this->hasMany('App\JenisDokumen', 'pegawai_id', 'id');
     }
+    public function absen()
+    {
+        return $this->hasMany('App\Posting', 'pegawai_id', 'id');
+    }
 }
