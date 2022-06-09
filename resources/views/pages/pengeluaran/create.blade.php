@@ -115,7 +115,7 @@
             </div>
         </div>
 
-
+        @if($action=='edit')
         <div class="col-lg-3">
             <div class="panel panel-primary" data-sortable-id="form-stuff-1">
                 <!-- begin panel-heading -->
@@ -149,6 +149,7 @@
 
             </div>
         </div>
+        @endif
     </div>
 
 
