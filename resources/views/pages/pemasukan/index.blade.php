@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'User')
+@section('title', 'Pemasukan')
 
 @section('plugins_styles')
 <link href="{{asset('assets/vendors/dataTables/datatables.min.css')}}" rel="stylesheet" />
@@ -14,50 +14,53 @@
     <!-- begin breadcrumb -->
     <ol class="breadcrumb pull-right">
         <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
-        <li class="breadcrumb-item"><a href="">User</a></li>
+        <li class="breadcrumb-item"><a href="">Keuangan</a></li>
+        <li class="breadcrumb-item"><a href="">PEMASUKAN</a></li>
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header">User </h1>
+    <h1 class="page-header text-danger font-weight-bold"><span class="text-custom">DATA</span> PEMASUKAN</h1>
     <!-- end page-header -->
     <!-- begin row -->
-    <div class="panel panel-inverse" data-sortable-id="form-stuff-1">
-        <!-- begin panel-heading -->
-        <div class="panel-heading">
-            <div class="row width-full">
-                <div class="col-xl-3 col-sm-3">
-                    <div class="form-inline">
-                        <a href="{{url('/user/create')}}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</a>
+    <div class="col-lg-12">
+        <div class="panel panel-inverse " data-sortable-id="form-stuff-1">
+            <!-- begin panel-heading -->
+            <div class="panel-heading">
+                <div class="row width-full">
+                    <div class="col-xl-3 col-sm-3">
+                        <div class="form-inline">
+                            <a href="{{url('/pemasukan/create')}}" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="panel-body table-responsive">
+                <table class="table table-hover data-table">
+                    <thead>
+                        <tr>
+                            <th class="width-60">No.</th>
+                            <th>JENIS</th>
+                            <th>NAMA</th>
+                            <th>JUMLAH</th>
+                            <th>KET</th>
+                            <th class="width-90"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="panel-footer form-inline">
+                <div class="col-md-6 col-lg-10 col-xl-10 col-xs-12">
+                    <div>
                     </div>
                 </div>
-
             </div>
-        </div>
-        <div class="panel-body table-responsive">
-            <table class="table table-hover data-table">
-                <thead>
-                    <tr>
-                        <th class="width-60">No.</th>
-                        <th>Username</th>
-                        <th>Nama</th>
-                        <th>Level</th>
-                        <th class="width-90"></th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-            </table>
-        </div>
-        <div class="panel-footer form-inline">
-            <div class="col-md-6 col-lg-10 col-xl-10 col-xs-12">
-                <div>
-                </div>
-
-            </div>
-
         </div>
     </div>
+
     <!-- end row -->
     <!-- begin row -->
     <!-- end row -->
@@ -84,8 +87,8 @@
         }).then(result => {
             if (result.value) {
                 $.ajax({
-                    url: "/user/delete/" + kode,
-                    type: "POST",
+                    url: "/pemasukan/" + kode,
+                    type: "DELETE",
                     data: {
                         _token: "{{ csrf_token() }}"
                     },
@@ -114,38 +117,24 @@
                 pageLength: 7,
                 lengthChange: false,
                 responsive: true,
-                ajax: "{{ route('ss.user') }}",
+                ajax: "{{ route('ss.pemasukan') }}",
                 columns: [{
                         "data": "DT_RowIndex"
-                    }, {
-                        "data": "user"
+                    },
+                    {
+                        "data": "jenis_akunting.jenis"
                     },
                     {
                         "data": "nama"
-                    },
-                    {
-                        "data": "type"
+                    }, {
+                        "data": "uang"
+                    }, {
+                        "data": "ket"
                     },
                     {
                         "data": "action"
                     },
                 ],
-                "columnDefs": [{
-                    "targets": 3,
-                    "data": "type",
-                    "render": function(data, type, row, meta) {
-                        var type = '';
-                        if (data == 1) {
-                            type = '<span class="label label-danger">Super Admin</span>';
-                        } else if (data == 3) {
-                            type = '<span class="label label-primary">Kepala User</span>';
-                        } else {
-                            type = '<span class="label label-warning">User</span>';
-                        }
-                        return type;
-
-                    }
-                }]
             });
         });
     });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Barang;
+use App\BarangKeluar;
 use App\BarangMasuk;
 use App\DetailBarangKeluar;
 use App\Jenis;
@@ -18,11 +19,13 @@ class LaporanController extends Controller
      */
     public function index(Request $request)
     {
-        $request->session()->put('parent', 'Laporan');
-        $request->session()->put('child', 'Rekap Barang');
+
+        $request->session()->put('parent', 'Manajemen Barang');
+        $request->session()->put('child', 'Laporan');
         $jenis = Jenis::orderby('jenis')->get();
         $array_barang = array();
         Session::put('jenis_barang', '');
+        Session::put('tahun', date('Y'));
         return view('pages.laporan.index', compact('jenis', 'array_barang'));
     }
 
@@ -44,60 +47,144 @@ class LaporanController extends Controller
      */
     public function store(Request $request)
     {
+        // return $request;
         Session::put('jenis_barang', $request->jenis);
+        Session::put('bulan', $request->bulan);
+        Session::put('tahun', $request->tahun);
         $jenis = Jenis::orderby('jenis')->get();
         // return $log_keluar = DetailBarangKeluar::with('detail')->where('barang_id', 38)->sum('jumlah');
         // return $request;
+        $array_barang = [];
+
         if ($request->jenis == 'semua') {
-            $array_barang = [];
             $data = Jenis::all();
+            if ($request->bulan == 'semua') {
+                foreach ($data as $dt) {
+                    $log = [];
+                    $barang = Barang::with('satuan_detail')->where('jenis', $dt['id'])->whereNull('deleted_at')->get();
+                    foreach ($barang as $dt_brg) {
+                        $tmp_log_masuk_keluar = [];
+                        //hitung saldo awal
+                        $request->tahun - 1;
+                        $log_masuk_saldo = BarangMasuk::where('barang_id', $dt_brg['id'])->whereYear('tgl', '<', $request->tahun)->sum('jumlah');
+                        $log_keluar_saldo = DetailBarangKeluar::with('detail')->where('barang_id', $dt_brg['id'])->whereYear('tgl', '<', $request->tahun)->sum('jumlah');
 
-            foreach ($data as $dt) {
-                $log = [];
-                $barang = Barang::with('satuan_detail')->where('jenis', $dt['id'])->whereNull('deleted_at')->get();
-                foreach ($barang as $dt_brg) {
-                    $tmp_log_masuk_keluar = [];
-                    $log_masuk = BarangMasuk::where('barang_id', $dt_brg['id'])->sum('jumlah');
-                    $log_keluar = DetailBarangKeluar::with('detail')->where('barang_id', $dt_brg['id'])->sum('jumlah');
-                    array_push($log, (object) [
-                        'detail' => $dt_brg,
-                        'log_masuk' => $log_masuk,
-                        'log_keluar' => $log_keluar
+                        $saldo_awal = $dt_brg->stok_awal + $log_masuk_saldo - $log_keluar_saldo;
+
+                        $log_masuk = BarangMasuk::where('barang_id', $dt_brg['id'])->whereYear('tgl', $request->tahun)->sum('jumlah');
+                        $log_keluar = DetailBarangKeluar::with('detail')->where('barang_id', $dt_brg['id'])->whereYear('tgl', $request->tahun)->sum('jumlah');
+                        array_push($log, (object) [
+                            'detail' => $dt_brg,
+                            'saldo_awal' => $saldo_awal,
+                            'log_masuk' => $log_masuk,
+                            'log_keluar' => $log_keluar
+                        ]);
+                    }
+                    array_push($array_barang, (object) [
+                        'jenis' => $dt['jenis'],
+                        'barang' => $log,
                     ]);
+                    // return $array_barang;
                 }
+            } else {
+                foreach ($data as $dt) {
+                    $log = [];
+                    $barang = Barang::with('satuan_detail')->where('jenis', $dt['id'])->whereNull('deleted_at')->get();
+                    foreach ($barang as $dt_brg) {
+                        $tmp_log_masuk_keluar = [];
+
+                        //hitung saldo awal
+                        $date = $request->tahun . '-' . $request->bulan . '-' . '1';
+                        $log_masuk_saldo = BarangMasuk::where('barang_id', $dt_brg['id'])->whereDate('tgl', '<=', $date)->sum('jumlah');
+                        $log_keluar_saldo = DetailBarangKeluar::with('detail')->where('barang_id', $dt_brg['id'])->whereDate('tgl', '<=', $date)->sum('jumlah');
+                        $saldo_awal = $dt_brg->stok_awal + $log_masuk_saldo - $log_keluar_saldo;
 
 
-                array_push($array_barang, (object) [
-                    'jenis' => $dt['jenis'],
-                    'barang' => $log,
-                ]);
+                        $log_masuk = BarangMasuk::where('barang_id', $dt_brg['id'])->whereMonth('tgl', $request->bulan)->whereYear('tgl', $request->tahun)->sum('jumlah');
+                        $log_keluar = DetailBarangKeluar::with('detail')->where('barang_id', $dt_brg['id'])->whereMonth('tgl', $request->bulan)->whereYear('tgl', $request->tahun)->sum('jumlah');
+                        array_push($log, (object) [
+                            'detail' => $dt_brg,
+                            'stok_awal' => $dt_brg->stok_awal,
+                            'log_masuk_saldo' => $log_masuk_saldo,
+                            'log_keluar_saldo' => $log_keluar_saldo,
+                            'saldo_awal' => $saldo_awal,
+                            'log_masuk' => $log_masuk,
+                            'log_keluar' => $log_keluar
+                        ]);
+                    }
+                    array_push($array_barang, (object) [
+                        'jenis' => $dt['jenis'],
+                        'barang' => $log,
+                    ]);
+
+                    // return $array_barang;
+                }
             }
             // return $array_barang;
             return view('pages.laporan.index', compact('array_barang', 'jenis'));
         } else {
-            $array_barang = [];
             $data = Jenis::where('id', $request->jenis)->get();
 
-            foreach ($data as $dt) {
-                $log = [];
-                $barang = Barang::with('satuan_detail')->where('jenis', $dt['id'])->whereNull('deleted_at')->get();
-                foreach ($barang as $dt_brg) {
-                    $tmp_log_masuk_keluar = [];
-                    $log_masuk = BarangMasuk::where('barang_id', $dt_brg['id'])->sum('jumlah');
-                    $log_keluar = DetailBarangKeluar::with('detail')->where('barang_id', $dt_brg['id'])->sum('jumlah');
-                    array_push($log, (object) [
-                        'detail' => $dt_brg,
-                        'log_masuk' => $log_masuk,
-                        'log_keluar' => $log_keluar
+            if ($request->bulan == 'semua') {
+                foreach ($data as $dt) {
+                    $log = [];
+                    $barang = Barang::with('satuan_detail')->where('jenis', $dt['id'])->whereNull('deleted_at')->get();
+                    foreach ($barang as $dt_brg) {
+                        $tmp_log_masuk_keluar = [];
+                        //hitung saldo awal
+                        $request->tahun - 1;
+                        $log_masuk_saldo = BarangMasuk::where('barang_id', $dt_brg['id'])->whereYear('tgl', '<', $request->tahun)->sum('jumlah');
+                        $log_keluar_saldo = DetailBarangKeluar::with('detail')->where('barang_id', $dt_brg['id'])->whereYear('tgl', '<', $request->tahun)->sum('jumlah');
+
+                        $saldo_awal = $dt_brg->stok_awal + $log_masuk_saldo - $log_keluar_saldo;
+
+                        $log_masuk = BarangMasuk::where('barang_id', $dt_brg['id'])->whereYear('tgl', $request->tahun)->sum('jumlah');
+                        $log_keluar = DetailBarangKeluar::with('detail')->where('barang_id', $dt_brg['id'])->whereYear('tgl', $request->tahun)->sum('jumlah');
+                        array_push($log, (object) [
+                            'detail' => $dt_brg,
+                            'saldo_awal' => $saldo_awal,
+                            'log_masuk' => $log_masuk,
+                            'log_keluar' => $log_keluar
+                        ]);
+                    }
+                    array_push($array_barang, (object) [
+                        'jenis' => $dt['jenis'],
+                        'barang' => $log,
                     ]);
                 }
+            } else {
+                foreach ($data as $dt) {
+                    $log = [];
+                    $barang = Barang::with('satuan_detail')->where('jenis', $dt['id'])->whereNull('deleted_at')->get();
+                    foreach ($barang as $dt_brg) {
+                        $tmp_log_masuk_keluar = [];
+
+                        //hitung saldo awal
+                        $date = $request->tahun . '-' . $request->bulan . '-' . '1';
+                        $log_masuk_saldo = BarangMasuk::where('barang_id', $dt_brg['id'])->whereDate('tgl', '<=', $date)->sum('jumlah');
+                        $log_keluar_saldo = DetailBarangKeluar::with('detail')->where('barang_id', $dt_brg['id'])->whereDate('tgl', '<=', $date)->sum('jumlah');
+                        $saldo_awal = $dt_brg->stok_awal + $log_masuk_saldo - $log_keluar_saldo;
 
 
-                array_push($array_barang, (object) [
-                    'jenis' => $dt['jenis'],
-                    'barang' => $log,
-                ]);
+                        $log_masuk = BarangMasuk::where('barang_id', $dt_brg['id'])->whereMonth('tgl', $request->bulan)->whereYear('tgl', $request->tahun)->sum('jumlah');
+                        $log_keluar = DetailBarangKeluar::with('detail')->where('barang_id', $dt_brg['id'])->whereMonth('tgl', $request->bulan)->whereYear('tgl', $request->tahun)->sum('jumlah');
+                        array_push($log, (object) [
+                            'detail' => $dt_brg,
+                            'stok_awal' => $dt_brg->stok_awal,
+                            'log_masuk_saldo' => $log_masuk_saldo,
+                            'log_keluar_saldo' => $log_keluar_saldo,
+                            'saldo_awal' => $saldo_awal,
+                            'log_masuk' => $log_masuk,
+                            'log_keluar' => $log_keluar
+                        ]);
+                    }
+                    array_push($array_barang, (object) [
+                        'jenis' => $dt['jenis'],
+                        'barang' => $log,
+                    ]);
+                }
             }
+
             // return $array_barang;
             return view('pages.laporan.index', compact('array_barang', 'jenis'));
         }
@@ -135,58 +222,147 @@ class LaporanController extends Controller
     public function update(Request $request, $id)
     {
         // return $request;
+        $jenis = Jenis::orderby('jenis')->get();
+        // return $log_keluar = DetailBarangKeluar::with('detail')->where('barang_id', 38)->sum('jumlah');
+        $namaBulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+        $array_barang = [];
+        if ($request->bulan != 'semua')
+            $ket_waktu = 'Per : ' . $namaBulan[$request->bulan] . ' ' . $request->tahun;
+        else
+            $ket_waktu = 'Tahun ' . $request->tahun;
+
         if ($request->jenis == 'semua' || $request->jenis == null) {
-            $array_barang = [];
             $data = Jenis::all();
+            if ($request->bulan == 'semua') {
+                foreach ($data as $dt) {
+                    $log = [];
+                    $barang = Barang::with('satuan_detail')->where('jenis', $dt['id'])->whereNull('deleted_at')->get();
+                    foreach ($barang as $dt_brg) {
+                        $tmp_log_masuk_keluar = [];
+                        //hitung saldo awal
+                        $request->tahun - 1;
+                        $log_masuk_saldo = BarangMasuk::where('barang_id', $dt_brg['id'])->whereYear('tgl', '<', $request->tahun)->sum('jumlah');
+                        $log_keluar_saldo = DetailBarangKeluar::with('detail')->where('barang_id', $dt_brg['id'])->whereYear('tgl', '<', $request->tahun)->sum('jumlah');
 
-            foreach ($data as $dt) {
-                $log = [];
-                $barang = Barang::with('satuan_detail')->where('jenis', $dt['id'])->whereNull('deleted_at')->get();
-                foreach ($barang as $dt_brg) {
-                    $tmp_log_masuk_keluar = [];
-                    $log_masuk = BarangMasuk::where('barang_id', $dt_brg['id'])->sum('jumlah');
-                    $log_keluar = DetailBarangKeluar::with('detail')->where('barang_id', $dt_brg['id'])->sum('jumlah');
-                    array_push($log, (object) [
-                        'detail' => $dt_brg,
-                        'log_masuk' => $log_masuk,
-                        'log_keluar' => $log_keluar
+                        $saldo_awal = $dt_brg->stok_awal + $log_masuk_saldo - $log_keluar_saldo;
+
+                        $log_masuk = BarangMasuk::where('barang_id', $dt_brg['id'])->whereYear('tgl', $request->tahun)->sum('jumlah');
+                        $log_keluar = DetailBarangKeluar::with('detail')->where('barang_id', $dt_brg['id'])->whereYear('tgl', $request->tahun)->sum('jumlah');
+                        array_push($log, (object) [
+                            'detail' => $dt_brg,
+                            'saldo_awal' => $saldo_awal,
+                            'log_masuk' => $log_masuk,
+                            'log_keluar' => $log_keluar
+                        ]);
+                    }
+                    array_push($array_barang, (object) [
+                        'jenis' => $dt['jenis'],
+                        'barang' => $log,
                     ]);
+                    // return $array_barang;
                 }
+            } else {
+                foreach ($data as $dt) {
+                    $log = [];
+                    $barang = Barang::with('satuan_detail')->where('jenis', $dt['id'])->whereNull('deleted_at')->get();
+                    foreach ($barang as $dt_brg) {
+                        $tmp_log_masuk_keluar = [];
+
+                        //hitung saldo awal
+                        $date = $request->tahun . '-' . $request->bulan . '-' . '1';
+                        $log_masuk_saldo = BarangMasuk::where('barang_id', $dt_brg['id'])->whereDate('tgl', '<=', $date)->sum('jumlah');
+                        $log_keluar_saldo = DetailBarangKeluar::with('detail')->where('barang_id', $dt_brg['id'])->whereDate('tgl', '<=', $date)->sum('jumlah');
+                        $saldo_awal = $dt_brg->stok_awal + $log_masuk_saldo - $log_keluar_saldo;
 
 
-                array_push($array_barang, (object) [
-                    'jenis' => $dt['jenis'],
-                    'barang' => $log,
-                ]);
+                        $log_masuk = BarangMasuk::where('barang_id', $dt_brg['id'])->whereMonth('tgl', $request->bulan)->whereYear('tgl', $request->tahun)->sum('jumlah');
+                        $log_keluar = DetailBarangKeluar::with('detail')->where('barang_id', $dt_brg['id'])->whereMonth('tgl', $request->bulan)->whereYear('tgl', $request->tahun)->sum('jumlah');
+                        array_push($log, (object) [
+                            'detail' => $dt_brg,
+                            'stok_awal' => $dt_brg->stok_awal,
+                            'log_masuk_saldo' => $log_masuk_saldo,
+                            'log_keluar_saldo' => $log_keluar_saldo,
+                            'saldo_awal' => $saldo_awal,
+                            'log_masuk' => $log_masuk,
+                            'log_keluar' => $log_keluar
+                        ]);
+                    }
+                    array_push($array_barang, (object) [
+                        'jenis' => $dt['jenis'],
+                        'barang' => $log,
+                    ]);
+
+                    // return $array_barang;
+                }
             }
             // return $array_barang;
-            return view('cetak.barang', compact('array_barang'));
+            return view('cetak.barang', compact('array_barang', 'ket_waktu'));
         } else {
-            $array_barang = [];
             $data = Jenis::where('id', $request->jenis)->get();
 
-            foreach ($data as $dt) {
-                $log = [];
-                $barang = Barang::with('satuan_detail')->where('jenis', $dt['id'])->whereNull('deleted_at')->get();
-                foreach ($barang as $dt_brg) {
-                    $tmp_log_masuk_keluar = [];
-                    $log_masuk = BarangMasuk::where('barang_id', $dt_brg['id'])->sum('jumlah');
-                    $log_keluar = DetailBarangKeluar::with('detail')->where('barang_id', $dt_brg['id'])->sum('jumlah');
-                    array_push($log, (object) [
-                        'detail' => $dt_brg,
-                        'log_masuk' => $log_masuk,
-                        'log_keluar' => $log_keluar
+
+            if ($request->bulan == 'semua') {
+                foreach ($data as $dt) {
+                    $log = [];
+                    $barang = Barang::with('satuan_detail')->where('jenis', $dt['id'])->whereNull('deleted_at')->get();
+                    foreach ($barang as $dt_brg) {
+                        $tmp_log_masuk_keluar = [];
+                        //hitung saldo awal
+                        $request->tahun - 1;
+                        $log_masuk_saldo = BarangMasuk::where('barang_id', $dt_brg['id'])->whereYear('tgl', '<', $request->tahun)->sum('jumlah');
+                        $log_keluar_saldo = DetailBarangKeluar::with('detail')->where('barang_id', $dt_brg['id'])->whereYear('tgl', '<', $request->tahun)->sum('jumlah');
+
+                        $saldo_awal = $dt_brg->stok_awal + $log_masuk_saldo - $log_keluar_saldo;
+
+                        $log_masuk = BarangMasuk::where('barang_id', $dt_brg['id'])->whereYear('tgl', $request->tahun)->sum('jumlah');
+                        $log_keluar = DetailBarangKeluar::with('detail')->where('barang_id', $dt_brg['id'])->whereYear('tgl', $request->tahun)->sum('jumlah');
+                        array_push($log, (object) [
+                            'detail' => $dt_brg,
+                            'saldo_awal' => $saldo_awal,
+                            'log_masuk' => $log_masuk,
+                            'log_keluar' => $log_keluar
+                        ]);
+                    }
+                    array_push($array_barang, (object) [
+                        'jenis' => $dt['jenis'],
+                        'barang' => $log,
                     ]);
                 }
+            } else {
+                foreach ($data as $dt) {
+                    $log = [];
+                    $barang = Barang::with('satuan_detail')->where('jenis', $dt['id'])->whereNull('deleted_at')->get();
+                    foreach ($barang as $dt_brg) {
+                        $tmp_log_masuk_keluar = [];
+
+                        //hitung saldo awal
+                        $date = $request->tahun . '-' . $request->bulan . '-' . '1';
+                        $log_masuk_saldo = BarangMasuk::where('barang_id', $dt_brg['id'])->whereDate('tgl', '<=', $date)->sum('jumlah');
+                        $log_keluar_saldo = DetailBarangKeluar::with('detail')->where('barang_id', $dt_brg['id'])->whereDate('tgl', '<=', $date)->sum('jumlah');
+                        $saldo_awal = $dt_brg->stok_awal + $log_masuk_saldo - $log_keluar_saldo;
 
 
-                array_push($array_barang, (object) [
-                    'jenis' => $dt['jenis'],
-                    'barang' => $log,
-                ]);
+                        $log_masuk = BarangMasuk::where('barang_id', $dt_brg['id'])->whereMonth('tgl', $request->bulan)->whereYear('tgl', $request->tahun)->sum('jumlah');
+                        $log_keluar = DetailBarangKeluar::with('detail')->where('barang_id', $dt_brg['id'])->whereMonth('tgl', $request->bulan)->whereYear('tgl', $request->tahun)->sum('jumlah');
+                        array_push($log, (object) [
+                            'detail' => $dt_brg,
+                            'stok_awal' => $dt_brg->stok_awal,
+                            'log_masuk_saldo' => $log_masuk_saldo,
+                            'log_keluar_saldo' => $log_keluar_saldo,
+                            'saldo_awal' => $saldo_awal,
+                            'log_masuk' => $log_masuk,
+                            'log_keluar' => $log_keluar
+                        ]);
+                    }
+                    array_push($array_barang, (object) [
+                        'jenis' => $dt['jenis'],
+                        'barang' => $log,
+                    ]);
+                }
             }
+
             // return $array_barang;
-            return view('cetak.barang', compact('array_barang'));
+            return view('cetak.barang', compact('array_barang', 'ket_waktu'));
         }
     }
 

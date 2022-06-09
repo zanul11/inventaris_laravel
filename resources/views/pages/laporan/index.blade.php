@@ -1,14 +1,11 @@
 @extends('layouts.master')
 
-@section('title', 'Rekap Barang')
+@section('title', 'Satuan')
 
 @section('plugins_styles')
 <link href="{{asset('assets/vendors/dataTables/datatables.min.css')}}" rel="stylesheet" />
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 @endsection
-
-
-
 @section('page_styles')
 @endsection
 
@@ -17,8 +14,8 @@
     <!-- begin breadcrumb -->
     <ol class="breadcrumb pull-right">
         <li class="breadcrumb-item"><a href="{{url('/dashboard')}}">Dashboard</a></li>
-        <li class="breadcrumb-item"><a href="#">Laporan</a></li>
-        <li class="breadcrumb-item"><a href="">Rekap Barang</a></li>
+        <li class="breadcrumb-item"><a href="#">Manajemen Barang</a></li>
+        <li class="breadcrumb-item"><a href="">Laporan</a></li>
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
@@ -27,6 +24,7 @@
     <!-- begin row -->
     <div class="panel panel-primary" data-sortable-id="form-stuff-1">
         <!-- begin panel-heading -->
+        <?php $namaBulan = array("", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"); ?>
         <div class="panel-heading">
             <div class="row width-full">
                 <form method="POST" action="/laporan">
@@ -35,12 +33,23 @@
                         <div class=" form-inline">
                             <div class="form-group row">
                                 <div class="form-inline">
-                                    <select class="select2 show-tick form-control " name="jenis" data-style="btn-inverse" required>
+                                    <select class="select2  form-control " name="jenis" data-style="btn-inverse" id="jenis" required>
                                         <option value="">Pilih Jenis Barang</option>
-                                        <option value="semua">Semua</option>
+                                        <option value="semua" {{('semua'==Session::get('jenis_barang'))?'selected':''}}>Semua</option>
                                         @foreach($jenis as $dt)
                                         <option value="{{$dt->id}}" {{($dt->id==Session::get('jenis_barang'))?'selected':''}}>{{$dt->jenis}}</option>
                                         @endforeach
+                                    </select>&emsp;
+                                    <select class="select2  form-control " name="bulan" id="bulan" data-style="btn-inverse" required>
+                                        <option value="">Pilih Bulan</option>
+                                        <option value="semua" {{('semua'==Session::get('bulan'))?'selected':''}}>Semua</option>
+                                        @for($i=1; $i<=12; $i++) <option value="{{$i}}" {{($i==Session::get('bulan'))?'selected':''}}>{{$namaBulan[$i]}}</option>
+                                            @endfor
+                                    </select>&emsp;
+                                    <select class="select2  form-control" name="tahun" id="tahun" data-style="btn-inverse" required>
+
+                                        @for($i=date('Y'); $i>=2021; $i--) <option value="{{$i}}" {{($i==Session::get('tahun'))?'selected':''}}>{{$i}}</option>
+                                        @endfor
                                     </select>
                                 </div>&emsp;
                                 <!-- <input class="form-control" type="date" name="dtgl">&emsp;
@@ -58,6 +67,8 @@
                         <div class=" form-inline">
                             <div class="form-group row">
                                 <input type="hidden" name="jenis" value="{{Session::get('jenis_barang')}}">
+                                <input type="hidden" name="bulan" value="{{Session::get('bulan')}}">
+                                <input type="hidden" name="tahun" value="{{Session::get('tahun')}}">
                                 <button class="btn btn-green"><i class="fa fa-print"></i> Cetak</button>
                             </div>
                         </div>
@@ -99,13 +110,13 @@
                         <td>{{$loop->iteration}}</td>
                         <td>{{$brg->detail->nama}}</td>
                         <td>{{$brg->detail->satuan_detail->satuan}}</td>
-                        <td>{{$brg->detail->stok-($brg->log_masuk-$brg->log_keluar)}}</td>
+                        <td>{{$brg->saldo_awal}}</td>
                         <td>{{$brg->log_masuk}}</td>
                         <td>{{$brg->log_keluar}}</td>
-                        <td>{{$brg->detail->stok}}</td>
+                        <td>{{$brg->saldo_awal+$brg->log_masuk-$brg->log_keluar}}</td>
                     </tr>
                     @php
-                    $total +=$brg->detail->stok ;
+                    $total +=($brg->saldo_awal+$brg->log_masuk-$brg->log_keluar);
                     @endphp
                     @endforeach
                     <tr align="center" style="background-color:black">

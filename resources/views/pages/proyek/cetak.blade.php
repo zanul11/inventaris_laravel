@@ -61,7 +61,7 @@
                     <table style="border-collapse: collapse; width: 100%; font-size:12px;" border="1" padding="200px">
                         <tbody>
                             <tr>
-                                <td colspan="4"><b>BARANG</b></td>
+                                <td colspan="6"><b>BARANG</b></td>
 
                             </tr>
                             <tr align="center">
@@ -69,16 +69,29 @@
                                 <td class="width-10"><b>NAMA BARANG</b></td>
                                 <td><b>SATUAN</b></td>
                                 <td><b>JUMLAH</b></td>
+                                <td><b>HARGA</b></td>
+                                <td><b>TOTAL</b></td>
                             </tr>
+                            @php
+                            $total=0;
+                            @endphp
                             @foreach($barang as $dt)
                             <tr>
                                 <td class="width-60" align="center">{{$loop->iteration}}</td>
                                 <td align="center" style="padding-left: 5px; padding-top: 5px;padding-bottom: 5px; padding-right: 5px;">{{$dt->barang->nama}} ({{$dt->barang->merk}})</td>
                                 <td align="center" style="padding-left: 5px; padding-top: 5px;padding-bottom: 5px; padding-right: 5px;">{{$dt->barang->satuan_detail->satuan}}</td>
                                 <td align="center" style="padding-left: 5px; padding-top: 5px;padding-bottom: 5px; padding-right: 5px;">{{$dt->jumlah}}</td>
+                                <td align="center" style="padding-left: 5px; padding-top: 5px;padding-bottom: 5px; padding-right: 5px;"> {{number_format($dt->barang->harga)}}</td>
+                                <td align="center" style="padding-left: 5px; padding-top: 5px;padding-bottom: 5px; padding-right: 5px;"> {{number_format($dt->barang->harga*$dt->jumlah)}}</td>
                             </tr>
-
+                            @php
+                            $total+=($dt->barang->harga*$dt->jumlah);
+                            @endphp
                             @endforeach
+                            <tr>
+                                <td align="center" colspan="5" style="padding-left: 5px; padding-top: 5px;padding-bottom: 5px; padding-right: 5px;"><b> TOTAL BIAYA</b></td>
+                                <td align="center" colspan="5" style="padding-left: 5px; padding-top: 5px;padding-bottom: 5px; padding-right: 5px;"><b>Rp. {{number_format($total)}}</b></td>
+                            </tr>
                         </tbody>
                     </table>
 
