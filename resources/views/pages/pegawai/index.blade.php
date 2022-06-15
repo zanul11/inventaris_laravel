@@ -40,8 +40,8 @@
                 <thead>
                     <tr>
                         <th class="width-60">No.</th>
-                        <th>No. Peg</th>
                         <th>Nama</th>
+                        <th>Jabatan</th>
                         <th>No Identitas</th>
                         <th>Alamat</th>
                         <th>No. Hp</th>
@@ -122,11 +122,12 @@
                 ajax: "{{ route('ss.pegawai') }}",
                 columns: [{
                         "data": "DT_RowIndex"
-                    }, {
-                        "data": "kode"
                     },
                     {
                         "data": "nama"
+                    },
+                    {
+                        "data": "jabatan.jabatan"
                     },
                     {
                         "data": "no_identitas"

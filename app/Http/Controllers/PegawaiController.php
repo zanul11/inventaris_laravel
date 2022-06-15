@@ -30,7 +30,7 @@ class PegawaiController extends Controller
     public function getServerSide()
     {
 
-        $peg = Pegawai::orderby('nama')->get();
+        $peg = Pegawai::with('jabatan')->orderby('nama')->get();
 
         return DataTables::of($peg)
             ->addIndexColumn()
@@ -123,13 +123,20 @@ class PegawaiController extends Controller
             Alert::warning('Warning!', 'Dokumen tersebut telah digunakan');
             return Redirect::to('/pegawai/' . $request->pegawai_id)->withErrors(['Dokumen tersebut telah digunakan.'])->withInput();
         } else {
+            $file_dok = null;
+            if ($request->hasFile('file')) {
+                $image = $request->file('file');
+                $path = public_path() . '/uploads/';
+                $file_dok = 'file_dok_' . time() . '.' . $image->getClientOriginalExtension();
+                $image->move($path, $file_dok);
+            }
             JenisDokumen::create([
-
                 "pegawai_id" => $request->pegawai_id,
                 "nama" => $request->nama,
                 "jenis" => $request->jenis,
                 "tanggal" => $request->tanggal,
-
+                "nomor" => $request->nomor,
+                "file" => $file_dok,
             ]);
             Alert::success('Success!', 'Dokumen Pegawai Added!');
             return Redirect::to('/pegawai/' . $request->pegawai_id);

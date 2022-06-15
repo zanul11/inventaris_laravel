@@ -18,4 +18,8 @@ class Pegawai extends Model
     {
         return $this->hasMany('App\Posting', 'pegawai_id', 'id');
     }
+    public function jabatan()
+    {
+        return $this->belongsTo('App\Jabatan', 'jabatan_id', 'id');
+    }
 }

@@ -29,10 +29,14 @@ class JenisIzinController extends Controller
         return Datatables::of($users)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
+                //     $btn = '<div class="btn-group btn-group-sm" role="group">
+                //     <a href="/jenis-izin/' . $row->id . '/edit" class="btn btn-warning" style="font-size:12px; color:white;">Edit</a>
+                //     <a onclick="btnDelete(' . $row->id . ')" class="btn btn-danger" style="font-size:12px; color:white;">Hapus</a>
+                // </div>';
                 $btn = '<div class="btn-group btn-group-sm" role="group">
-                <a href="/jenis-izin/' . $row->id . '/edit" class="btn btn-warning" style="font-size:12px; color:white;">Edit</a>
-                <a onclick="btnDelete(' . $row->id . ')" class="btn btn-danger" style="font-size:12px; color:white;">Hapus</a>
-            </div>';
+            <a href="/jenis-izin/' . $row->id . '/edit" class="btn btn-warning" style="font-size:12px; color:white;">Edit</a>
+           
+        </div>';
                 return $btn;
             })->make();
     }

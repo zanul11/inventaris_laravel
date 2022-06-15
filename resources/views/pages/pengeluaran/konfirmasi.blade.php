@@ -69,6 +69,14 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
+                                <label class="control-label">Tanggal</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" style="display: block;" value="{{ old('tgl',date('d-m-Y',strtotime($pengeluaran->tgl))??'') }}" name="tgl" placeholder="Nama Pengeluaran..." disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
                                 <label class="control-label">Jumlah</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" style="display: block;" value="Rp. {{ old('jumlah',number_format($pengeluaran->jumlah)??'') }}" name="jumlah" placeholder="Jumlah/Nilai Pengeluaran..." disabled>
@@ -88,7 +96,7 @@
                                 <label class="control-label">Foto Bukti</label>
                                 @if($action=='konfirmasi'|| $action=='lihat')
                                 <div class="gallery">
-                                    <img src="{{asset('uploads/'.$pengeluaran->file)}}" height="100px">
+                                    <img src="{{asset('inventaris/public/uploads/'.$pengeluaran->file)}}" height="100px">
                                 </div>
                                 @endif
                             </div>
@@ -117,7 +125,7 @@
                                     <label class="control-label">Status</label>
                                     <select class="selectpicker show-tick form-control" name="status" data-style="btn-primary">
                                         <option value="2">KOREKSI</option>
-                                        <option value="1">SETUJU</option>
+                                        <option value="3">SETUJU</option>
                                     </select>
                                 </div>
                             </div>
