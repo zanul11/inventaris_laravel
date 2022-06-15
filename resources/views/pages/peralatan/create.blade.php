@@ -37,7 +37,7 @@
             @method('put')
             @endif
             <div class="panel-body">
-                <div class="row width-full">
+                <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
                             <label class="control-label">Jenis Peralatan</label>
