@@ -4,12 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Barang;
 use App\JenisDokumen;
-use App\Kas;
-use App\Kwitansi;
-use App\Logistik;
+
 use App\Pemasukan;
+use App\Pengeluaran;
 use App\Peralatan;
-use App\Saldo;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -28,6 +27,8 @@ class DashboardController extends Controller
         $peralatan = Peralatan::whereColumn('stok_aktif', '<=', 'rusak')->get();
 
         $dok = JenisDokumen::where(DB::raw('DATEDIFF(tanggal,CURDATE())'), '<=', 29)->with('pegawai')->get();
-        return view('pages.dashboard.index', compact('brg_count', 'log_count', 'pemasukan', 'pengeluaran', 'barang', 'peralatan', 'dok'));
+
+
+        return view('pages.dashboard.index', compact('brg_count', 'log_count', 'pemasukan', 'pengeluaran', 'barang', 'peralatan', 'dok', 'pengeluaran'));
     }
 }

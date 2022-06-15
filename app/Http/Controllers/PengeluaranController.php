@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\JenisAkunting;
 use App\LogKoreksi;
 use App\Pengeluaran;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -19,6 +20,7 @@ class PengeluaranController extends Controller
      */
     public function index(Request $request)
     {
+
         $request->session()->put('parent', 'Keuangan');
         $request->session()->put('child', 'Pengeluaran');
         return view('pages.pengeluaran.index');
@@ -101,7 +103,7 @@ class PengeluaranController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request;
+
         try {
             $foto = null;
             if ($request->hasFile('file')) {
@@ -121,6 +123,35 @@ class PengeluaranController extends Controller
                 'tgl' => date('Y-m-d'),
                 'user' => Auth::user()->nama,
             ]);
+
+
+            $user = User::whereIN('type', [1, 3])->get()->pluck('notif_id');
+            $url = 'https://fcm.googleapis.com/fcm/send';
+            $msg = [
+                'title' => 'Konfirmasi Pengeluaran',
+                'body' => $request->nama,
+
+            ];
+            $extra = ["message" => $msg];
+            $fcm = [
+                // "to" => "ctpT0CLkTe-P8MbWDPLaeg:APA91bHFg7WfGcH5eAMINnzj7rkpFmeBNLt_Bxq2i2PgJcKQhT57tmpxzmMTHokMfpdd3i_TR-Apdiv4yg5aulfN7NuSC5rhmk5y6-z3Zs4zqp3voUepwJeVI8VHcJQm2yud7XFZEC9_",
+                "registration_ids" => $user,
+                "notification" => $msg,
+                "data" => $extra
+            ];
+            $headers = [
+                'Authorization: key=AAAANhY-sD4:APA91bEsn-7Vmjo5gb9CXgEmAe3_BweSuNSzeiKhEOLo-q8yvYtUJnxqPSX4gVHPbus-wczjPKI3RjaZcUisNluSzIHQmsA_hsq1Kkk_8oVIQ7ViZupAYhYu2No1JvDMO4gaFs5F93cG',
+                'Content-Type: application/json'
+            ];
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fcm));
+            $result = curl_exec($ch);
+            curl_close($ch);
 
             alert()->success('Berhasil Tambah Pengeluaran !');
             return Redirect::to('/pengeluaran');
@@ -206,7 +237,33 @@ class PengeluaranController extends Controller
                         'status' => 0,
                         'user' => Auth::user()->nama,
                     ]);
+                $user = User::whereIN('type', [1, 3])->get()->pluck('notif_id');
+                $url = 'https://fcm.googleapis.com/fcm/send';
+                $msg = [
+                    'title' => 'Konfirmasi Revisi Pengeluaran',
+                    'body' => $request->nama,
 
+                ];
+                $extra = ["message" => $msg];
+                $fcm = [
+                    // "to" => "ctpT0CLkTe-P8MbWDPLaeg:APA91bHFg7WfGcH5eAMINnzj7rkpFmeBNLt_Bxq2i2PgJcKQhT57tmpxzmMTHokMfpdd3i_TR-Apdiv4yg5aulfN7NuSC5rhmk5y6-z3Zs4zqp3voUepwJeVI8VHcJQm2yud7XFZEC9_",
+                    "registration_ids" => $user,
+                    "notification" => $msg,
+                    "data" => $extra
+                ];
+                $headers = [
+                    'Authorization: key=AAAANhY-sD4:APA91bEsn-7Vmjo5gb9CXgEmAe3_BweSuNSzeiKhEOLo-q8yvYtUJnxqPSX4gVHPbus-wczjPKI3RjaZcUisNluSzIHQmsA_hsq1Kkk_8oVIQ7ViZupAYhYu2No1JvDMO4gaFs5F93cG',
+                    'Content-Type: application/json'
+                ];
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fcm));
+                $result = curl_exec($ch);
+                curl_close($ch);
                 alert()->success('Berhasil Update Pengeluaran !');
             }
 

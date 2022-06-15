@@ -27,6 +27,8 @@
     <!-- end breadcrumb -->
     <!-- begin page-header -->
     <h1 class="page-header">Selamat Datang <small>di Aplikasi Inventaris</small></h1>
+
+
     <!-- end page-header -->
     <!-- begin row -->
     <div class="row">
@@ -226,6 +228,10 @@
         </div> -->
         <!-- end col-3 -->
     </div>
+
+    @if(Auth::user()->type==1 || Auth::user()->type==3)
+    <a href="{{asset('assets/inventaris_mobile.apk')}}" target="_blank" class="btn btn-primary btn-rounded">DOWNLOAD APLIKASI ANDROID</a>
+    @endif
     <!-- end row -->
     <!-- begin row -->
     <!-- end row -->
@@ -251,17 +257,17 @@
         });
     });
     var nama = JSON.parse('{{json_encode(Auth::user()->nama)}}'.replace(/&quot;/g, '"'));
-    handleDashboardGritterNotification = function() {
-        setTimeout(function() {
-            $.gritter.add({
-                title: "SELAMAT DATANG " + nama,
-                text: "Selamat bekerja dan semoga sukses",
-                image: "../assets/img/users/user.png",
-                sticky: !0,
-                time: "",
-                class_name: "my-sticky-class"
-            });
-        }, 1e3)
-    }
+    // handleDashboardGritterNotification = function() {
+    //     setTimeout(function() {
+    //         $.gritter.add({
+    //             title: "SELAMAT DATANG " + nama,
+    //             text: "Selamat bekerja dan semoga sukses",
+    //             image: "../assets/img/users/user.png",
+    //             sticky: !0,
+    //             time: "",
+    //             class_name: "my-sticky-class"
+    //         });
+    //     }, 1e3)
+    // }
 </script>
 @endsection

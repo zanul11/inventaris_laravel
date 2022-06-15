@@ -85,7 +85,34 @@
 
             <!-- begin header-nav -->
             <ul class="navbar-nav navbar-right">
-
+                @if(Auth::user()->type==1 || Auth::user()->type==3)
+                @php
+                $data_pengeluaran = App\Pengeluaran::where('jenis', 0)->where('status', 0)->get();
+                @endphp
+                <li class="dropdown">
+                    <a href="#" data-toggle="dropdown" class="dropdown-toggle f-s-14">
+                        <i class="fa fa-bell"></i>
+                        <span class="label">{{count($data_pengeluaran)}}</span>
+                    </a>
+                    <ul class="dropdown-menu media-list dropdown-menu-right">
+                        <li class="dropdown-header">BUTUH KONFIRMASI ANDA ({{count($data_pengeluaran)}})</li>
+                        @foreach($data_pengeluaran as $dt)
+                        <li class="media">
+                            <a href="/pengeluaran/{{$dt->id}}/konfirmasi">
+                                <div class="media-body">
+                                    <h6 class="media-heading">{{$dt->nama}}</h6>
+                                    <i class="text-danger">{{number_format($dt->jumlah)}} </i>
+                                    <div class="text-muted f-s-11">{{date('d-m-Y', strtotime($dt->created_at))}}</div>
+                                </div>
+                            </a>
+                        </li>
+                        @endforeach
+                        <li class="dropdown-footer text-center">
+                            <a href="/pengeluaran">Lihat Semua</a>
+                        </li>
+                    </ul>
+                </li>
+                @endif
 
                 <li class="dropdown navbar-user">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
