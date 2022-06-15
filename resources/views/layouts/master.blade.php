@@ -6,7 +6,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>APLIKASI ABSENSI | @yield('title','Dashboard')</title>
+    <title>APLIKASI INVENTARIS | @yield('title','Dashboard')</title>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <meta content="" name="description" />
     <meta content="" name="author" />
@@ -74,7 +74,7 @@
         <div id="header" class="header navbar-default">
             <!-- begin navbar-header -->
             <div class="navbar-header">
-                <a href="{{url('/dashboard')}}" class="navbar-brand"><img src="{{asset('assets/img/favicon.png')}}"> <b>APLIKASI</b> ABSENSI</a>
+                <a href="{{url('/dashboard')}}" class="navbar-brand"><img src="{{asset('assets/img/favicon.png')}}"> <b>APLIKASI</b> INVENTARIS</a>
                 <button type="button" class="navbar-toggle" data-click="sidebar-toggled">
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -82,11 +82,8 @@
                 </button>
             </div>
             <!-- end navbar-header -->
-
             <!-- begin header-nav -->
             <ul class="navbar-nav navbar-right">
-
-
                 <li class="dropdown navbar-user">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <img src="{{asset('assets/img/users/user.png')}}" alt="" />
