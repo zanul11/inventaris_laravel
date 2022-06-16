@@ -196,4 +196,6 @@ Route::group(['middleware' => 'auth'], function () {
     //LAPORAN AKUNTING
     Route::get('ss-laporan-akunting', 'LaporanAkuntingController@getServerSide')->name('ss.laporan-akunting');
     Route::resource('laporan-akunting', 'LaporanAkuntingController');
+
+    Route::get('kirim-email', 'MailController@index');
 });
