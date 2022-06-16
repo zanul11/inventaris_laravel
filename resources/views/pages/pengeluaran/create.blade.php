@@ -96,7 +96,7 @@
                                 <div class="form-group">
                                     <label class="control-label">Jumlah</label>
                                     <div class="input-group">
-                                        <input type="number" class="form-control" style="display: block;" value="{{ old('jumlah',$pengeluaran->jumlah??'') }}" name="jumlah" placeholder="Jumlah/Nilai Pengeluaran..." required>
+                                        <input type="number" class="form-control" style="display: block;" value="{{ old('jumlah',$pengeluaran->jumlah??'') }}" name="jumlah" placeholder="Jumlah/Nilai Pengeluaran..." {{(($pengeluaran->status??0)==4)?'disabled':''}} required>
                                     </div>
                                 </div>
                             </div>

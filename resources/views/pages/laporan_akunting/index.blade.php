@@ -48,6 +48,15 @@
                         </select>
                     </div>
                     <div class="col-lg-2">
+                        <label> Kelompok Akunting </label>
+                        <select name="kelompok" class="selectpicker form-control" data-style="btn-info">
+                            <option value="" {{Session::get('kelompok')==''?'selected':''}}>Semua</option>
+                            @foreach($jenis_akunting as $dt)
+                            <option value="{{$dt->id}}" {{Session::get('kelompok')==$dt->id?'selected':''}}>{{$dt->jenis}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-lg-2">
                         <label> Cari </label>
                         <input type="text" class="form-control" name="cari" placeholder="Pencarian" value="{{Session::get('cari')}}">
                     </div>
@@ -72,7 +81,7 @@
                     <th class="width-10">No.</th>
                     <th>Tanggal</th>
                     <th>Nama</th>
-                    <th>Jenis</th>
+                    <th>Kelompok</th>
                     <th>Pemasukan</th>
                     <th>Pengeluaran</th>
                 </tr>

@@ -41,7 +41,7 @@ class PengeluaranController extends Controller
                 return date('d-m-Y', strtotime($row->tgl));
             })
             ->addColumn('action', function ($row) {
-                if (Auth::user()->type == 2) {
+                if (Auth::user()->type == 4 || Auth::user()->type == 5) {
                     if ($row->status == 0) {
                         $btn = '<div class="btn-group btn-group-sm" role="group">
                     <a onclick="btnDelete(' . $row->id . ')" class="btn btn-danger" style="font-size:12px; color:white;">Hapus</a></div>';
@@ -51,6 +51,7 @@ class PengeluaranController extends Controller
                     <a onclick="btnDelete(' . $row->id . ')" class="btn btn-danger" style="font-size:12px; color:white;">Hapus</a></div>';
                     } else {
                         $btn = '<div class="btn-group btn-group-sm" role="group">
+                        <a href="/pengeluaran/' . $row->id . '/edit" class="btn btn-warning" style="font-size:12px; color:white;">Edit</a>
                         <a href="/pengeluaran/' . $row->id . '" class="btn btn-warning" style="font-size:12px; color:white;">Lihat</a>
                        ';
                     }
@@ -78,7 +79,7 @@ class PengeluaranController extends Controller
                     <a onclick="btnDelete(' . $row->id . ')" class="btn btn-danger" style="font-size:12px; color:white;">Hapus</a></div>';
                     } else {
                         $btn = '<div class="btn-group btn-group-sm" role="group"> 
-                    
+                        <a href="/pengeluaran/' . $row->id . '/edit" class="btn btn-warning" style="font-size:12px; color:white;">Edit</a>
                         <a href="/pengeluaran/' . $row->id . '" class="btn btn-success" style="font-size:12px; color:white;">Lihat</a>
                         <a onclick="btnDelete(' . $row->id . ')" class="btn btn-danger" style="font-size:12px; color:white;">Hapus</a></div>';
                     }
@@ -250,21 +251,40 @@ class PengeluaranController extends Controller
                         unlink($path . $pengeluaran->foto);
                     $image->move($path, $foto);
                 }
-                Pengeluaran::where('id', $pengeluaran->id)
-                    ->update([
-                        'jenis_akunting_id' => $request->jenis_akunting_id,
-                        'nama' => $request->nama,
-                        'jumlah' => $request->jumlah,
-                        'ket' => $request->ket,
-                        'file' => $foto,
-                        'status' => ($pengeluaran->status != 3) ? 0 : 4,
-                    ]);
+                if ($pengeluaran->status != 4) {
+                    Pengeluaran::where('id', $pengeluaran->id)
+                        ->update([
+                            'jenis_akunting_id' => $request->jenis_akunting_id,
+                            'nama' => $request->nama,
+                            'jumlah' => $request->jumlah,
+                            'ket' => $request->ket,
+                            'file' => $foto,
+                            'tgl' => $request->tgl,
+                            'status' => ($pengeluaran->status != 3) ? 0 : 4,
+                        ]);
 
-                LogKoreksi::create([
-                    'keuangan_id' => $pengeluaran->id,
-                    'ket' => ($pengeluaran->status != 3) ? 'Edit Koreksi' : 'Realisasi',
-                    'user' => Auth::user()->nama,
-                ]);
+                    LogKoreksi::create([
+                        'keuangan_id' => $pengeluaran->id,
+                        'ket' => ($pengeluaran->status != 3) ? 'Edit Koreksi' : 'Realisasi',
+                        'user' => Auth::user()->nama,
+                    ]);
+                } else {
+                    Pengeluaran::where('id', $pengeluaran->id)
+                        ->update([
+                            'jenis_akunting_id' => $request->jenis_akunting_id,
+                            'nama' => $request->nama,
+                            'ket' => $request->ket,
+                            'tgl' => $request->tgl,
+                            'file' => $foto,
+                        ]);
+
+                    LogKoreksi::create([
+                        'keuangan_id' => $pengeluaran->id,
+                        'ket' => 'Edit Pengeluaran yang sudah Realisasi',
+                        'user' => Auth::user()->nama,
+                    ]);
+                }
+
 
                 $user = User::whereIN('type', [1, 3])->get()->pluck('notif_id');
                 $url = 'https://fcm.googleapis.com/fcm/send';
