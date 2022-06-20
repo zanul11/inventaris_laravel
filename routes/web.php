@@ -22,6 +22,7 @@ Route::get('/auth', 'AuthController@show');
 //ABSEN
 Route::resource('absen', 'AbsenController');
 Route::group(['middleware' => 'auth'], function () {
+    Route::resource('kirim-email', 'MailController');
     Route::get('/auth/logout', 'AuthController@logout');
     Route::get('/dashboard', 'DashboardController@index');
 
@@ -196,6 +197,4 @@ Route::group(['middleware' => 'auth'], function () {
     //LAPORAN AKUNTING
     Route::get('ss-laporan-akunting', 'LaporanAkuntingController@getServerSide')->name('ss.laporan-akunting');
     Route::resource('laporan-akunting', 'LaporanAkuntingController');
-
-    Route::get('kirim-email', 'MailController@index');
 });

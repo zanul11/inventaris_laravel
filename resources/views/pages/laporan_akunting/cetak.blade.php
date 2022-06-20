@@ -81,7 +81,7 @@
                     <tr>
                         <th>#</th>
                         <th>Nama</th>
-                        <th>Jenis</th>
+                        <th>Ket</th>
                         <th>Tanggal</th>
                         <th>Pemasukan</th>
                         <th>Pengeluaran</th>
@@ -103,8 +103,8 @@
                     @endphp
                     <tr>
                         <td>{{$loop->iteration}}</td>
-                        <td>{{$dt->nama}}</td>
-                        <td>{{$dt->jenis_akunting->jenis}}</td>
+                        <td>{{$dt->nama}} ({{$dt->jenis_akunting->jenis}})</td>
+                        <td>{{$dt->ket}}</td>
                         <td>{{date('d-m-Y', strtotime($dt->tgl))}}</td>
                         <td>{{($dt->jenis==1)?number_format($dt->jumlah):0}}</td>
                         <td>{{($dt->jenis==0)?number_format($dt->jumlah):0}}</td>

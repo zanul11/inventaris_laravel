@@ -11,6 +11,12 @@ class MailController extends Controller
     public function index()
     {
 
+        return view('pages.email_page');
+    }
+
+    public function store(Request $request)
+    {
+        // return $request;
         $details = [
             'title' => 'Konfirmasi Pengeluaran',
             'body' => 'Memerlukan Konfirmasi Pengeluaran Anda!'

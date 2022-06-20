@@ -274,6 +274,7 @@ class PengeluaranController extends Controller
                             'jenis_akunting_id' => $request->jenis_akunting_id,
                             'nama' => $request->nama,
                             'ket' => $request->ket,
+                            'jumlah' => $request->jumlah,
                             'tgl' => $request->tgl,
                             'file' => $foto,
                         ]);
