@@ -117,12 +117,15 @@
                     $pengeluaran += $dt->jumlah;
                     @endphp
                     @endforeach
+                    <tr>
+                        <td colspan="4" align="center"><b>Total</b></td>
+                        <td>{{number_format($pemasukan)}}</td>
+                        <td>{{number_format($pengeluaran)}}</td>
+                        <th>{{($jenis_keuangan=='Pengeluaran')? number_format(($pemasukan-$pengeluaran)*-1):number_format($pemasukan-$pengeluaran)}}</th>
+                    </tr>
                 </tBody>
                 <tfoot>
-                    <td colspan="4" align="center"><b>Total</b></td>
-                    <td>{{number_format($pemasukan)}}</td>
-                    <td>{{number_format($pengeluaran)}}</td>
-                    <th>{{($jenis_keuangan=='Pengeluaran')? number_format(($pemasukan-$pengeluaran)*-1):number_format($pemasukan-$pengeluaran)}}</th>
+
                 </tfoot>
             </table>
             <hr style="height:3px;  background-color:black">
