@@ -82,6 +82,7 @@
                     <th>Tanggal</th>
                     <th>Nama</th>
                     <th>Kelompok</th>
+                    <th>Keterangan</th>
                     <th>Pemasukan</th>
                     <th>Pengeluaran</th>
                 </tr>
@@ -137,7 +138,9 @@
                     {
                         "data": "jenis_akunting.jenis"
                     },
-
+                    {
+                        "data": "ket"
+                    },
                     {
                         "data": "uang_masuk"
                     },
