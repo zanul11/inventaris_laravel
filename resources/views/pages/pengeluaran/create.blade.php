@@ -120,7 +120,6 @@
                                 @if($action=='edit')
                                 <div class="gallery">
                                     <img src="{{asset('inventaris/public/uploads/'.$pengeluaran->file)}}" height="50px">
-
                                 </div>
                                 @endif
                             </div>

@@ -124,7 +124,6 @@
 
     function srcImage() {
         const img = document.querySelector('img');
-
         fullPage.style.backgroundImage = 'url(' + event.target.getAttribute('src') + ')';
         fullPage.style.display = 'block';
     }
@@ -194,7 +193,8 @@
                     },
                     {
                         "data": "file"
-                    }, {
+                    },
+                    {
                         "data": "status"
                     },
                     {

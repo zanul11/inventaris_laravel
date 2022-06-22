@@ -7,6 +7,36 @@
 @endsection
 
 @section('page_styles')
+<style>
+    #fullpage {
+        display: none;
+        position: absolute;
+        z-index: 9999;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-size: contain;
+        background-repeat: no-repeat no-repeat;
+        background-position: center center;
+        background-color: white;
+    }
+
+    .zoom {
+
+        transition: transform .08s;
+        width: 214px;
+        height: 115px;
+    }
+
+    .zoom:hover {
+        -ms-transform: scale(1.5);
+        /* IE 9 */
+        -webkit-transform: scale(1.5);
+        /* Safari 3-8 */
+        transform: scale(1.5);
+    }
+</style>
 @endsection
 
 @section('content')
@@ -45,6 +75,7 @@
                         <th>No Identitas</th>
                         <th>Alamat</th>
                         <th>No. Hp</th>
+                        <th>Foto</th>
                         <th>Absen/Tidak?</th>
                         <th class="width-90"></th>
                     </tr>
@@ -63,6 +94,7 @@
 
         </div>
     </div>
+    <div id="fullpage" onclick="this.style.display='none';"></div>
     <!-- end row -->
     <!-- begin row -->
     <!-- end row -->
@@ -77,6 +109,15 @@
 
 @section('page_scripts')
 <script>
+    imgs = document.querySelectorAll('.gallery img');
+    fullPage = document.querySelector('#fullpage');
+
+    function srcImage() {
+        const img = document.querySelector('img');
+        fullPage.style.backgroundImage = 'url(' + event.target.getAttribute('src') + ')';
+        fullPage.style.display = 'block';
+    }
+
     function btnDelete(kode) {
         Swal.fire({
             title: "Yakin?",
@@ -140,6 +181,9 @@
                         "data": "no_hp"
                     },
                     {
+                        "data": "foto"
+                    },
+                    {
                         "data": "is_absen"
                     },
                     {
@@ -147,18 +191,33 @@
                     },
                 ],
                 "columnDefs": [{
-                    "targets": 6,
-                    "data": "is_absen",
-                    "render": function(data, type, row, meta) {
-                        var type = '';
-                        if (data == 0) {
-                            type = '<span class="label label-danger">Tidak</span>';
-                        } else {
-                            type = '<span class="label label-success">Ya</span>';
+                        "targets": 6,
+                        "data": "foto",
+                        "render": function(data, type, row, meta) {
+                            var type = '';
+                            if (data != null) {
+                                type = '<img src="{{asset("inventaris/public/uploads")}}/' + data + '" onclick="srcImage()" height="50px"/>';
+                            } else {
+                                type = '-';
+                            }
+                            return type;
+
                         }
-                        return type;
+                    },
+                    {
+                        "targets": 7,
+                        "data": "is_absen",
+                        "render": function(data, type, row, meta) {
+                            var type = '';
+                            if (data == 0) {
+                                type = '<span class="label label-danger">Tidak</span>';
+                            } else {
+                                type = '<span class="label label-success">Ya</span>';
+                            }
+                            return type;
+                        }
                     }
-                }]
+                ]
             });
         });
     });
