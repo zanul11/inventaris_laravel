@@ -65,10 +65,10 @@
                 <thead>
                     <tr>
                         <th class="width-10">No.</th>
-                        <th>Kode</th>
-                        <th>Tanggal</th>
                         <th>Barang</th>
                         <th>Jumlah</th>
+                        <th>Kode</th>
+                        <th>Tanggal</th>
                         <th>Sisa</th>
                         <th>PJ</th>
                         <th>Ket</th>
@@ -325,11 +325,6 @@
             ajax: "{{ route('ss.barang.masuk') }}",
             columns: [{
                     "data": "DT_RowIndex"
-                }, {
-                    "data": "kode"
-                },
-                {
-                    "data": "tgl"
                 },
                 {
                     "data": "name"
@@ -337,6 +332,13 @@
                 {
                     "data": "jumlah"
                 },
+                {
+                    "data": "kode"
+                },
+                {
+                    "data": "tgl"
+                },
+
                 {
                     "data": "stok"
                 },

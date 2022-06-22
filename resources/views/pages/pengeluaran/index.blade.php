@@ -70,9 +70,9 @@
                     <thead>
                         <tr>
                             <th class="width-60">No.</th>
+                            <th>NAMA</th>
                             <th>JENIS</th>
                             <th>STATUS PENGELUARAN</th>
-                            <th>NAMA</th>
                             <th>TGL</th>
                             <th>JUMLAH</th>
                             <th>KET</th>
@@ -175,14 +175,15 @@
                         "data": "DT_RowIndex"
                     },
                     {
+                        "data": "nama"
+                    },
+                    {
                         "data": "jenis_akunting.jenis"
                     },
                     {
                         "data": "status_pengeluaran"
                     },
                     {
-                        "data": "nama"
-                    }, {
                         "data": "tgl_data"
                     },
                     {

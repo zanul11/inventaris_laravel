@@ -49,10 +49,9 @@
                 <thead>
                     <tr>
                         <th class="width-60">No.</th>
-                        <th>Kode</th>
-                        <th>Jenis</th>
                         <th>Nama/Merk</th>
                         <th>Spesifikasi/Type</th>
+                        <th>Jenis</th>
                         <th>Stok</th>
                         <th>Harga</th>
                         <th class="width-90"></th>
@@ -131,11 +130,6 @@
                 ajax: "{{ route('ss.barang') }}",
                 columns: [{
                         "data": "DT_RowIndex"
-                    }, {
-                        "data": "kode"
-                    },
-                    {
-                        "data": "jenis_detail.jenis"
                     },
                     {
                         "data": "nama_barang"
@@ -143,7 +137,9 @@
                     {
                         "data": "ukuran"
                     },
-
+                    {
+                        "data": "jenis_detail.jenis"
+                    },
                     {
                         "data": "stok"
                     },
@@ -155,7 +151,7 @@
                     },
                 ],
                 "columnDefs": [{
-                    "targets": 6,
+                    "targets": 5,
                     "data": "harga",
                     "render": function(data, type, row, meta) {
                         var type = '';

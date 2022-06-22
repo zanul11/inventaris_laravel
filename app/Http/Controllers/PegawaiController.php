@@ -226,7 +226,7 @@ class PegawaiController extends Controller
      */
     public function destroy(Pegawai $pegawai)
     {
-        $path = public_path() . '/inventaris/public/uploads/';
+        $path = public_path() . '/uploads/';
         if (file_exists($path . $pegawai->foto) && $pegawai->foto != null)
             unlink($path . $pegawai->foto);
         $pegawai->delete();
@@ -235,7 +235,7 @@ class PegawaiController extends Controller
     public function hapus_dokumen($id)
     {
         $data = JenisDokumen::where('id', $id)->first();
-        $path = public_path() . '/inventaris/public/uploads/';
+        $path = public_path() . '/uploads/';
         if (file_exists($path . $data->file) && $data->file != null)
             unlink($path . $data->file);
         $data->delete();

@@ -50,11 +50,12 @@
                 <thead>
                     <tr>
                         <th class="width-10">No.</th>
+                        <th>Barang</th>
+                        <th>Proyek</th>
                         <th>Kode</th>
                         <th>Tanggal</th>
                         <th>PJ</th>
-                        <th>Proyek</th>
-                        <th>Barang</th>
+
                         <th class="width-90"></th>
                     </tr>
                 </thead>
@@ -172,7 +173,15 @@
             ajax: "{{ route('ss.barang.keluar') }}",
             columns: [{
                     "data": "DT_RowIndex"
-                }, {
+                },
+                {
+                    "data": "daftar_barang"
+                },
+                {
+                    "data": "proyek_detail"
+                },
+
+                {
                     "data": "kode"
                 },
                 {
@@ -181,12 +190,7 @@
                 {
                     "data": "penerima"
                 },
-                {
-                    "data": "proyek_detail"
-                },
-                {
-                    "data": "daftar_barang"
-                },
+
                 {
                     "data": "action"
                 },
