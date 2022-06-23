@@ -105,10 +105,11 @@
                         <div class="row width-full">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label class="control-label">JENIS DOKUMEN</label>
+                                    <label class="control-label">JENIS</label>
                                     <select class="selectpicker show-tick form-control disabled" name="jenis" data-style="btn-warning" required>
                                         <option value="SKT">SKT</option>
                                         <option value="SKA">SKA</option>
+                                        <option value="IJAZAH">IJAZAH</option>
                                         <option value="Kartu Keluarga">Kartu Keluarga</option>
                                         <option value="KTP">KTP</option>
                                         <option value="NPWP">NPWP</option>
