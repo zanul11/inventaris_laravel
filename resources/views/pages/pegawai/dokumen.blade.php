@@ -51,7 +51,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-5">
                     <div class="form-group">
                         <label class="control-label">Alamat</label>
                         <div class="input-group">
