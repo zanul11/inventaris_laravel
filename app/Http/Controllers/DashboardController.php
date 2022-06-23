@@ -21,8 +21,8 @@ class DashboardController extends Controller
 
         $brg_count = Barang::count();
         $log_count = Peralatan::count();
-        $pemasukan = Pemasukan::where('jenis', 1)->where('status', '1')->whereMonth('tgl', date('m'))->sum('jumlah');
-        $pengeluaran = Pemasukan::where('jenis', 0)->where('status', '1')->whereMonth('tgl', date('m'))->sum('jumlah');
+        $pemasukan = Pemasukan::where('jenis', 1)->where('status', '4')->whereMonth('tgl', date('m'))->sum('jumlah');
+        $pengeluaran = Pemasukan::where('jenis', 0)->where('status', '4')->whereMonth('tgl', date('m'))->sum('jumlah');
         $barang = Barang::whereColumn('stok', '<=', 'minimum')->get();
         $peralatan = Peralatan::whereColumn('stok_aktif', '<=', 'rusak')->get();
 
