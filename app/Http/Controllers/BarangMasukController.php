@@ -44,7 +44,7 @@ class BarangMasukController extends Controller
                 return $row->tgl->format('d/m/Y');
             })
             ->addColumn('name', function ($row) {
-                return $row->barang->nama ?? ''  . ' - ' . $row->barang->merk ?? '';
+                return $row->barang->nama  . ' - ' . $row->barang->merk;
             })
             ->addColumn('action', function ($row) {
                 $btn = '<div class="btn-group btn-group-sm" role="group">
