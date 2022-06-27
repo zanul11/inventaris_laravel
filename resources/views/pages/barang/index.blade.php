@@ -103,13 +103,29 @@
                         _token: "{{ csrf_token() }}"
                     },
                     success: function(response) {
-                        Swal.fire(
-                            "Deleted!",
-                            "Data berhasil dihapus",
-                            "success"
-                        ).then(result => {
-                            location.reload();
-                        });
+                        console.log(response);
+                        if (response == 1) {
+                            Swal.fire(
+                                "Gagal Menghapus Barang!",
+                                "Terdapat Data Barang Masuk pada barang yang akan dihapus!",
+                                "warning"
+                            );
+                        } else if (response == 2) {
+                            Swal.fire(
+                                "Gagal Menghapus Barang!",
+                                "Terdapat Data Barang Masuk pada barang yang akan dihapus!",
+                                "warning"
+                            );
+                        } else {
+                            Swal.fire(
+                                "Deleted!",
+                                "Data berhasil dihapus",
+                                "success"
+                            ).then(result => {
+                                location.reload();
+                            });
+                        }
+
                         // You will get response from your PHP page (what you echo or print)
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
