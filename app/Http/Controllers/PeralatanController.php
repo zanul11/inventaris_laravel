@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DetailPinjam;
 use App\Jenis;
 use App\LogPeralatanMasuk;
 use App\Lokasi;
@@ -284,10 +285,15 @@ class PeralatanController extends Controller
      */
     public function destroy(Peralatan $peralatan)
     {
-        $path = public_path() . '/uploads/';
-        if (file_exists($path . $peralatan->foto) && $peralatan->foto != null)
-            unlink($path . $peralatan->foto);
-        $peralatan->delete();
-        LogPeralatanMasuk::where('peralatan_id', $peralatan->id)->delete();
+        if (DetailPinjam::where('peralatan_id', $peralatan->id)->first()) {
+            return 1;
+        } else {
+            $path = public_path() . '/uploads/';
+            if (file_exists($path . $peralatan->foto) && $peralatan->foto != null)
+                unlink($path . $peralatan->foto);
+            $peralatan->delete();
+            LogPeralatanMasuk::where('peralatan_id', $peralatan->id)->delete();
+            return 3;
+        }
     }
 }

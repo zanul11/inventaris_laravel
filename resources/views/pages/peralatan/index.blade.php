@@ -249,13 +249,21 @@
                         _token: "{{ csrf_token() }}"
                     },
                     success: function(response) {
-                        Swal.fire(
-                            "Deleted!",
-                            "Data berhasil dihapus",
-                            "success"
-                        ).then(result => {
-                            location.reload();
-                        });
+                        if (response == 1) {
+                            Swal.fire(
+                                "Gagal Menghapus Peralatan!",
+                                "Terdapat Data Peminjaman pada peralatan yang akan dihapus!",
+                                "warning"
+                            );
+                        } else {
+                            Swal.fire(
+                                "Deleted!",
+                                "Data berhasil dihapus",
+                                "success"
+                            ).then(result => {
+                                location.reload();
+                            });
+                        }
                         // You will get response from your PHP page (what you echo or print)
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
