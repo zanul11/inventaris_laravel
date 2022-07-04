@@ -280,16 +280,33 @@ class BarangController extends Controller
      */
     public function destroy($barang)
     {
-        DB::table('barang')
-            ->where('id', $barang)
-            ->delete();
+        // return $barang;
+        // $user->delete();
+        if (BarangMasuk::where('barang_id', $barang)->first()) {
+            return 1;
+        } else if (DetailBarangKeluar::where('barang_id', $barang)->first()) {
+            return 2;
+        } else {
+            DB::table('barang')
+                ->where('id', $barang)
+                ->delete();
+            return 3;
+        }
     }
 
     public function delete(Barang $barang)
     {
+        return $barang;
         // $user->delete();
-        DB::table('barang')
-            ->where('id', $barang->id)
-            ->delete();
+        if (BarangMasuk::where('barang_id', $barang->id)->first()) {
+            return 1;
+        } else if (DetailBarangKeluar::where('barang_id', $barang->id)->first()) {
+            return 2;
+        } else {
+            // DB::table('barang')
+            //     ->where('id', $barang->id)
+            //     ->delete();
+            return 3;
+        }
     }
 }
