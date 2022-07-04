@@ -115,7 +115,7 @@
                                                 @foreach($alat as $dt)
                                                 <tr>
                                                     <td class="width-60" align="center">{{$loop->iteration}}</td>
-                                                    <td align="center">{{$dt->alat->nama}} ({{$dt->alat->merk}})</td>
+                                                    <td align="center">{{$dt->alat->nama??''}} ({{$dt->alat->merk??''}})</td>
                                                     <td align="center">{{$dt->jumlah}}</td>
                                                     <td align="center">{{$dt->alat->satuan_detail->satuan}}</td>
                                                 </tr>
