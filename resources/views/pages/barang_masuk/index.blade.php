@@ -69,7 +69,7 @@
                         <th>Jumlah</th>
                         <th>Kode</th>
                         <th>Tanggal</th>
-                        <th>Sisa</th>
+
                         <th>PJ</th>
                         <th>Ket</th>
                         <th class="width-90"></th>
@@ -339,9 +339,6 @@
                     "data": "tgl"
                 },
 
-                {
-                    "data": "stok"
-                },
                 {
                     "data": "pj"
                 },
