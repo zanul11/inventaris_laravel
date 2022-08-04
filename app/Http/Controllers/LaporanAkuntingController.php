@@ -143,16 +143,16 @@ class LaporanAkuntingController extends Controller
         $nm_kelompok = ($kelompok == '') ? 'Semua' : JenisAkunting::where('id', $kelompok)->first()->jenis;
         if ($cari == '') {
             if ($kelompok == '')
-                $data = Pengeluaran::with('jenis_akunting')->whereIN('jenis', $jenis)->whereBetween('tgl', [$dTgl, $sTgl])->where('status', 4)->orderby('created_at')->get();
+                $data = Pengeluaran::with('jenis_akunting')->whereIN('jenis', $jenis)->whereBetween('tgl', [$dTgl, $sTgl])->where('status', 4)->orderby('tgl')->get();
             else
-                $data = Pengeluaran::with('jenis_akunting')->whereIN('jenis', $jenis)->where('jenis_akunting_id', $kelompok)->whereBetween('tgl', [$dTgl, $sTgl])->where('status', 4)->orderby('created_at')->get();
+                $data = Pengeluaran::with('jenis_akunting')->whereIN('jenis', $jenis)->where('jenis_akunting_id', $kelompok)->whereBetween('tgl', [$dTgl, $sTgl])->where('status', 4)->orderby('tgl')->get();
         } else {
             if ($kelompok == '') {
                 $data = Pengeluaran::with('jenis_akunting')->whereIN('jenis', $jenis)->whereBetween('tgl', [$dTgl, $sTgl])->where('status', 4)->where('nama', 'like', '%' . $cari . '%')
-                    ->orderby('created_at')->get();
+                    ->orderby('tgl')->get();
             } else {
                 $data = Pengeluaran::with('jenis_akunting')->whereIN('jenis', $jenis)->where('jenis_akunting_id', $kelompok)->whereBetween('tgl', [$dTgl, $sTgl])->where('status', 4)->where('nama', 'like', '%' . $cari . '%')
-                    ->orderby('created_at')->get();
+                    ->orderby('tgl')->get();
             }
         }
 

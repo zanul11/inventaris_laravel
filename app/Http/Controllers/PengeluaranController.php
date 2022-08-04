@@ -52,7 +52,8 @@ class PengeluaranController extends Controller
                     } else {
                         $btn = '<div class="btn-group btn-group-sm" role="group">
                         <a href="/pengeluaran/' . $row->id . '/edit" class="btn btn-warning" style="font-size:12px; color:white;">Edit</a>
-                        <a href="/pengeluaran/' . $row->id . '" class="btn btn-warning" style="font-size:12px; color:white;">Lihat</a>
+                        <a href="/pengeluaran/' . $row->id . '" class="btn btn-success" style="font-size:12px; color:white;">Lihat</a>
+                        <a onclick="btnDelete(' . $row->id . ')" class="btn btn-danger" style="font-size:12px; color:white;">Hapus</a>
                        ';
                     }
                 } else if (Auth::user()->type == 3) {
