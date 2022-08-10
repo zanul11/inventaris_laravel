@@ -213,10 +213,8 @@
             if (result.value) {
                 $.ajax({
                     url: "/barang_masuk/delete/" + kode,
-                    type: "POST",
-                    data: {
-                        _token: "{{ csrf_token() }}"
-                    },
+                    type: "GET",
+
                     success: function(response) {
                         // console.log(response);
                         Swal.fire(

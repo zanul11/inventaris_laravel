@@ -86,7 +86,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     //BARANG MASUK
     Route::post('/barang_masuk/edit', 'BarangMasukController@edits');
-    Route::post('barang_masuk/delete/{barang}', 'BarangMasukController@delete');
+    Route::get('barang_masuk/delete/{barang}', 'BarangMasukController@delete');
     Route::get('ss-barang-masuk', 'BarangMasukController@getServerSide')->name('ss.barang.masuk');
     Route::get('ss-barang-keluar', 'BarangKeluarController@getServerSide')->name('ss.barang.keluar');
     Route::resource('barang_masuk', 'BarangMasukController');
