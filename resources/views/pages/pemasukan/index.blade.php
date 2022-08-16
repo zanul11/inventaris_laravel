@@ -40,8 +40,8 @@
                     <thead>
                         <tr>
                             <th class="width-60">No.</th>
-                            <th>JENIS</th>
                             <th>NAMA</th>
+                            <th>JENIS</th>
                             <th>JUMLAH</th>
                             <th>KET</th>
                             <th class="width-90"></th>
@@ -122,11 +122,12 @@
                         "data": "DT_RowIndex"
                     },
                     {
+                        "data": "nama"
+                    },
+                    {
                         "data": "jenis_akunting.jenis"
                     },
                     {
-                        "data": "nama"
-                    }, {
                         "data": "uang"
                     }, {
                         "data": "ket"

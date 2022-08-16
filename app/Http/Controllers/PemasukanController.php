@@ -68,7 +68,7 @@ class PemasukanController extends Controller
                 'jenis' => 1,
                 'jumlah' => $request->jumlah,
                 'ket' => $request->ket,
-                'status' => 1,
+                'status' => 4,
                 'tgl' => date('Y-m-d'),
                 'user' => Auth::user()->nama,
             ]);

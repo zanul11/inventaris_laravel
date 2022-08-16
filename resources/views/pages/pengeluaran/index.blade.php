@@ -70,8 +70,10 @@
                     <thead>
                         <tr>
                             <th class="width-60">No.</th>
-                            <th>JENIS</th>
                             <th>NAMA</th>
+                            <th>JENIS</th>
+                            <th>STATUS PENGELUARAN</th>
+                            <th>TGL</th>
                             <th>JUMLAH</th>
                             <th>KET</th>
                             <th>FOTO BUKTI</th>
@@ -122,7 +124,6 @@
 
     function srcImage() {
         const img = document.querySelector('img');
-
         fullPage.style.backgroundImage = 'url(' + event.target.getAttribute('src') + ')';
         fullPage.style.display = 'block';
     }
@@ -174,10 +175,16 @@
                         "data": "DT_RowIndex"
                     },
                     {
+                        "data": "nama"
+                    },
+                    {
                         "data": "jenis_akunting.jenis"
                     },
                     {
-                        "data": "nama"
+                        "data": "status_pengeluaran"
+                    },
+                    {
+                        "data": "tgl_data"
                     },
                     {
                         "data": "uang"
@@ -187,7 +194,8 @@
                     },
                     {
                         "data": "file"
-                    }, {
+                    },
+                    {
                         "data": "status"
                     },
                     {
@@ -195,12 +203,12 @@
                     },
                 ],
                 "columnDefs": [{
-                    "targets": 5,
+                    "targets": 7,
                     "data": "file",
                     "render": function(data, type, row, meta) {
                         var type = '';
                         if (data != null) {
-                            type = '<img src="{{asset("uploads")}}/' + data + '" onclick="srcImage()" height="25px"/>';
+                            type = '<img src="{{asset("inventaris/public/uploads")}}/' + data + '" onclick="srcImage()" height="25px"/>';
                         } else {
                             type = '-';
                         }
@@ -208,7 +216,7 @@
 
                     }
                 }, {
-                    "targets": 6,
+                    "targets": 8,
                     "data": "status",
                     "render": function(data, type, row, meta) {
                         var type = '';
@@ -216,6 +224,8 @@
                             type = '<span class="label label-primary">Menunggu Konfirmasi</span>';
                         } else if (data == 2) {
                             type = '<span class="label label-warning">Koreksi</span>';
+                        } else if (data == 3) {
+                            type = '<span class="label label-danger">Menuggu Realisasi</span>';
                         } else {
                             type = '<span class="label label-success">Sudah Konfirmasi</span>';
                         }

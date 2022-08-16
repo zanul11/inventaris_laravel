@@ -22,7 +22,7 @@ class PostingController extends Controller
      */
     public function index(Request $request)
     {
-        $request->session()->put('parent', 'Absen');
+        $request->session()->put('parent', 'Laporan Absen');
         $request->session()->put('child', 'Posting Absen');
 
         return view('pages.posting.index');

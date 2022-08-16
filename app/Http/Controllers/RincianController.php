@@ -15,7 +15,7 @@ class RincianController extends Controller
     public function index(Request $request)
     {
         $request->session()->put('parent', 'Laporan Absen');
-        $request->session()->put('child', 'Rekap Absensi');
+        $request->session()->put('child', 'Rincian Absen');
 
         $firstDate = date('Y-m-') . '1';
         $endDate = date('Y-m-d');

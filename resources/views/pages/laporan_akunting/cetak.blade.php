@@ -54,9 +54,14 @@
                         <td>{{$jenis_keuangan}}</td>
                     </tr>
                     <tr>
+                        <td>Kelompok </td>
+                        <td>:</td>
+                        <td>{{$nm_kelompok}}</td>
+                    </tr>
+                    <tr>
                         <td>Tanggal Laporan</td>
                         <td>:</td>
-                        <td>{{$dTgl}} sampai {{$sTgl}}</td>
+                        <td>{{date('d-m-Y', strtotime($dTgl))}} sampai {{date('d-m-Y', strtotime($sTgl))}}</td>
                     </tr>
                     <tr>
                         <td>Kata Kunci</td>
@@ -76,7 +81,7 @@
                     <tr>
                         <th>#</th>
                         <th>Nama</th>
-                        <th>Jenis</th>
+                        <th>Ket</th>
                         <th>Tanggal</th>
                         <th>Pemasukan</th>
                         <th>Pengeluaran</th>
@@ -98,12 +103,12 @@
                     @endphp
                     <tr>
                         <td>{{$loop->iteration}}</td>
-                        <td>{{$dt->nama}}</td>
-                        <td>{{$dt->jenis_akunting->jenis}}</td>
+                        <td>{{$dt->nama}} ({{$dt->jenis_akunting->jenis}})</td>
+                        <td>{{$dt->ket}}</td>
                         <td>{{date('d-m-Y', strtotime($dt->tgl))}}</td>
                         <td>{{($dt->jenis==1)?number_format($dt->jumlah):0}}</td>
                         <td>{{($dt->jenis==0)?number_format($dt->jumlah):0}}</td>
-                        <td>{{number_format($total)}}</td>
+                        <td>{{($jenis_keuangan=='Pengeluaran')? number_format($total*-1):number_format($total)}}</td>
                     </tr>
                     @php
                     if($dt->jenis==1)
@@ -112,12 +117,15 @@
                     $pengeluaran += $dt->jumlah;
                     @endphp
                     @endforeach
+                    <tr>
+                        <td colspan="4" align="center"><b>Total</b></td>
+                        <td>{{number_format($pemasukan)}}</td>
+                        <td>{{number_format($pengeluaran)}}</td>
+                        <th>{{($jenis_keuangan=='Pengeluaran')? number_format(($pemasukan-$pengeluaran)*-1):number_format($pemasukan-$pengeluaran)}}</th>
+                    </tr>
                 </tBody>
                 <tfoot>
-                    <td colspan="4" align="center"><b>Total</b></td>
-                    <td>{{number_format($pemasukan)}}</td>
-                    <td>{{number_format($pengeluaran)}}</td>
-                    <th>{{number_format($pemasukan-$pengeluaran)}}</th>
+
                 </tfoot>
             </table>
             <hr style="height:3px;  background-color:black">
@@ -150,7 +158,7 @@
 
     <script type="text/javascript">
         function cetak() {
-            // window.print();
+            window.print();
         };
     </script>
 

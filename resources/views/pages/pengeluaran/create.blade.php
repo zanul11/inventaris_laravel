@@ -53,7 +53,7 @@
                     <input type="hidden" value="{{$action}}" name="action" />
                     <div class="panel-body">
                         <div class="row width-full">
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <label class="control-label">Jenis Pengeluaran</label>
                                     <select class="select2 show-tick form-control required" name="jenis_akunting_id" data-style="btn-primary" required>
@@ -64,12 +64,31 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="control-label">Status Pengeluaran</label>
+                                    <div class="input-group">
+                                        <select class="selectpicker show-tick form-control required" name="status_pengeluaran" data-style="btn-primary" {{($action!='add')?'disabled':'required'}}>
+                                            <option value="Pembelian" {{ old('status_pengeluaran',$pengeluaran->status_pengeluaran??'')=='Pembelian' ? 'selected' : '' }}>Pembelian</option>
+                                            <option value="Pengajuan" {{ old('status_pengeluaran',$pengeluaran->status_pengeluaran??'')=='Pengajuan' ? 'selected' : '' }}>Pengajuan</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <label class="control-label">Nama Pengeluaran</label>
                                     <div class="input-group">
                                         <input type="text" class="form-control" style="display: block;" value="{{ old('nama',$pengeluaran->nama??'') }}" name="nama" placeholder="Nama Pengeluaran..." required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label class="control-label">Tanggal</label>
+                                    <div class="input-group">
+                                        <input type="date" class="form-control" value="{{ old('tgl',date('Y-m-d',strtotime($pengeluaran->tgl??date('d-m-Y')))??date('Y-m-d')) }}" name="tgl" required>
                                     </div>
                                 </div>
                             </div>
@@ -81,7 +100,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="control-label">Keterangan</label>
                                     <div class="input-group">
@@ -100,8 +119,7 @@
                             <div class="col-md-4">
                                 @if($action=='edit')
                                 <div class="gallery">
-                                    <img src="{{asset('uploads/'.$pengeluaran->file)}}" height="50px">
-
+                                    <img src="{{asset('inventaris/public/uploads/'.$pengeluaran->file)}}" height="50px">
                                 </div>
                                 @endif
                             </div>

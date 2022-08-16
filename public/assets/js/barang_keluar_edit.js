@@ -125,11 +125,22 @@ app.controller("BarangKeluarController", [
                         $tmpJum=v.jumlah;
                         $tmpKet=v.ket;
                         return v.nama == $scope.selectedBarang.nama;
-                      }).jumlah = ($tmpJum+$scope.jum);
+                      });
 
-                      $scope.detail_barangs.find(function(v) {
+                    if($scope.selectedBarang.stok<($tmpJum+$scope.jum)){
+                        Swal.fire(
+                            "Warning!",
+                            "Stok tidak cukup!",
+                            "warning"
+                        );
+                    }else {
+                           $scope.detail_barangs.find(function(v) {
                         return v.nama == $scope.selectedBarang.nama;
-                      }).ket = $scope.ket;
+                        }).jumlah = ($tmpJum+$scope.jum);
+                        $scope.detail_barangs.find(function(v) {
+                            return v.nama == $scope.selectedBarang.nama;
+                          }).ket = $scope.ket;
+                    }
                 }
                
             }

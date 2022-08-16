@@ -44,6 +44,7 @@
                         <th>Penanggung Jawab</th>
                         <th>Lokasi</th>
                         <th>Keterangan</th>
+                        <th>File</th>
                         <th class="width-90"></th>
                     </tr>
                 </thead>
@@ -93,13 +94,27 @@
                         _token: "{{ csrf_token() }}"
                     },
                     success: function(response) {
-                        Swal.fire(
-                            "Deleted!",
-                            "Data berhasil dihapus",
-                            "success"
-                        ).then(result => {
-                            location.reload();
-                        });
+                        if (response == 1) {
+                            Swal.fire(
+                                "Gagal Menghapus Proyek!",
+                                "Terdapat Data Barang Keluar pada proyek yang akan dihapus!",
+                                "warning"
+                            );
+                        } else if (response == 2) {
+                            Swal.fire(
+                                "Gagal Menghapus Proyek!",
+                                "Terdapat Data Peralatan Pinjaman pada proyek yang akan dihapus!",
+                                "warning"
+                            );
+                        } else {
+                            Swal.fire(
+                                "Deleted!",
+                                "Data berhasil dihapus",
+                                "success"
+                            ).then(result => {
+                                location.reload();
+                            });
+                        }
                         // You will get response from your PHP page (what you echo or print)
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
@@ -134,12 +149,29 @@
                     {
                         "data": "ket"
                     },
-
+                    {
+                        "data": "file"
+                    },
                     {
                         "data": "action"
                     },
                 ],
+                "columnDefs": [{
+                        "targets": 5,
+                        "data": "file",
+                        "render": function(data, type, row, meta) {
+                            var type = '';
+                            if (data != null) {
+                                type = '<a href="{{asset("inventaris/public/uploads")}}/' + data + '" target="_blank">Lihat File</a>';
+                            } else {
+                                type = '-';
+                            }
+                            return type;
 
+                        }
+                    },
+
+                ]
             });
         });
     });

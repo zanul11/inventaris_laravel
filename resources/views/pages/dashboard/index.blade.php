@@ -46,7 +46,7 @@
                         <div class="progress-bar" style="width: 76.3%;"></div>
                     </div>
                     <div class="stats-link">
-                        <a href="{{ route('logistik.index') }}">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+                        <a href="{{ route('peralatan.index') }}">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -68,6 +68,7 @@
         </div>
         <!-- end col-3 -->
         <!-- begin col-3 -->
+        @if(Auth::user()->type==1 || Auth::user()->type==3 ||Auth::user()->type==4)
         <div class="col-lg-3 col-md-6">
             <div class="widget widget-stats bg-gradient-purple">
                 <div class="stats-icon stats-icon-lg"><i class="fa fa-archive fa-fw"></i></div>
@@ -99,6 +100,7 @@
                 </div>
             </div>
         </div>
+        @endif
 
         <div class="col-lg-4 ">
             <div class="panel panel-inverse" data-sortable-id="form-stuff-1">

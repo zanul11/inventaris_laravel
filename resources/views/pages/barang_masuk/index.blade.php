@@ -65,11 +65,10 @@
                 <thead>
                     <tr>
                         <th class="width-10">No.</th>
-                        <th>Kode</th>
-                        <th>Tanggal</th>
                         <th>Barang</th>
                         <th>Jumlah</th>
-                        <th>Sisa</th>
+                        <th>Kode</th>
+                        <th>Tanggal</th>
                         <th>PJ</th>
                         <th>Ket</th>
                         <th class="width-90"></th>
@@ -214,10 +213,8 @@
             if (result.value) {
                 $.ajax({
                     url: "/barang_masuk/delete/" + kode,
-                    type: "POST",
-                    data: {
-                        _token: "{{ csrf_token() }}"
-                    },
+                    type: "GET",
+
                     success: function(response) {
                         // console.log(response);
                         Swal.fire(
@@ -325,11 +322,6 @@
             ajax: "{{ route('ss.barang.masuk') }}",
             columns: [{
                     "data": "DT_RowIndex"
-                }, {
-                    "data": "kode"
-                },
-                {
-                    "data": "tgl"
                 },
                 {
                     "data": "name"
@@ -338,8 +330,12 @@
                     "data": "jumlah"
                 },
                 {
-                    "data": "stok"
+                    "data": "kode"
                 },
+                {
+                    "data": "tgl"
+                },
+
                 {
                     "data": "pj"
                 },

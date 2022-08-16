@@ -7,6 +7,36 @@
 @endsection
 
 @section('page_styles')
+<style>
+    #fullpage {
+        display: none;
+        position: absolute;
+        z-index: 9999;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-size: contain;
+        background-repeat: no-repeat no-repeat;
+        background-position: center center;
+        background-color: white;
+    }
+
+    .zoom {
+
+        transition: transform .08s;
+        width: 214px;
+        height: 115px;
+    }
+
+    .zoom:hover {
+        -ms-transform: scale(1.5);
+        /* IE 9 */
+        -webkit-transform: scale(1.5);
+        /* Safari 3-8 */
+        transform: scale(1.5);
+    }
+</style>
 @endsection
 
 @section('content')
@@ -50,14 +80,14 @@
                 <thead>
                     <tr>
                         <th class="width-60">No.</th>
-                        <th>Kode</th>
-                        <th>Jenis</th>
                         <th>Nama/Merk</th>
+                        <th>Jenis</th>
                         <th>Spesifikasi</th>
                         <th>Stok</th>
                         <th>Stok Aktif</th>
                         <th>Rusak</th>
                         <th>Lokasi</th>
+                        <th>Foto</th>
                         <th class="width-90"></th>
                     </tr>
                 </thead>
@@ -166,6 +196,7 @@
             </div>
         </div>
     </div>
+    <div id="fullpage" onclick="this.style.display='none';"></div>
 </div>
 @endsection
 
@@ -175,6 +206,15 @@
 
 @section('page_scripts')
 <script>
+    imgs = document.querySelectorAll('.gallery img');
+    fullPage = document.querySelector('#fullpage');
+
+    function srcImage() {
+        const img = document.querySelector('img');
+        fullPage.style.backgroundImage = 'url(' + event.target.getAttribute('src') + ')';
+        fullPage.style.display = 'block';
+    }
+
     function btnTambahPeralatan(id) {
         document.getElementById("id_edit").value = id;
         $('#modal-add').modal({
@@ -209,13 +249,21 @@
                         _token: "{{ csrf_token() }}"
                     },
                     success: function(response) {
-                        Swal.fire(
-                            "Deleted!",
-                            "Data berhasil dihapus",
-                            "success"
-                        ).then(result => {
-                            location.reload();
-                        });
+                        if (response == 1) {
+                            Swal.fire(
+                                "Gagal Menghapus Peralatan!",
+                                "Terdapat Data Peminjaman pada peralatan yang akan dihapus!",
+                                "warning"
+                            );
+                        } else {
+                            Swal.fire(
+                                "Deleted!",
+                                "Data berhasil dihapus",
+                                "success"
+                            ).then(result => {
+                                location.reload();
+                            });
+                        }
                         // You will get response from your PHP page (what you echo or print)
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
@@ -236,15 +284,14 @@
                 ajax: "{{ route('ss.peralatan') }}",
                 columns: [{
                         "data": "DT_RowIndex"
-                    }, {
-                        "data": "kode"
-                    },
-                    {
-                        "data": "jenis_detail.jenis"
                     },
                     {
                         "data": "nama"
                     },
+                    {
+                        "data": "jenis_detail.jenis"
+                    },
+
                     {
                         "data": "spesifikasi"
                     },
@@ -262,10 +309,26 @@
                         "data": "lokasi.lokasi"
                     },
                     {
+                        "data": "foto"
+                    },
+                    {
                         "data": "action"
                     },
                 ],
+                "columnDefs": [{
+                    "targets": 8,
+                    "data": "foto",
+                    "render": function(data, type, row, meta) {
+                        var type = '';
+                        if (data != null) {
+                            type = '<img src="{{asset("inventaris/public/uploads")}}/' + data + '" onclick="srcImage()" height="50px"/>';
+                        } else {
+                            type = '-';
+                        }
+                        return type;
 
+                    }
+                }]
             });
         });
     });

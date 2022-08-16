@@ -44,7 +44,7 @@ class BarangMasukController extends Controller
                 return $row->tgl->format('d/m/Y');
             })
             ->addColumn('name', function ($row) {
-                return $row->barang->nama . ' - ' . $row->barang->merk;
+                return $row->barang->nama  . ' - ' . $row->barang->merk;
             })
             ->addColumn('action', function ($row) {
                 $btn = '<div class="btn-group btn-group-sm" role="group">
@@ -155,15 +155,16 @@ class BarangMasukController extends Controller
 
     public function delete(BarangMasuk $barang)
     {
-        $barang_stok = Barang::where('id', $barang->id)->first();
-        $log_barang_update = BarangMasuk::where('created_at', '>=', $barang->created_at)->where('jenis', 1)->get();
+
+        $barang_stok = Barang::where('id', $barang->barang_id)->first();
+        $log_barang_update = BarangMasuk::where('barang_id', $barang->barang_id)->where('created_at', '>=', $barang->created_at)->where('jenis', 1)->get();
         foreach ($log_barang_update as $dt) {
             DB::table('log_barang')
                 ->where('id', $dt->id)
                 ->update(['stok' => ($dt->stok - $barang->jumlah)]);
         }
         DB::table('barang')
-            ->where('id', $barang->id)
+            ->where('id', $barang->barang_id)
             ->update(['stok' => ($barang_stok['stok'] - $barang->jumlah)]);
         // return $barang;
         $barang->delete();

@@ -29,7 +29,7 @@
             <h4 class="panel-title">Form Tambah Data</h4>
 
         </div>
-        <form method="POST" action="{{($action=='add')?'/proyek':'/proyek/'.$proyek->id}}">
+        <form method="POST" action="{{($action=='add')?'/proyek':'/proyek/'.$proyek->id}}" enctype='multipart/form-data'>
             @csrf
             @if($action!='add')
             @method('PUT')
@@ -68,6 +68,14 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">File Proyek</label>
+                            <div class="input-group">
+                                <input type="file" class="form-control" onchange="checkFileExtension('file')" id="file" style="display: block;" name="file" {{($action=='edit')?'':'required'}}>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="panel-footer">
@@ -90,5 +98,32 @@
     $(document).ready(function() {
         $('.select2').select2();
     });
+
+    function checkFileExtension(id) {
+        fileName = document.querySelector('#' + id).value;
+        extension = fileName.split('.').pop();
+        const ekstensi = ["pdf"];
+        if (!ekstensi.includes(extension)) {
+            swal({
+                title: "Warning!!!",
+                text: "Format Dokument Harus PDF!",
+                icon: "warning",
+            });
+            document.querySelector('#' + id).value = '';
+        } else {
+            const oFile = document.getElementById(id).files[0];
+            // alert(oFile.size);
+
+            if (oFile.size > 512000) // 500Kb for bytes.
+            {
+                swal({
+                    title: "Warning!!!",
+                    text: "Besar file maksimal 500 KB!",
+                    icon: "warning",
+                });
+                document.querySelector('#' + id).value = '';
+            }
+        }
+    };
 </script>
 @endsection

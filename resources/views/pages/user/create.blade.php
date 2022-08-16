@@ -45,8 +45,10 @@
                             <label class="control-label">TIPE</label>
                             <select class="select2 show-tick form-control required" name="tipe" data-style="btn-primary" required>
                                 <option value="2" {{(old('tipe', $user->type)==2)?'selected':''}}>USER</option>
-                                <option value="3" {{(old('tipe', $user->type)==3)?'selected':''}}>KEPALA</option>
-                                <option value="1" {{(old('tipe', $user->type)==1)?'selected':''}}>SUPER ADMIN</option>
+                                <option value="4" {{(old('tipe', $user->type)==4)?'selected':''}}>KEUANGAN</option>
+                                <option value="5" {{(old('tipe', $user->type)==5)?'selected':''}}>KEUANGAN HANYA PENGAJUAN</option>
+                                <option value="3" {{(old('tipe', $user->type)==3)?'selected':''}}>KEPALA/KETUA</option>
+                                <!-- <option value="1" {{(old('tipe', $user->type)==1)?'selected':''}}>SUPER ADMIN</option> -->
                             </select>
                         </div>
                         <div class="form-group">

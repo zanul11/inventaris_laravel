@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DetailPinjam;
 use App\Jenis;
 use App\LogPeralatanMasuk;
 use App\Lokasi;
@@ -24,8 +25,6 @@ class PeralatanController extends Controller
     {
         $request->session()->put('parent', 'Manajemen Peralatan');
         $request->session()->put('child', 'Data Peralatan');
-
-
         return view('pages.peralatan.index');
     }
 
@@ -171,6 +170,14 @@ class PeralatanController extends Controller
             Alert::warning('Warning!', 'Nama Peralatan tersebut telah digunakan');
             return Redirect::to('/peralatan/create')->withErrors(['Nama Peralatan tersebut telah digunakan.'])->withInput();
         } else {
+            $foto = null;
+            if ($request->hasFile('file')) {
+                $image = $request->file('file');
+                $path = public_path() . '/uploads/';
+                $foto = 'foto_peralatan_' . time() . '.' . $image->getClientOriginalExtension();
+                $image->move($path, $foto);
+            }
+
             Peralatan::create([
                 "no" => ($maxno + 1),
                 "kode" => $kode,
@@ -185,7 +192,8 @@ class PeralatanController extends Controller
                 "rusak" => $request->rusak,
                 "spesifikasi" => $request->spesifikasi, //type
                 "satuan" => $request->satuan,
-                "user" => Auth::user()->nama
+                "user" => Auth::user()->nama,
+                "foto" => $foto,
             ]);
             Alert::success('Success!', 'Data Peralatan Added!');
             return Redirect::to('/peralatan');
@@ -228,13 +236,24 @@ class PeralatanController extends Controller
     public function update(Request $request, Peralatan $peralatan)
     {
         // return $request;
+        $path = public_path() . '/uploads/';
+        $foto = $peralatan->foto;
+        if ($request->hasFile('file')) {
+            $image = $request->file('file');
+            $foto = 'foto_peralatan_' . time() . '.' . $image->getClientOriginalExtension();
+            if (file_exists($path . $peralatan->foto) && $peralatan->foto != null)
+                unlink($path . $peralatan->foto);
+            $image->move($path, $foto);
+        }
         $harga = preg_replace('/[^0-9]/', '', $request->harga);
+
         if ($peralatan->nama == $request->nama && $peralatan->lokasi_id == $request->lokasi) {
             $peralatan->lokasi_id = $request->lokasi;
             $peralatan->jenis_id = $request->jenis;
             $peralatan->merk = $request->merk;
             $peralatan->satuan = $request->satuan;
             $peralatan->harga = $harga;
+            $peralatan->foto = $foto;
             $peralatan->spesifikasi = $request->spesifikasi;
             $peralatan->save();
         } else {
@@ -249,6 +268,7 @@ class PeralatanController extends Controller
                 $peralatan->nama = $request->nama;
                 $peralatan->satuan = $request->satuan;
                 $peralatan->harga = $harga;
+                $peralatan->foto = $foto;
                 $peralatan->spesifikasi = $request->spesifikasi;
                 $peralatan->save();
             }
@@ -265,7 +285,15 @@ class PeralatanController extends Controller
      */
     public function destroy(Peralatan $peralatan)
     {
-        $peralatan->delete();
-        LogPeralatanMasuk::where('peralatan_id', $peralatan->id)->delete();
+        if (DetailPinjam::where('peralatan_id', $peralatan->id)->first()) {
+            return 1;
+        } else {
+            $path = public_path() . '/uploads/';
+            if (file_exists($path . $peralatan->foto) && $peralatan->foto != null)
+                unlink($path . $peralatan->foto);
+            $peralatan->delete();
+            LogPeralatanMasuk::where('peralatan_id', $peralatan->id)->delete();
+            return 3;
+        }
     }
 }

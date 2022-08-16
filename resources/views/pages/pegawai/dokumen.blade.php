@@ -51,7 +51,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-5">
                     <div class="form-group">
                         <label class="control-label">Alamat</label>
                         <div class="input-group">
@@ -100,16 +100,28 @@
 
                 </div>
                 <div class="panel-body">
-                    <form method="POST" action="/pegawai/tambah_dokumen">
+                    <form method="POST" action="/pegawai/tambah_dokumen" enctype='multipart/form-data'>
                         @csrf
                         <div class="row width-full">
-                            <div class="col-md-12">
+                            <div class="col-md-4">
                                 <div class="form-group">
-                                    <label class="control-label">JENIS DOKUMEN</label>
-                                    <select class="select2 show-tick form-control disabled" name="jenis" data-style="btn-inverse" required>
+                                    <label class="control-label">JENIS</label>
+                                    <select class="selectpicker show-tick form-control disabled" name="jenis" data-style="btn-warning" required>
                                         <option value="SKT">SKT</option>
                                         <option value="SKA">SKA</option>
+                                        <option value="IJAZAH">IJAZAH</option>
+                                        <option value="Kartu Keluarga">Kartu Keluarga</option>
+                                        <option value="KTP">KTP</option>
+                                        <option value="NPWP">NPWP</option>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="control-label">Nomor Dokumen</label>
+                                    <div class="input-group">
+                                        <input type="text" name="nomor" class="form-control" style="display: block;" required>
+                                    </div>
                                 </div>
                             </div>
                             <input type="hidden" name="pegawai_id" value="{{$pegawai->id}}">
@@ -121,7 +133,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-12">
+
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label">Tanggal Berakhir</label>
                                     <div class="input-group">
@@ -129,8 +142,14 @@
                                     </div>
                                 </div>
                             </div>
-
-
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label">File Dokumen</label>
+                                    <div class="input-group">
+                                        <input type="file" class="form-control" onchange="checkFileExtension('file')" id="file" style="display: block;" name="file">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="panel-footer">
                             <center>
@@ -157,8 +176,10 @@
                                     <tr>
                                         <th class="width-60">No.</th>
                                         <th>Jenis</th>
+                                        <th>Nomor Dokumen</th>
                                         <th>Nama Dokumen</th>
                                         <th>Tanggal Berakhir</th>
+                                        <th>File</th>
                                         <th class="width-90"></th>
                                     </tr>
                                 </thead>
@@ -166,8 +187,10 @@
                                     @foreach($pegawai->dokumen as $dt) <tr>
                                         <td class="width-60">{{$loop->iteration}}</td>
                                         <td>{{$dt->jenis}}</td>
+                                        <td>{{$dt->nomor}}</td>
                                         <td>{{$dt->nama}}</td>
                                         <td>{{$dt->tanggal}}</td>
+                                        <td><a href="{{asset('inventaris/public/uploads/'.$dt->file)}}" target="_blank">Lihat File</a></td>
                                         <td class="width-90">
                                             <a onclick="btnDelete('{{$dt->id}}')" class="btn btn-danger" style="font-size:12px; color:white;">Hapus</a>
                                         </td>
@@ -198,6 +221,33 @@
 
 @section('page_scripts')
 <script>
+    function checkFileExtension(id) {
+        fileName = document.querySelector('#' + id).value;
+        extension = fileName.split('.').pop();
+        // if (extension != 'pdf') {
+        //     swal({
+        //         title: "Warning!!!",
+        //         text: "Format Dokument Harus PDF!",
+        //         icon: "warning",
+        //     });
+        //     document.querySelector('#' + id).value = '';
+        // }
+        const oFile = document.getElementById(id).files[0];
+        // alert(oFile.size);
+
+        if (oFile.size > 212000) // 500Kb for bytes.
+        {
+            swal({
+                title: "Warning!!!",
+                text: "Besar file maksimal 200 KB!",
+                icon: "warning",
+            });
+            document.querySelector('#' + id).value = '';
+        }
+        // document.querySelector('.output')
+        //     .textContent = extension;
+    };
+
     function btnDelete(kode) {
         Swal.fire({
             title: "Yakin?",

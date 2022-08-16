@@ -20,8 +20,8 @@ class LaporanController extends Controller
     public function index(Request $request)
     {
 
-        $request->session()->put('parent', 'Manajemen Barang');
-        $request->session()->put('child', 'Laporan');
+        $request->session()->put('parent', 'Laporan');
+        $request->session()->put('child', 'Rekap Barang');
         $jenis = Jenis::orderby('jenis')->get();
         $array_barang = array();
         Session::put('jenis_barang', '');

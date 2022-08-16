@@ -17,7 +17,7 @@ class AbsenController extends Controller
      */
     public function index()
     {
-        $pegawai = Pegawai::orderby('nama')->get();
+        $pegawai = Pegawai::where('is_absen', 1)->orderby('nama')->get();
         return view('pages.absen.index', compact('pegawai'));
     }
 

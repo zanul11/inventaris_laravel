@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\BarangMasuk;
 use App\DetailBarangKeluar;
 use App\DetailPinjam;
 use App\Proyek;
@@ -78,11 +79,19 @@ class ProyekController extends Controller
             Alert::warning('Warning!', 'Proyek tersebut telah digunakan');
             return Redirect::to('/proyek/create')->withErrors(['Proyek tersebut telah digunakan.'])->withInput();
         } else {
+            $file = null;
+            if ($request->hasFile('file')) {
+                $image = $request->file('file');
+                $path = public_path() . '/uploads/';
+                $file = 'file_proyek_' . time() . '.' . $image->getClientOriginalExtension();
+                $image->move($path, $file);
+            }
             Proyek::create([
                 "nama" => $request->nama,
                 "pj" => $request->pj,
                 "lokasi" => $request->lokasi,
                 "ket" => $request->ket,
+                "file" => $file,
             ]);
             Alert::success('Success!', 'Data Proyek Added!');
             return Redirect::to('/proyek');
@@ -131,10 +140,20 @@ class ProyekController extends Controller
      */
     public function update(Request $request, Proyek $proyek)
     {
+        $path = public_path() . '/uploads/';
+        $file = $proyek->file;
+        if ($request->hasFile('file')) {
+            $image = $request->file('file');
+            $file = 'file_proyek_' . time() . '.' . $image->getClientOriginalExtension();
+            if (file_exists($path . $proyek->file) && $proyek->file != null)
+                unlink($path . $proyek->file);
+            $image->move($path, $file);
+        }
         if ($proyek->nama == $request->nama) {
             $proyek->pj = $request->pj;
             $proyek->lokasi = $request->lokasi;
             $proyek->ket = $request->ket;
+            $proyek->file = $file;
             $proyek->save();
         } else {
 
@@ -147,6 +166,7 @@ class ProyekController extends Controller
                 $proyek->pj = $request->pj;
                 $proyek->lokasi = $request->lokasi;
                 $proyek->ket = $request->ket;
+                $proyek->file = $file;
                 $proyek->save();
             }
         }
@@ -162,6 +182,16 @@ class ProyekController extends Controller
      */
     public function destroy(Proyek $proyek)
     {
-        //
+        if (BarangMasuk::where('proyek_id', $proyek->id)->first()) {
+            return 1;
+        } else if (DetailPinjam::where('proyek_id', $proyek->id)->first()) {
+            return 2;
+        } else {
+            $path = public_path() . '/uploads/';
+            if (file_exists($path . $proyek->file) && $proyek->file != null)
+                unlink($path . $proyek->file);
+            $proyek->delete();
+            return 3;
+        }
     }
 }

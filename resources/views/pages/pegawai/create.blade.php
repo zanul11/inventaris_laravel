@@ -8,6 +8,36 @@
 @endsection
 
 @section('page_styles')
+<style>
+    #fullpage {
+        display: none;
+        position: absolute;
+        z-index: 9999;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-size: contain;
+        background-repeat: no-repeat no-repeat;
+        background-position: center center;
+        background-color: white;
+    }
+
+    .zoom {
+
+        transition: transform .08s;
+        width: 214px;
+        height: 115px;
+    }
+
+    .zoom:hover {
+        -ms-transform: scale(1.5);
+        /* IE 9 */
+        -webkit-transform: scale(1.5);
+        /* Safari 3-8 */
+        transform: scale(1.5);
+    }
+</style>
 @endsection
 
 @section('content')
@@ -29,7 +59,7 @@
             <h4 class="panel-title">Form Tambah Data</h4>
 
         </div>
-        <form method="POST" action="{{($action=='add')?'/pegawai':'/pegawai/'.$pegawai->id}}">
+        <form method="POST" action="{{($action=='add')?'/pegawai':'/pegawai/'.$pegawai->id}}" enctype='multipart/form-data'>
             @csrf
             @if($action!='add')
             @method('PUT')
@@ -99,6 +129,22 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Foto Pegawai</label>
+                            <div class="input-group">
+                                <input type="file" class="form-control" onchange="checkFileExtension('file')" id="file" style="display: block;" name="file" {{($action=='edit')?'':'required'}}>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        @if($action=='edit')
+                        @if(isset($pegawai->foto))
+                        <div class="gallery">
+                            <img src="{{asset('inventaris/public/uploads/'.$pegawai->foto)}}" height="50px">
+                        </div> @endif
+                        @endif
+                    </div>
                 </div>
             </div>
             <div class="panel-footer">
@@ -107,6 +153,7 @@
     </div>
 
     </form>
+    <div id="fullpage" onclick="this.style.display='none';"></div>
 </div>
 </div>
 @endsection
@@ -121,5 +168,42 @@
     $(document).ready(function() {
         $('.select2').select2();
     });
+
+    const imgs = document.querySelectorAll('.gallery img');
+    const fullPage = document.querySelector('#fullpage');
+
+    imgs.forEach(img => {
+        img.addEventListener('click', function() {
+            fullPage.style.backgroundImage = 'url(' + img.src + ')';
+            fullPage.style.display = 'block';
+        });
+    });
+
+    function checkFileExtension(id) {
+        fileName = document.querySelector('#' + id).value;
+        extension = fileName.split('.').pop();
+        const ekstensi = ["png", "jpg", "jpeg"];
+        if (!ekstensi.includes(extension)) {
+            swal({
+                title: "Warning!!!",
+                text: "Format Dokument Harus PNG/JPG/JPEG!",
+                icon: "warning",
+            });
+            document.querySelector('#' + id).value = '';
+        } else {
+            const oFile = document.getElementById(id).files[0];
+            // alert(oFile.size);
+
+            if (oFile.size > 212000) // 500Kb for bytes.
+            {
+                swal({
+                    title: "Warning!!!",
+                    text: "Besar file maksimal 200 KB!",
+                    icon: "warning",
+                });
+                document.querySelector('#' + id).value = '';
+            }
+        }
+    };
 </script>
 @endsection

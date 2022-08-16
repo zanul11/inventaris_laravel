@@ -49,10 +49,9 @@
                 <thead>
                     <tr>
                         <th class="width-60">No.</th>
-                        <th>Kode</th>
-                        <th>Jenis</th>
                         <th>Nama/Merk</th>
                         <th>Spesifikasi/Type</th>
+                        <th>Jenis</th>
                         <th>Stok</th>
                         <th>Harga</th>
                         <th class="width-90"></th>
@@ -104,13 +103,29 @@
                         _token: "{{ csrf_token() }}"
                     },
                     success: function(response) {
-                        Swal.fire(
-                            "Deleted!",
-                            "Data berhasil dihapus",
-                            "success"
-                        ).then(result => {
-                            location.reload();
-                        });
+                        console.log(response);
+                        if (response == 1) {
+                            Swal.fire(
+                                "Gagal Menghapus Barang!",
+                                "Terdapat Data Barang Masuk pada barang yang akan dihapus!",
+                                "warning"
+                            );
+                        } else if (response == 2) {
+                            Swal.fire(
+                                "Gagal Menghapus Barang!",
+                                "Terdapat Data Barang Masuk pada barang yang akan dihapus!",
+                                "warning"
+                            );
+                        } else {
+                            Swal.fire(
+                                "Deleted!",
+                                "Data berhasil dihapus",
+                                "success"
+                            ).then(result => {
+                                location.reload();
+                            });
+                        }
+
                         // You will get response from your PHP page (what you echo or print)
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
@@ -131,11 +146,6 @@
                 ajax: "{{ route('ss.barang') }}",
                 columns: [{
                         "data": "DT_RowIndex"
-                    }, {
-                        "data": "kode"
-                    },
-                    {
-                        "data": "jenis_detail.jenis"
                     },
                     {
                         "data": "nama_barang"
@@ -143,7 +153,9 @@
                     {
                         "data": "ukuran"
                     },
-
+                    {
+                        "data": "jenis_detail.jenis"
+                    },
                     {
                         "data": "stok"
                     },
@@ -155,7 +167,7 @@
                     },
                 ],
                 "columnDefs": [{
-                    "targets": 6,
+                    "targets": 5,
                     "data": "harga",
                     "render": function(data, type, row, meta) {
                         var type = '';

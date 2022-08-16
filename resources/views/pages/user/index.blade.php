@@ -138,7 +138,11 @@
                         if (data == 1) {
                             type = '<span class="label label-danger">Super Admin</span>';
                         } else if (data == 3) {
-                            type = '<span class="label label-primary">Kepala User</span>';
+                            type = '<span class="label label-primary">Kepala/Ketua</span>';
+                        } else if (data == 4) {
+                            type = '<span class="label label-purple">Keuangan</span>';
+                        } else if (data == 5) {
+                            type = '<span class="label label-info">Keuangan Hanya Pengajuan</span>';
                         } else {
                             type = '<span class="label label-warning">User</span>';
                         }

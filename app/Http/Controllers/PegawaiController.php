@@ -30,7 +30,7 @@ class PegawaiController extends Controller
     public function getServerSide()
     {
 
-        $peg = Pegawai::orderby('nama')->get();
+        $peg = Pegawai::with('jabatan')->orderby('nama')->get();
 
         return DataTables::of($peg)
             ->addIndexColumn()
@@ -84,6 +84,13 @@ class PegawaiController extends Controller
             Alert::warning('Warning!', 'No Identitas tersebut telah digunakan');
             return Redirect::to('/pegawai/create')->withErrors(['No Identitas tersebut telah digunakan.'])->withInput();
         } else {
+            $foto = null;
+            if ($request->hasFile('file')) {
+                $image = $request->file('file');
+                $path = public_path() . '/uploads/';
+                $foto = 'foto_pegawai_' . time() . '.' . $image->getClientOriginalExtension();
+                $image->move($path, $foto);
+            }
             Pegawai::create([
                 "no" => ($maxno + 1),
                 "kode" => $kode,
@@ -94,6 +101,7 @@ class PegawaiController extends Controller
                 "no_hp" => $request->no_hp,
                 "pin" => $request->pin,
                 "is_absen" => $request->is_absen,
+                "foto" => $foto,
             ]);
             Alert::success('Success!', 'Data Pegawai Added!');
             return Redirect::to('/pegawai');
@@ -123,13 +131,20 @@ class PegawaiController extends Controller
             Alert::warning('Warning!', 'Dokumen tersebut telah digunakan');
             return Redirect::to('/pegawai/' . $request->pegawai_id)->withErrors(['Dokumen tersebut telah digunakan.'])->withInput();
         } else {
+            $file_dok = null;
+            if ($request->hasFile('file')) {
+                $image = $request->file('file');
+                $path = public_path() . '/uploads/';
+                $file_dok = 'file_dok_' . time() . '.' . $image->getClientOriginalExtension();
+                $image->move($path, $file_dok);
+            }
             JenisDokumen::create([
-
                 "pegawai_id" => $request->pegawai_id,
                 "nama" => $request->nama,
                 "jenis" => $request->jenis,
                 "tanggal" => $request->tanggal,
-
+                "nomor" => $request->nomor,
+                "file" => $file_dok,
             ]);
             Alert::success('Success!', 'Dokumen Pegawai Added!');
             return Redirect::to('/pegawai/' . $request->pegawai_id);
@@ -163,16 +178,26 @@ class PegawaiController extends Controller
     public function update(Request $request, Pegawai $pegawai)
     {
         // return $request;
+        $path = public_path() . '/uploads/';
+        $foto = $pegawai->foto;
+        if ($request->hasFile('file')) {
+            $image = $request->file('file');
+            $foto = 'foto_pegawai_' . time() . '.' . $image->getClientOriginalExtension();
+            if (file_exists($path . $pegawai->foto) && $pegawai->foto != null)
+                unlink($path . $pegawai->foto);
+            $image->move($path, $foto);
+        }
+
         if ($pegawai->no_identitas == $request->no_identitas) {
             $pegawai->jabatan_id = $request->jabatan_id;
             $pegawai->nama = $request->nama;
             $pegawai->alamat = $request->alamat;
             $pegawai->no_hp = $request->no_hp;
             $pegawai->pin = $request->pin;
+            $pegawai->foto = $foto;
             $pegawai->is_absen = $request->is_absen;
             $pegawai->save();
         } else {
-
             $cek = Pegawai::where('no_identitas', $request->no_identitas)->get();
             if (count($cek) > 0) {
                 Alert::warning('Warning!', 'No Identitas tersebut telah digunakan');
@@ -184,6 +209,7 @@ class PegawaiController extends Controller
                 $pegawai->no_hp = $request->no_hp;
                 $pegawai->no_identitas = $request->no_identitas;
                 $pegawai->pin = $request->pin;
+                $pegawai->foto = $foto;
                 $pegawai->is_absen = $request->is_absen;
                 $pegawai->save();
             }
@@ -200,11 +226,18 @@ class PegawaiController extends Controller
      */
     public function destroy(Pegawai $pegawai)
     {
+        $path = public_path() . '/uploads/';
+        if (file_exists($path . $pegawai->foto) && $pegawai->foto != null)
+            unlink($path . $pegawai->foto);
         $pegawai->delete();
     }
 
     public function hapus_dokumen($id)
     {
-        JenisDokumen::where('id', $id)->delete();
+        $data = JenisDokumen::where('id', $id)->first();
+        $path = public_path() . '/uploads/';
+        if (file_exists($path . $data->file) && $data->file != null)
+            unlink($path . $data->file);
+        $data->delete();
     }
 }
