@@ -21,7 +21,7 @@
     </ol>
     <!-- end breadcrumb -->
     <!-- begin page-header -->
-    <h1 class="page-header text-danger font-weight-bold"><span class="text-custom">DATA </span>BARANG & PERALATAN PROYEK</h1>
+    <h1 class="page-header text-danger font-weight-bold"><span class="text-custom">DATA </span>BARANG & <span class="text-custom">PERALATAN </span> PROYEK</h1>
 
     <div class="panel panel-inverse" data-sortable-id="form-stuff-1">
         <!-- begin panel-heading -->
@@ -30,12 +30,10 @@
                 <a href="/proyek/cetak/{{$proyek->id}}" target="_blank" class="f-s-15 btn btn-xs text-white"><i class="fa fa-print"></i></a>
             </div>
             <h4 class="panel-title">DAFTAR BARANG & PERALATAN</h4>
-
         </div>
         <!-- <form method="POST" action=""> -->
         <div class="panel-body">
             <div class="row width-full">
-
                 <div class="form-group col-md-3">
                     <label class="control-label">NAMA</label>
                     <div class="input-group">
@@ -70,6 +68,8 @@
                                                     <td align="center"><b>Nama</b></td>
                                                     <td align="center"><b>Jumlah</b></td>
                                                     <td align="center"><b>Satuan</b></td>
+                                                    <td align="center"><b>Harga</b></td>
+                                                    <td align="center"><b>Total</b></td>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -79,6 +79,8 @@
                                                     <td align="center">{{$dt->barang->nama}} ({{$dt->barang->merk}})</td>
                                                     <td align="center">{{$dt->jumlah}}</td>
                                                     <td align="center">{{$dt->barang->satuan_detail->satuan}}</td>
+                                                    <td align="center">{{number_format($dt->barang->harga)}}</td>
+                                                    <td align="center">{{number_format($dt->barang->harga*$dt->jumlah)}}</td>
                                                 </tr>
 
                                                 @endforeach
@@ -86,9 +88,6 @@
                                             </tbody>
                                         </table>
                                     </center>
-
-
-
                                 </div>
                             </div>
                             <br>
@@ -101,7 +100,6 @@
                             <h4><b>Daftar Peralatan</b></h4>
                             <hr>
                             <div class="height-300" style="display: block; position: relative; overflow: auto;">
-
                                 <div class="col-sm-12">
                                     <center>
                                         <table class="table table-hover" style="background-color: white;">
@@ -121,14 +119,10 @@
                                                     <td align="center">{{$dt->jumlah}}</td>
                                                     <td align="center">{{$dt->alat->satuan_detail->satuan}}</td>
                                                 </tr>
-
                                                 @endforeach
                                             </tbody>
                                         </table>
                                     </center>
-
-
-
                                 </div>
                             </div>
                             <br>
@@ -137,9 +131,7 @@
                 </div>
             </div>
         </div>
-
     </div>
-
     <!-- </form> -->
 </div>
 </div>

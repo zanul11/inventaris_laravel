@@ -33,9 +33,7 @@ class UserController extends Controller
         $users = User::all();
         return Datatables::of($users)
             ->addIndexColumn()
-            ->addColumn('tipe', function ($row) {
-                return ($row->type == 1) ? 'SUPER ADMIN' : 'USER';
-            })
+
             ->addColumn('action', function ($row) {
                 $btn = '<div class="btn-group btn-group-sm" role="group">
                 <a onclick="btnDelete(' . $row->id . ')" class="btn btn-danger" style="font-size:12px; color:white;">Hapus</a>
@@ -108,7 +106,7 @@ class UserController extends Controller
                 "password" => bcrypt($request->password),
                 "jabatan" => '-',
                 "alamat" => '-',
-                "type" => 2,
+                "type" => $request->tipe,
             ]);
             Alert::success('Success!', 'Data User Added!');
             return Redirect::to('/user');
@@ -123,6 +121,7 @@ class UserController extends Controller
             $user->password = bcrypt($request->password);
         }
         $user->nama = $request->nama;
+        $user->type = $request->tipe;
         $user->save();
         Akses::create([
             "user" => $user->user,

@@ -176,4 +176,24 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('laporan-masuk', 'LaporanBarangMasukController');
     Route::resource('laporan-keluar', 'LaporanBarangKeluarController');
     Route::get('laporan-kwitansi', 'KwitansiController@cetak');
+
+
+    //JENIS AKUNTING
+    Route::get('ss-jenis-akunting', 'JenisAkuntingController@getServerSide')->name('ss.jenis-akunting');
+    Route::post('/jenis-akunting/edit', 'JenisAkuntingController@edits');
+    Route::resource('jenis-akunting', 'JenisAkuntingController');
+
+    //PEMASUKAN
+    Route::get('ss-pemasukan', 'PemasukanController@getServerSide')->name('ss.pemasukan');
+    Route::resource('pemasukan', 'PemasukanController');
+
+    //PENGELUARAN
+    Route::get('ss-pengeluaran', 'PengeluaranController@getServerSide')->name('ss.pengeluaran');
+    Route::get('pengeluaran/{pengeluaran}/konfirmasi', 'PengeluaranController@konfirmasi');
+    Route::resource('pengeluaran', 'PengeluaranController');
+
+
+    //LAPORAN AKUNTING
+    Route::get('ss-laporan-akunting', 'LaporanAkuntingController@getServerSide')->name('ss.laporan-akunting');
+    Route::resource('laporan-akunting', 'LaporanAkuntingController');
 });

@@ -31,8 +31,6 @@
     <!-- ================== END PAGE LEVEL CSS STYLE ================== -->
     <link rel="stylesheet" href="{{asset('assets/css/sweetalert.css')}}">
 
-
-
     <link href="{{asset('assets/assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.css')}}" rel="stylesheet" />
     <link href="{{asset('assets/assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.css')}}" rel="stylesheet" />
     <link href="{{asset('assets/assets/plugins/ionRangeSlider/css/ion.rangeSlider.css')}}" rel="stylesheet" />

@@ -60,7 +60,7 @@ class PostingController extends Controller
         // and you might want to convert to integer
         $numberDays = intval($numberDays);
 
-        $pegawai = Pegawai::all();
+        $pegawai = Pegawai::where('is_absen', 1)->get();
 
         for ($i = 0; $i <= $numberDays; $i++) {
             $getHari = date('w', strtotime("+" . $i . " day", strtotime($exp_date[0])));

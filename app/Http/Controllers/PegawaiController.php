@@ -93,6 +93,7 @@ class PegawaiController extends Controller
                 "alamat" => $request->alamat,
                 "no_hp" => $request->no_hp,
                 "pin" => $request->pin,
+                "is_absen" => $request->is_absen,
             ]);
             Alert::success('Success!', 'Data Pegawai Added!');
             return Redirect::to('/pegawai');
@@ -168,6 +169,7 @@ class PegawaiController extends Controller
             $pegawai->alamat = $request->alamat;
             $pegawai->no_hp = $request->no_hp;
             $pegawai->pin = $request->pin;
+            $pegawai->is_absen = $request->is_absen;
             $pegawai->save();
         } else {
 
@@ -182,6 +184,7 @@ class PegawaiController extends Controller
                 $pegawai->no_hp = $request->no_hp;
                 $pegawai->no_identitas = $request->no_identitas;
                 $pegawai->pin = $request->pin;
+                $pegawai->is_absen = $request->is_absen;
                 $pegawai->save();
             }
         }

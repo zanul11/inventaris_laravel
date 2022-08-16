@@ -45,6 +45,7 @@
                         <th>No Identitas</th>
                         <th>Alamat</th>
                         <th>No. Hp</th>
+                        <th>Absen/Tidak?</th>
                         <th class="width-90"></th>
                     </tr>
                 </thead>
@@ -137,12 +138,26 @@
                     {
                         "data": "no_hp"
                     },
-
+                    {
+                        "data": "is_absen"
+                    },
                     {
                         "data": "action"
                     },
                 ],
-
+                "columnDefs": [{
+                    "targets": 6,
+                    "data": "is_absen",
+                    "render": function(data, type, row, meta) {
+                        var type = '';
+                        if (data == 0) {
+                            type = '<span class="label label-danger">Tidak</span>';
+                        } else {
+                            type = '<span class="label label-success">Ya</span>';
+                        }
+                        return type;
+                    }
+                }]
             });
         });
     });

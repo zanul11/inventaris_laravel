@@ -124,7 +124,7 @@
                         "data": "nama"
                     },
                     {
-                        "data": "tipe"
+                        "data": "type"
                     },
                     {
                         "data": "action"
@@ -132,13 +132,15 @@
                 ],
                 "columnDefs": [{
                     "targets": 3,
-                    "data": "tipe",
+                    "data": "type",
                     "render": function(data, type, row, meta) {
                         var type = '';
-                        if (data == 'SUPER ADMIN') {
-                            type = '<span class="label label-primary">' + data + '</span>';
+                        if (data == 1) {
+                            type = '<span class="label label-danger">Super Admin</span>';
+                        } else if (data == 3) {
+                            type = '<span class="label label-primary">Kepala User</span>';
                         } else {
-                            type = '<span class="label label-warning">' + data + '</span>';
+                            type = '<span class="label label-warning">User</span>';
                         }
                         return type;
 

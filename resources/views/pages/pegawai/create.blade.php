@@ -56,7 +56,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-5">
                         <div class="form-group">
                             <label class="control-label">Alamat</label>
                             <div class="input-group">
@@ -72,9 +72,6 @@
                             </div>
                         </div>
                     </div>
-
-
-
                     <div class="col-md-3">
                         <div class="form-group">
                             <label class="control-label">No Hp</label>
@@ -91,7 +88,17 @@
                             </div>
                         </div>
                     </div>
-
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label">Absen atau Tidak?</label>
+                            <div class="input-group">
+                                <select class="selectpicker show-tick form-control required" name="is_absen" data-style="btn-warning" required>
+                                    <option value="1" {{ old('is_absen',$pegawai->is_absen??'')=='Ya' ? 'selected' : '' }}>Ya</option>
+                                    <option value="0" {{ old('is_absen',$pegawai->is_absen??'')=='Tidak' ? 'selected' : '' }}>Tidak</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="panel-footer">

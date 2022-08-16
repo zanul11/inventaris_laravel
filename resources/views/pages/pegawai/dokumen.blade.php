@@ -163,14 +163,15 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($pegawai->dokumen as $dt)
-                                    <td class="width-60">{{$loop->iteration}}</td>
-                                    <td>{{$dt->jenis}}</td>
-                                    <td>{{$dt->nama}}</td>
-                                    <td>{{$dt->tanggal}}</td>
-                                    <td class="width-90">
-                                        <a onclick="btnDelete('{{$dt->id}}')" class="btn btn-danger" style="font-size:12px; color:white;">Hapus</a>
-                                    </td>
+                                    @foreach($pegawai->dokumen as $dt) <tr>
+                                        <td class="width-60">{{$loop->iteration}}</td>
+                                        <td>{{$dt->jenis}}</td>
+                                        <td>{{$dt->nama}}</td>
+                                        <td>{{$dt->tanggal}}</td>
+                                        <td class="width-90">
+                                            <a onclick="btnDelete('{{$dt->id}}')" class="btn btn-danger" style="font-size:12px; color:white;">Hapus</a>
+                                        </td>
+                                    </tr>
                                     @endforeach
 
                                 </tbody>

@@ -42,6 +42,14 @@
                             <input type="text" class="form-control" style="display: block;" value="{{($action!='add')?$user->nama:''}}" name="nama" placeholder="Nama..." required>
                         </div>
                         <div class="form-group">
+                            <label class="control-label">TIPE</label>
+                            <select class="select2 show-tick form-control required" name="tipe" data-style="btn-primary" required>
+                                <option value="2" {{(old('tipe', $user->type)==2)?'selected':''}}>USER</option>
+                                <option value="3" {{(old('tipe', $user->type)==3)?'selected':''}}>KEPALA</option>
+                                <option value="1" {{(old('tipe', $user->type)==1)?'selected':''}}>SUPER ADMIN</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label class="control-label">Username (tanpa spasi)</label>
                             <input type="text" class="form-control" style="display: block;" value="{{($action!='add')?$user->user:''}}" name="user" placeholder="Username..." required {{($action!='add')?'readonly':''}}>
                         </div>
