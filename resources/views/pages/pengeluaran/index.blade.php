@@ -167,8 +167,8 @@
             $('.data-table').DataTable({
                 processing: true,
                 serverSide: true,
-                pageLength: 7,
-                lengthChange: false,
+                pageLength: 50,
+                lengthChange: true,
                 responsive: true,
                 ajax: "{{ route('ss.pengeluaran') }}",
                 columns: [{

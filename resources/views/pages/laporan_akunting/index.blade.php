@@ -22,12 +22,12 @@
     <h1 class="page-header text-danger font-weight-bold"><span class="text-custom">LAPORAN</span> AKUNTING</h1>
     <!-- end page-header -->
     <!-- begin row -->
-    <div class="panel panel-inverse" data-sortable-id="form-stuff-1">
+    <div class="panel panel-inverse">
         <div class="panel-heading">
             Laporan
 
         </div>
-        <div class="panel-body table-responsive">
+        <div class="panel-body">
             <form method="POST" action="/laporan-akunting">
                 @csrf
                 <div class="row">
@@ -41,7 +41,7 @@
                     </div>
                     <div class="col-lg-1">
                         <label> Jenis </label>
-                        <select name="jenis" class="selectpicker form-control" data-style="btn-warning">
+                        <select name="jenis" class="selectpicker form-control" data-style="btn-warning" >
                             <option value="Semua" {{Session::get('jenis')=='Semua'?'selected':''}}>Semua</option>
                             <option value="Pemasukan" {{Session::get('jenis')=='Pemasukan'?'selected':''}}>Pemasukan</option>
                             <option value="Pengeluaran" {{Session::get('jenis')=='Pengeluaran'?'selected':''}}>Pengeluaran</option>
@@ -49,7 +49,7 @@
                     </div>
                     <div class="col-lg-2">
                         <label> Kelompok Akunting </label>
-                        <select name="kelompok" class="selectpicker form-control" data-style="btn-info">
+                        <select name="kelompok" class="selectpicker form-control" data-style="btn-info" data-live-search="true">
                             <option value="" {{Session::get('kelompok')==''?'selected':''}}>Semua</option>
                             @foreach($jenis_akunting as $dt)
                             <option value="{{$dt->id}}" {{Session::get('kelompok')==$dt->id?'selected':''}}>{{$dt->jenis}}</option>
@@ -122,8 +122,8 @@
             $('.data-table').DataTable({
                 processing: true,
                 serverSide: true,
-                pageLength: 10,
-                lengthChange: false,
+                pageLength: 50,
+                lengthChange: true,
                 searching: false,
                 responsive: true,
                 ajax: "{{ route('ss.laporan-akunting') }}",
